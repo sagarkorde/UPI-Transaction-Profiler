@@ -1,0 +1,89 @@
+# Pre-specified experimental protocol.
+# All values below were fixed BEFORE any evaluation on the test period.
+# The SHA-256 of this file is recorded in every result file.
+
+protocol_version: "1.0"
+
+seeds: [0, 1, 2, 3, 4]
+
+# Chronological split fractions (by transaction time), applied per dataset.
+splits:
+  train: 0.55   # fit supervised model and anomaly detector
+  tune: 0.15    # early stopping; reference ECDFs for score percentiles
+  calib: 0.15   # isotonic calibration, STACK combiner, FUSE weight, base rate, DRT burn-in
+  test: 0.15    # final evaluation, touched once
+
+# Review budget per window: k_t = c * pi_hat * n_t (fractional parts carried over).
+# pi_hat = fraud prevalence in the calibration period.
+budget_multipliers: [0.5, 1.0, 2.0, 4.0]
+primary_budget_multiplier: 1.0
+
+datasets:
+  ulb:
+    window: "10min"          # review batch & bootstrap block
+    holdout_groups: "kmeans4" # k-means (k=4, seed 0) on standardized features of all frauds
+  banksim:
+    window: "1step"           # one simulation step = one day
+    holdout_groups: "top4_category"
+  tabformer:
+    years: [2016, 2019]       # inclusive
+    last_month: "2019-10"     # Nov-Dec 2019 contain no fraud labels in the corpus
+    warmup_years: [2015]      # history-only, for behavioural features
+    window: "1day"
+    negative_sampling_rate: 0.2  # fraction of legitimate training rows kept (seeded)
+    holdout_groups: "channel"     # Use Chip: Chip / Online / Swipe
+
+min_test_frauds_per_holdout_group: 10
+
+supervised:
+  model: lightgbm
+  params:
+    objective: binary
+    learning_rate: 0.05
+    num_leaves: 63
+    min_child_samples: 100
+    feature_fraction: 0.8
+    bagging_fraction: 0.8
+    bagging_freq: 1
+    lambda_l2: 1.0
+    deterministic: true
+    num_threads: 2
+    verbose: -1
+  max_rounds: 1000
+  early_stopping_rounds: 50
+  early_stopping_metric: average_precision
+  calibration: isotonic
+
+anomaly:
+  primary: isolation_forest
+  isolation_forest:
+    n_estimators: 200
+    max_samples: 256
+    fit_rows: 200000          # random subsample of training period (seeded)
+  ablation_detector: ecod
+
+policies:
+  fuse_heuristic_weight: 0.6      # historical 60/40 rule (supervised/anomaly percentiles)
+  fuse_weight_grid: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+  fuse_frontier_weights: [0.5, 0.6, 0.7, 0.8, 0.9]
+  drt_rho: 0.10                   # headline reserved share (fixed a priori)
+  drt_frontier_rhos: [0.05, 0.10, 0.20, 0.30, 0.50]
+  drt_adaptive:                   # ablation: marginal-yield equalisation
+    rho0: 0.10
+    rho_min: 0.05
+    rho_max: 0.50
+    eta: 0.02             # step size per window
+    marginal_fraction: 0.25  # bottom quarter of each channel's picks = marginal yield
+    discount: 0.95        # exponential forgetting per window
+    prior: [1.0, 1.0]     # Beta prior on marginal precision
+    burn_in: calib        # adapt through calibration period before test
+
+statistics:
+  # Frontier summary: best novel-fraud recall a policy family attains while its overall
+  # recall is within a relative cost tau of SUP (same scenario, seed-averaged).
+  frontier_cost_levels: [0.05, 0.10]
+  bootstrap_resamples: 2000
+  permutation_resamples: 10000
+  ci_level: 0.95
+  multiple_testing: holm
+  rng_seed: 20261107

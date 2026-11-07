@@ -1,0 +1,140 @@
+ulb {
+ "rows": 284807,
+ "frauds": 492,
+ "prevalence": 0.001727485630620034,
+ "windows": 288,
+ "per_split": {
+  "train": {
+   "rows": 156657,
+   "frauds": 350,
+   "windows": 181
+  },
+  "tune": {
+   "rows": 43262,
+   "frauds": 35,
+   "windows": 41
+  },
+  "calib": {
+   "rows": 43194,
+   "frauds": 55,
+   "windows": 31
+  },
+  "test": {
+   "rows": 41694,
+   "frauds": 52,
+   "windows": 35
+  }
+ },
+ "groups": {
+  "cluster0": 210,
+  "cluster1": 175,
+  "cluster2": 92,
+  "cluster3": 15
+ },
+ "test_groups": {
+  "cluster0": 29,
+  "cluster1": 23
+ },
+ "n_sup_features": 29,
+ "n_ano_features": 29,
+ "seconds": 1.5
+}
+banksim {
+ "rows": 594643,
+ "frauds": 7200,
+ "prevalence": 0.012108105199254007,
+ "windows": 180,
+ "per_split": {
+  "train": {
+   "rows": 329063,
+   "frauds": 4280,
+   "windows": 107
+  },
+  "tune": {
+   "rows": 88785,
+   "frauds": 1000,
+   "windows": 25
+  },
+  "calib": {
+   "rows": 87702,
+   "frauds": 960,
+   "windows": 24
+  },
+  "test": {
+   "rows": 89093,
+   "frauds": 960,
+   "windows": 24
+  }
+ },
+ "groups": {
+  "es_sportsandtoys": 1982,
+  "es_health": 1696,
+  "es_wellnessandbeauty": 718,
+  "es_travel": 578,
+  "es_hotelservices": 548,
+  "es_leisure": 474,
+  "es_home": 302,
+  "es_hyper": 280,
+  "es_otherservices": 228,
+  "es_tech": 158,
+  "es_barsandrestaurants": 120,
+  "es_fashion": 116
+ },
+ "test_groups": {
+  "es_health": 234,
+  "es_sportsandtoys": 232,
+  "es_wellnessandbeauty": 118,
+  "es_hotelservices": 84,
+  "es_travel": 74,
+  "es_leisure": 52,
+  "es_hyper": 38,
+  "es_otherservices": 34,
+  "es_tech": 26,
+  "es_home": 26,
+  "es_barsandrestaurants": 24,
+  "es_fashion": 18
+ },
+ "n_sup_features": 12,
+ "n_ano_features": 8,
+ "seconds": 1.7
+}
+tabformer {
+ "rows": 6589312,
+ "frauds": 8412,
+ "prevalence": 0.0012766127935663087,
+ "windows": 1400,
+ "per_split": {
+  "train": {
+   "rows": 3625749,
+   "frauds": 4044,
+   "windows": 772
+  },
+  "tune": {
+   "rows": 990848,
+   "frauds": 1381,
+   "windows": 210
+  },
+  "calib": {
+   "rows": 985905,
+   "frauds": 1520,
+   "windows": 209
+  },
+  "test": {
+   "rows": 986810,
+   "frauds": 1467,
+   "windows": 209
+  }
+ },
+ "groups": {
+  "Chip": 4535,
+  "Online": 3201,
+  "Swipe": 676
+ },
+ "test_groups": {
+  "Chip": 1331,
+  "Swipe": 136
+ },
+ "n_sup_features": 17,
+ "n_ano_features": 12,
+ "seconds": 79.6
+}
