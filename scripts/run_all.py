@@ -38,6 +38,7 @@ def main():
     ap.add_argument("--datasets", nargs="+", default=["ulb", "banksim", "tabformer"])
     ap.add_argument("--seeds", nargs="+", type=int, default=None)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--resume", action="store_true", help="skip runs whose results already exist")
     args = ap.parse_args()
     cfg, cfg_hash = E.load_cfg()
     seeds = args.seeds or cfg["seeds"]
@@ -51,6 +52,12 @@ def main():
                 "platform": platform.platform(), "started": time.strftime("%Y-%m-%dT%H:%M:%S"),
                 "scenarios": {}, "runs": []}
     import importlib.metadata as md
+    mpath = os.path.join(out, "_manifest.json")
+    if args.resume and os.path.exists(mpath):
+        old = json.load(open(mpath))
+        assert old["config_sha256"] == cfg_hash, "existing results come from a different protocol"
+        manifest["runs"], manifest["started"] = old["runs"], old["started"]
+        manifest.setdefault("resumed", []).append(time.strftime("%Y-%m-%dT%H:%M:%S"))
     manifest["packages"] = {p: md.version(p) for p in
                             ["numpy", "pandas", "scikit-learn", "scipy", "lightgbm", "pyod", "pyarrow"]}
     for name in args.datasets:
@@ -59,6 +66,8 @@ def main():
         manifest["scenarios"][name] = {"holdout_groups": groups, "test_fraud_counts": counts}
         for scen in ["base"] + groups:
             for seed in seeds:
+                if args.resume and os.path.exists(os.path.join(out, f"{name}__{scen}__s{seed}__meta.json")):
+                    continue
                 t0 = time.time()
                 m = E.run(name, scen, seed, "final", P, out)
                 manifest["runs"].append({"dataset": name, "scenario": scen, "seed": seed,
