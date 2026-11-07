@@ -57,7 +57,10 @@ def main():
         old = json.load(open(mpath))
         assert old["config_sha256"] == cfg_hash, "existing results come from a different protocol"
         manifest["runs"], manifest["started"] = old["runs"], old["started"]
-        manifest.setdefault("resumed", []).append(time.strftime("%Y-%m-%dT%H:%M:%S"))
+        manifest["scenarios"] = old.get("scenarios", {})
+        prev = old.get("git_commits", [old.get("git_commit")])
+        manifest["git_commits"] = prev + ([commit] if commit not in prev else [])
+        manifest["resumed"] = old.get("resumed", []) + [time.strftime("%Y-%m-%dT%H:%M:%S")]
     manifest["packages"] = {p: md.version(p) for p in
                             ["numpy", "pandas", "scikit-learn", "scipy", "lightgbm", "pyod", "pyarrow"]}
     for name in args.datasets:
