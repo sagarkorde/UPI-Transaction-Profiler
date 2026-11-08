@@ -97,5 +97,14 @@ out += ["", "## S9. Exploratory (not in the frozen protocol): per-group signal q
 for _, x in gq.iterrows():
     out.append(f"| {x.dataset} | {x.group} | {f3(x.ap_novel_SUP)} | {f3(x.ap_novel_ANO)} | {f3(x.SUP)} | {f3(x.DRT)} | {x.drt_gain:+.3f} |")
 out += ["", f"Spearman r_s = {summ['group_spearman']:.3f} (p = {summ['group_spearman_p']:.3f}, n = {summ['n_groups']})"]
+mf = json.load(open(os.path.join(ROOT, "results", "runs", "_manifest.json")))
+out += ["", "## S10. Held-out scenario candidates and exclusions", "",
+        "Rule (fixed in configs/protocol.yaml before any test evaluation): keep a candidate group only if it has at least "
+        "10 frauds in the test period (statistical power). Candidate sets: BankSim = four categories with most fraud overall; "
+        "TabFormer = all card channels; ULB = all four k-means clusters (fitted on pre-test frauds, amendment v1.1).", "",
+        "| dataset | candidate group | test frauds | retained |", "|---|---|---|---|"]
+for ds, sc in mf["scenarios"].items():
+    for g, n in sc["test_fraud_counts"].items():
+        out.append(f"| {ds} | {g} | {n} | {'yes' if g in sc['holdout_groups'] else 'no (< 10 test frauds)'} |")
 open(os.path.join(ROOT, "results", "SUPPLEMENT.md"), "w").write("\n".join(out) + "\n")
 print("wrote results/SUPPLEMENT.md")

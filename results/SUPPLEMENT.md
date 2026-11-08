@@ -660,3 +660,21 @@ Figure: `figures/fig_groups.png`.
 | ulb | cluster2 | 0.896 | 0.048 | 0.192 | 0.192 | +0.000 |
 
 Spearman r_s = 0.707 (p = 0.050, n = 8)
+
+## S10. Held-out scenario candidates and exclusions
+
+Rule (fixed in configs/protocol.yaml before any test evaluation): keep a candidate group only if it has at least 10 frauds in the test period (statistical power). Candidate sets: BankSim = four categories with most fraud overall; TabFormer = all card channels; ULB = all four k-means clusters (fitted on pre-test frauds, amendment v1.1).
+
+| dataset | candidate group | test frauds | retained |
+|---|---|---|---|
+| ulb | cluster0 | 0 | no (< 10 test frauds) |
+| ulb | cluster1 | 27 | yes |
+| ulb | cluster2 | 25 | yes |
+| ulb | cluster3 | 0 | no (< 10 test frauds) |
+| banksim | es_sportsandtoys | 232 | yes |
+| banksim | es_health | 234 | yes |
+| banksim | es_wellnessandbeauty | 118 | yes |
+| banksim | es_travel | 74 | yes |
+| tabformer | Chip | 1331 | yes |
+| tabformer | Online | 0 | no (< 10 test frauds) |
+| tabformer | Swipe | 136 | yes |
