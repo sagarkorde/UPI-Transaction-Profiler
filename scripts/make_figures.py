@@ -78,7 +78,7 @@ def fig_frontier():
         ax.xaxis.set_major_locator(MaxNLocator(nbins=3)); ax.xaxis.set_major_formatter(FormatStrFormatter("%.2f"))
         ax.yaxis.set_major_locator(MaxNLocator(nbins=4)); ax.yaxis.set_major_formatter(FormatStrFormatter("%.3f" if f[f.dataset == ds].novel.max() < 0.05 else "%.2f"))
         ax.invert_xaxis()
-    axes[0].set_ylabel("Novel-fraud recall")
+    axes[0].set_ylabel("Held-out recall")
     h, l = axes[0].get_legend_handles_labels()
     fig.legend(h, l, loc="upper center", ncol=3, frameon=False, bbox_to_anchor=(0.5, 1.03),
                handlelength=1.8, columnspacing=0.9, handletextpad=0.4)
@@ -111,7 +111,7 @@ def fig_groups():
             else:
                 ax.annotate(lab, (r.ano_adv_ap, r.drt_gain), xytext=(4, 3), textcoords="offset points",
                             fontsize=6, color=INK2)
-    ax.set_xlabel("Novel-fraud AP: anomaly detector − supervised model")
+    ax.set_xlabel("Held-out AP: anomaly detector − supervised model")
     ax.set_ylabel("DRT gain in\nnovel recall")
     style(ax); ax.grid(axis="x", color=GRID, lw=0.5)
     ax.legend(loc="upper left", frameon=False, handletextpad=0.3, borderaxespad=0.2)

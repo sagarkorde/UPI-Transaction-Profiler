@@ -1,9 +1,9 @@
 {
  "config_sha256": "7d4914e7be97512a2b5867f532e0f8f7da51d63f5aff43c656ccb96a78a9a132",
- "git_commit": "987b01f24e08bcb244a50d9f4dd1c1f25602ed80",
+ "git_commit": "79a1b17d0bd9f22b891297ca8b62a25b7dc730a3",
  "python": "3.13.18",
  "platform": "Linux-6.18.44-fc-v310-x86_64-with-glibc2.39",
- "started": "2026-11-08T07:59:10",
+ "started": "2026-11-08T09:33:17",
  "scenarios": {
   "ulb": {
    "holdout_groups": [
@@ -48,7 +48,7 @@
    "dataset": "ulb",
    "scenario": "base",
    "seed": 0,
-   "seconds": 31.6
+   "seconds": 31.2
   },
   {
    "dataset": "ulb",
@@ -60,13 +60,13 @@
    "dataset": "ulb",
    "scenario": "base",
    "seed": 2,
-   "seconds": 26.1
+   "seconds": 24.6
   },
   {
    "dataset": "ulb",
    "scenario": "base",
    "seed": 3,
-   "seconds": 23.9
+   "seconds": 24.4
   },
   {
    "dataset": "ulb",
@@ -78,19 +78,19 @@
    "dataset": "ulb",
    "scenario": "cluster1",
    "seed": 0,
-   "seconds": 7.5
+   "seconds": 7.1
   },
   {
    "dataset": "ulb",
    "scenario": "cluster1",
    "seed": 1,
-   "seconds": 8.3
+   "seconds": 9.0
   },
   {
    "dataset": "ulb",
    "scenario": "cluster1",
    "seed": 2,
-   "seconds": 7.8
+   "seconds": 8.3
   },
   {
    "dataset": "ulb",
@@ -102,160 +102,160 @@
    "dataset": "ulb",
    "scenario": "cluster1",
    "seed": 4,
-   "seconds": 5.3
+   "seconds": 5.4
   },
   {
    "dataset": "ulb",
    "scenario": "cluster2",
    "seed": 0,
-   "seconds": 6.4
+   "seconds": 6.9
   },
   {
    "dataset": "ulb",
    "scenario": "cluster2",
    "seed": 1,
-   "seconds": 8.5
+   "seconds": 8.9
   },
   {
    "dataset": "ulb",
    "scenario": "cluster2",
    "seed": 2,
-   "seconds": 7.1
+   "seconds": 7.4
   },
   {
    "dataset": "ulb",
    "scenario": "cluster2",
    "seed": 3,
-   "seconds": 9.3
+   "seconds": 9.7
   },
   {
    "dataset": "ulb",
    "scenario": "cluster2",
    "seed": 4,
-   "seconds": 7.2
+   "seconds": 6.8
   },
   {
    "dataset": "banksim",
    "scenario": "base",
    "seed": 0,
-   "seconds": 16.7
+   "seconds": 17.1
   },
   {
    "dataset": "banksim",
    "scenario": "base",
    "seed": 1,
-   "seconds": 20.6
+   "seconds": 20.8
   },
   {
    "dataset": "banksim",
    "scenario": "base",
    "seed": 2,
-   "seconds": 16.3
+   "seconds": 16.0
   },
   {
    "dataset": "banksim",
    "scenario": "base",
    "seed": 3,
-   "seconds": 18.3
+   "seconds": 18.6
   },
   {
    "dataset": "banksim",
    "scenario": "base",
    "seed": 4,
-   "seconds": 15.7
+   "seconds": 16.9
   },
   {
    "dataset": "banksim",
    "scenario": "es_sportsandtoys",
    "seed": 0,
-   "seconds": 15.6
-  },
-  {
-   "dataset": "banksim",
-   "scenario": "es_sportsandtoys",
-   "seed": 1,
-   "seconds": 14.5
-  },
-  {
-   "dataset": "banksim",
-   "scenario": "es_sportsandtoys",
-   "seed": 2,
-   "seconds": 16.4
-  },
-  {
-   "dataset": "banksim",
-   "scenario": "es_sportsandtoys",
-   "seed": 3,
    "seconds": 16.1
   },
   {
    "dataset": "banksim",
    "scenario": "es_sportsandtoys",
+   "seed": 1,
+   "seconds": 14.8
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_sportsandtoys",
+   "seed": 2,
+   "seconds": 15.7
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_sportsandtoys",
+   "seed": 3,
+   "seconds": 16.8
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_sportsandtoys",
    "seed": 4,
-   "seconds": 15.0
+   "seconds": 15.5
   },
   {
    "dataset": "banksim",
    "scenario": "es_health",
    "seed": 0,
-   "seconds": 15.3
+   "seconds": 16.3
   },
   {
    "dataset": "banksim",
    "scenario": "es_health",
    "seed": 1,
-   "seconds": 17.2
+   "seconds": 17.6
   },
   {
    "dataset": "banksim",
    "scenario": "es_health",
    "seed": 2,
-   "seconds": 18.2
-  },
-  {
-   "dataset": "banksim",
-   "scenario": "es_health",
-   "seed": 3,
    "seconds": 18.5
   },
   {
    "dataset": "banksim",
    "scenario": "es_health",
+   "seed": 3,
+   "seconds": 17.7
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_health",
    "seed": 4,
+   "seconds": 16.9
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_wellnessandbeauty",
+   "seed": 0,
    "seconds": 16.5
   },
   {
    "dataset": "banksim",
    "scenario": "es_wellnessandbeauty",
-   "seed": 0,
-   "seconds": 15.6
-  },
-  {
-   "dataset": "banksim",
-   "scenario": "es_wellnessandbeauty",
    "seed": 1,
-   "seconds": 17.7
+   "seconds": 18.2
   },
   {
    "dataset": "banksim",
    "scenario": "es_wellnessandbeauty",
    "seed": 2,
-   "seconds": 15.5
+   "seconds": 15.3
   },
   {
    "dataset": "banksim",
    "scenario": "es_wellnessandbeauty",
    "seed": 3,
-   "seconds": 15.1
-  },
-  {
-   "dataset": "banksim",
-   "scenario": "es_wellnessandbeauty",
-   "seed": 4,
    "seconds": 15.9
   },
   {
    "dataset": "banksim",
+   "scenario": "es_wellnessandbeauty",
+   "seed": 4,
+   "seconds": 16.1
+  },
+  {
+   "dataset": "banksim",
    "scenario": "es_travel",
    "seed": 0,
    "seconds": 15.3
@@ -264,115 +264,115 @@
    "dataset": "banksim",
    "scenario": "es_travel",
    "seed": 1,
-   "seconds": 17.6
+   "seconds": 17.9
   },
   {
    "dataset": "banksim",
    "scenario": "es_travel",
    "seed": 2,
-   "seconds": 17.8
+   "seconds": 18.8
   },
   {
    "dataset": "banksim",
    "scenario": "es_travel",
    "seed": 3,
-   "seconds": 15.3
+   "seconds": 16.2
   },
   {
    "dataset": "banksim",
    "scenario": "es_travel",
    "seed": 4,
-   "seconds": 17.6
+   "seconds": 18.2
   },
   {
    "dataset": "tabformer",
    "scenario": "base",
    "seed": 0,
-   "seconds": 232.8
+   "seconds": 257.4
   },
   {
    "dataset": "tabformer",
    "scenario": "base",
    "seed": 1,
-   "seconds": 250.3
+   "seconds": 272.0
   },
   {
    "dataset": "tabformer",
    "scenario": "base",
    "seed": 2,
-   "seconds": 286.5
+   "seconds": 310.1
   },
   {
    "dataset": "tabformer",
    "scenario": "base",
    "seed": 3,
-   "seconds": 297.0
+   "seconds": 343.3
   },
   {
    "dataset": "tabformer",
    "scenario": "base",
    "seed": 4,
-   "seconds": 256.0
+   "seconds": 280.6
   },
   {
    "dataset": "tabformer",
    "scenario": "Chip",
    "seed": 0,
-   "seconds": 225.2
+   "seconds": 244.6
   },
   {
    "dataset": "tabformer",
    "scenario": "Chip",
    "seed": 1,
-   "seconds": 220.4
+   "seconds": 242.9
   },
   {
    "dataset": "tabformer",
    "scenario": "Chip",
    "seed": 2,
-   "seconds": 280.9
+   "seconds": 283.2
   },
   {
    "dataset": "tabformer",
    "scenario": "Chip",
    "seed": 3,
-   "seconds": 300.6
+   "seconds": 310.6
   },
   {
    "dataset": "tabformer",
    "scenario": "Chip",
    "seed": 4,
-   "seconds": 236.7
+   "seconds": 254.9
   },
   {
    "dataset": "tabformer",
    "scenario": "Swipe",
    "seed": 0,
-   "seconds": 255.1
+   "seconds": 262.7
   },
   {
    "dataset": "tabformer",
    "scenario": "Swipe",
    "seed": 1,
-   "seconds": 241.1
+   "seconds": 266.0
   },
   {
    "dataset": "tabformer",
    "scenario": "Swipe",
    "seed": 2,
-   "seconds": 218.9
+   "seconds": 245.4
   },
   {
    "dataset": "tabformer",
    "scenario": "Swipe",
    "seed": 3,
-   "seconds": 240.2
+   "seconds": 278.2
   },
   {
    "dataset": "tabformer",
    "scenario": "Swipe",
    "seed": 4,
-   "seconds": 221.3
+   "seconds": 265.1
   }
  ],
  "packages": {
@@ -384,5 +384,5 @@
   "pyod": "3.6.7",
   "pyarrow": "26.0.1"
  },
- "finished": "2026-11-08T09:12:00"
+ "finished": "2026-11-08T10:52:16"
 }

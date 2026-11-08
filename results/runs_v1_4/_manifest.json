@@ -1,0 +1,388 @@
+{
+ "config_sha256": "7d4914e7be97512a2b5867f532e0f8f7da51d63f5aff43c656ccb96a78a9a132",
+ "git_commit": "987b01f24e08bcb244a50d9f4dd1c1f25602ed80",
+ "python": "3.13.18",
+ "platform": "Linux-6.18.44-fc-v310-x86_64-with-glibc2.39",
+ "started": "2026-11-08T07:59:10",
+ "scenarios": {
+  "ulb": {
+   "holdout_groups": [
+    "cluster1",
+    "cluster2"
+   ],
+   "test_fraud_counts": {
+    "cluster0": 0,
+    "cluster1": 27,
+    "cluster2": 25,
+    "cluster3": 0
+   }
+  },
+  "banksim": {
+   "holdout_groups": [
+    "es_sportsandtoys",
+    "es_health",
+    "es_wellnessandbeauty",
+    "es_travel"
+   ],
+   "test_fraud_counts": {
+    "es_sportsandtoys": 232,
+    "es_health": 234,
+    "es_wellnessandbeauty": 118,
+    "es_travel": 74
+   }
+  },
+  "tabformer": {
+   "holdout_groups": [
+    "Chip",
+    "Swipe"
+   ],
+   "test_fraud_counts": {
+    "Chip": 1331,
+    "Online": 0,
+    "Swipe": 136
+   }
+  }
+ },
+ "runs": [
+  {
+   "dataset": "ulb",
+   "scenario": "base",
+   "seed": 0,
+   "seconds": 31.6
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "base",
+   "seed": 1,
+   "seconds": 16.6
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "base",
+   "seed": 2,
+   "seconds": 26.1
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "base",
+   "seed": 3,
+   "seconds": 23.9
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "base",
+   "seed": 4,
+   "seconds": 14.3
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "cluster1",
+   "seed": 0,
+   "seconds": 7.5
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "cluster1",
+   "seed": 1,
+   "seconds": 8.3
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "cluster1",
+   "seed": 2,
+   "seconds": 7.8
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "cluster1",
+   "seed": 3,
+   "seconds": 9.0
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "cluster1",
+   "seed": 4,
+   "seconds": 5.3
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "cluster2",
+   "seed": 0,
+   "seconds": 6.4
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "cluster2",
+   "seed": 1,
+   "seconds": 8.5
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "cluster2",
+   "seed": 2,
+   "seconds": 7.1
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "cluster2",
+   "seed": 3,
+   "seconds": 9.3
+  },
+  {
+   "dataset": "ulb",
+   "scenario": "cluster2",
+   "seed": 4,
+   "seconds": 7.2
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "base",
+   "seed": 0,
+   "seconds": 16.7
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "base",
+   "seed": 1,
+   "seconds": 20.6
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "base",
+   "seed": 2,
+   "seconds": 16.3
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "base",
+   "seed": 3,
+   "seconds": 18.3
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "base",
+   "seed": 4,
+   "seconds": 15.7
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_sportsandtoys",
+   "seed": 0,
+   "seconds": 15.6
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_sportsandtoys",
+   "seed": 1,
+   "seconds": 14.5
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_sportsandtoys",
+   "seed": 2,
+   "seconds": 16.4
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_sportsandtoys",
+   "seed": 3,
+   "seconds": 16.1
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_sportsandtoys",
+   "seed": 4,
+   "seconds": 15.0
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_health",
+   "seed": 0,
+   "seconds": 15.3
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_health",
+   "seed": 1,
+   "seconds": 17.2
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_health",
+   "seed": 2,
+   "seconds": 18.2
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_health",
+   "seed": 3,
+   "seconds": 18.5
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_health",
+   "seed": 4,
+   "seconds": 16.5
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_wellnessandbeauty",
+   "seed": 0,
+   "seconds": 15.6
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_wellnessandbeauty",
+   "seed": 1,
+   "seconds": 17.7
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_wellnessandbeauty",
+   "seed": 2,
+   "seconds": 15.5
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_wellnessandbeauty",
+   "seed": 3,
+   "seconds": 15.1
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_wellnessandbeauty",
+   "seed": 4,
+   "seconds": 15.9
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_travel",
+   "seed": 0,
+   "seconds": 15.3
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_travel",
+   "seed": 1,
+   "seconds": 17.6
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_travel",
+   "seed": 2,
+   "seconds": 17.8
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_travel",
+   "seed": 3,
+   "seconds": 15.3
+  },
+  {
+   "dataset": "banksim",
+   "scenario": "es_travel",
+   "seed": 4,
+   "seconds": 17.6
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "base",
+   "seed": 0,
+   "seconds": 232.8
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "base",
+   "seed": 1,
+   "seconds": 250.3
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "base",
+   "seed": 2,
+   "seconds": 286.5
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "base",
+   "seed": 3,
+   "seconds": 297.0
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "base",
+   "seed": 4,
+   "seconds": 256.0
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "Chip",
+   "seed": 0,
+   "seconds": 225.2
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "Chip",
+   "seed": 1,
+   "seconds": 220.4
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "Chip",
+   "seed": 2,
+   "seconds": 280.9
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "Chip",
+   "seed": 3,
+   "seconds": 300.6
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "Chip",
+   "seed": 4,
+   "seconds": 236.7
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "Swipe",
+   "seed": 0,
+   "seconds": 255.1
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "Swipe",
+   "seed": 1,
+   "seconds": 241.1
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "Swipe",
+   "seed": 2,
+   "seconds": 218.9
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "Swipe",
+   "seed": 3,
+   "seconds": 240.2
+  },
+  {
+   "dataset": "tabformer",
+   "scenario": "Swipe",
+   "seed": 4,
+   "seconds": 221.3
+  }
+ ],
+ "packages": {
+  "numpy": "2.5.3",
+  "pandas": "3.0.5",
+  "scikit-learn": "1.9.1",
+  "scipy": "1.18.1",
+  "lightgbm": "4.7.0",
+  "pyod": "3.6.7",
+  "pyarrow": "26.0.1"
+ },
+ "finished": "2026-11-08T09:12:00"
+}

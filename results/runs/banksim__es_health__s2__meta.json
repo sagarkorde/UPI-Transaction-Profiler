@@ -8,6 +8,13 @@
  "amendment_v1_2_sha256": "a32144a3f7dbd2f7523f5772987e5606c40c37df62d64f24860ce77cf43869e3",
  "amendment_v1_3_sha256": "566f76995745529bbfba2705b49d762473c1caca6d5bffa98d32efdbd06f208d",
  "amendment_v1_4_sha256": "374656cc3cf0c91bdd444f46f6fe9e88a84885409e1e84f8d6e75d0d80784989",
+ "amendment_v1_5_sha256": "1e1dc87b25088c3b581007d6df631d2b4bc9a15a12dfd6f1951f4fb58e2590dc",
+ "segment_identifier_features_dropped": [
+  "category",
+  "merchant",
+  "cat_freq_prior",
+  "merch_freq_prior"
+ ],
  "identity_features_dropped": [
   "category",
   "merchant",
@@ -733,5 +740,5 @@
    "0.50": 0.014824797843665768
   }
  },
- "seconds": 18.2
+ "seconds": 18.5
 }

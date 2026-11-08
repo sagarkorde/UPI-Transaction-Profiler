@@ -183,6 +183,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 0.5 | DRT-AMT | 0.077 [0.034, 0.133] | 0.042 [0.000, 0.095] | +0.000 [+0.000, +0.000] | — |
 | 0.5 | SUP-NOID | 0.077 [0.029, 0.133] | 0.042 [0.000, 0.091] | +0.000 [+0.000, +0.000] | — |
 | 0.5 | DRT-NOID | 0.077 [0.033, 0.130] | 0.042 [0.000, 0.091] | +0.000 [+0.000, +0.000] | — |
+| 0.5 | SUP-IDF | 0.077 [0.035, 0.134] | 0.042 [0.000, 0.093] | +0.000 [+0.000, +0.000] | — |
+| 0.5 | DRT-IDF | 0.077 [0.031, 0.134] | 0.042 [0.000, 0.094] | +0.000 [+0.000, +0.000] | — |
 | 1.0 | RAND | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | -0.119 [-0.222, -0.048] | 0.063 |
 | 1.0 | SUP | 0.181 [0.108, 0.274] | 0.119 [0.046, 0.222] | +0.000 [+0.000, +0.000] | — |
 | 1.0 | ANO | 0.031 [0.000, 0.085] | 0.035 [0.000, 0.095] | -0.085 [-0.180, -0.017] | 0.255 |
@@ -204,6 +206,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 1.0 | DRT-AMT | 0.181 [0.108, 0.275] | 0.119 [0.047, 0.227] | +0.000 [+0.000, +0.000] | — |
 | 1.0 | SUP-NOID | 0.181 [0.107, 0.277] | 0.119 [0.047, 0.219] | +0.000 [+0.000, +0.000] | — |
 | 1.0 | DRT-NOID | 0.181 [0.109, 0.274] | 0.119 [0.048, 0.214] | +0.000 [+0.000, +0.000] | — |
+| 1.0 | SUP-IDF | 0.181 [0.112, 0.275] | 0.119 [0.047, 0.217] | +0.000 [+0.000, +0.000] | — |
+| 1.0 | DRT-IDF | 0.181 [0.111, 0.279] | 0.119 [0.046, 0.217] | +0.000 [+0.000, +0.000] | — |
 | 2.0 | RAND | 0.004 [0.000, 0.013] | 0.004 [0.000, 0.013] | -0.277 [-0.427, -0.168] | 0.004 |
 | 2.0 | SUP | 0.356 [0.273, 0.462] | 0.281 [0.169, 0.432] | +0.000 [+0.000, +0.000] | — |
 | 2.0 | ANO | 0.079 [0.025, 0.138] | 0.085 [0.025, 0.153] | -0.196 [-0.358, -0.076] | 0.031 |
@@ -225,6 +229,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 2.0 | DRT-AMT | 0.337 [0.258, 0.436] | 0.262 [0.155, 0.391] | -0.019 [-0.069, +0.000] | — |
 | 2.0 | SUP-NOID | 0.356 [0.272, 0.466] | 0.281 [0.172, 0.433] | +0.000 [+0.000, +0.000] | — |
 | 2.0 | DRT-NOID | 0.340 [0.262, 0.439] | 0.258 [0.158, 0.380] | -0.023 [-0.068, +0.000] | — |
+| 2.0 | SUP-IDF | 0.356 [0.267, 0.464] | 0.281 [0.173, 0.424] | +0.000 [+0.000, +0.000] | — |
+| 2.0 | DRT-IDF | 0.356 [0.268, 0.460] | 0.281 [0.169, 0.427] | +0.000 [+0.000, +0.000] | — |
 | 4.0 | RAND | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | -0.577 [-0.714, -0.446] | 0.001 |
 | 4.0 | SUP | 0.612 [0.482, 0.745] | 0.577 [0.439, 0.714] | +0.000 [+0.000, +0.000] | — |
 | 4.0 | ANO | 0.165 [0.079, 0.253] | 0.169 [0.079, 0.255] | -0.408 [-0.587, -0.262] | 0.002 |
@@ -246,6 +252,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 4.0 | DRT-AMT | 0.602 [0.472, 0.742] | 0.577 [0.450, 0.714] | +0.000 [+0.000, +0.000] | — |
 | 4.0 | SUP-NOID | 0.612 [0.483, 0.751] | 0.577 [0.445, 0.721] | +0.000 [+0.000, +0.000] | — |
 | 4.0 | DRT-NOID | 0.612 [0.488, 0.753] | 0.588 [0.465, 0.729] | +0.012 [+0.000, +0.043] | — |
+| 4.0 | SUP-IDF | 0.612 [0.483, 0.742] | 0.577 [0.444, 0.717] | +0.000 [+0.000, +0.000] | — |
+| 4.0 | DRT-IDF | 0.612 [0.482, 0.739] | 0.577 [0.444, 0.707] | +0.000 [+0.000, +0.000] | — |
 
 ### banksim
 
@@ -272,6 +280,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 0.5 | DRT-AMT | 0.417 [0.411, 0.421] | 0.081 [0.067, 0.098] | +0.081 [+0.067, +0.098] | — |
 | 0.5 | SUP-NOID | 0.405 [0.396, 0.414] | 0.409 [0.383, 0.431] | +0.409 [+0.383, +0.431] | — |
 | 0.5 | DRT-NOID | 0.386 [0.379, 0.393] | 0.391 [0.365, 0.415] | +0.391 [+0.365, +0.415] | — |
+| 0.5 | SUP-IDF | 0.405 [0.396, 0.413] | 0.409 [0.384, 0.432] | +0.409 [+0.384, +0.432] | — |
+| 0.5 | DRT-IDF | 0.416 [0.410, 0.421] | 0.137 [0.125, 0.150] | +0.137 [+0.125, +0.150] | — |
 | 1.0 | RAND | 0.010 [0.008, 0.012] | 0.010 [0.007, 0.013] | -0.023 [-0.041, -0.009] | 0.027 |
 | 1.0 | SUP | 0.720 [0.706, 0.734] | 0.033 [0.018, 0.050] | +0.000 [+0.000, +0.000] | — |
 | 1.0 | ANO | 0.356 [0.330, 0.381] | 0.352 [0.326, 0.380] | +0.319 [+0.286, +0.349] | 0.001 |
@@ -293,6 +303,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 1.0 | DRT-AMT | 0.740 [0.726, 0.754] | 0.334 [0.305, 0.361] | +0.300 [+0.272, +0.329] | — |
 | 1.0 | SUP-NOID | 0.654 [0.629, 0.675] | 0.638 [0.603, 0.672] | +0.605 [+0.571, +0.638] | — |
 | 1.0 | DRT-NOID | 0.635 [0.616, 0.652] | 0.620 [0.584, 0.653] | +0.587 [+0.553, +0.618] | — |
+| 1.0 | SUP-IDF | 0.654 [0.631, 0.675] | 0.638 [0.604, 0.671] | +0.605 [+0.570, +0.638] | — |
+| 1.0 | DRT-IDF | 0.743 [0.731, 0.756] | 0.352 [0.327, 0.379] | +0.318 [+0.289, +0.350] | — |
 | 2.0 | RAND | 0.020 [0.017, 0.024] | 0.020 [0.016, 0.024] | -0.274 [-0.313, -0.235] | 0.001 |
 | 2.0 | SUP | 0.860 [0.845, 0.873] | 0.294 [0.251, 0.334] | +0.000 [+0.000, +0.000] | — |
 | 2.0 | ANO | 0.493 [0.467, 0.519] | 0.485 [0.453, 0.516] | +0.191 [+0.141, +0.239] | 0.001 |
@@ -314,6 +326,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 2.0 | DRT-AMT | 0.899 [0.886, 0.913] | 0.550 [0.514, 0.588] | +0.257 [+0.213, +0.299] | — |
 | 2.0 | SUP-NOID | 0.798 [0.775, 0.819] | 0.778 [0.744, 0.809] | +0.484 [+0.434, +0.527] | — |
 | 2.0 | DRT-NOID | 0.794 [0.774, 0.815] | 0.773 [0.738, 0.803] | +0.479 [+0.434, +0.524] | — |
+| 2.0 | SUP-IDF | 0.798 [0.775, 0.820] | 0.778 [0.744, 0.810] | +0.484 [+0.434, +0.525] | — |
+| 2.0 | DRT-IDF | 0.911 [0.899, 0.922] | 0.616 [0.580, 0.653] | +0.322 [+0.276, +0.371] | — |
 | 4.0 | RAND | 0.035 [0.031, 0.040] | 0.034 [0.028, 0.042] | -0.602 [-0.637, -0.567] | 0.001 |
 | 4.0 | SUP | 0.936 [0.928, 0.944] | 0.636 [0.600, 0.674] | +0.000 [+0.000, +0.000] | — |
 | 4.0 | ANO | 0.649 [0.621, 0.675] | 0.610 [0.582, 0.642] | -0.026 [-0.070, +0.016] | 0.745 |
@@ -335,6 +349,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 4.0 | DRT-AMT | 0.943 [0.936, 0.951] | 0.689 [0.650, 0.727] | +0.053 [+0.035, +0.072] | — |
 | 4.0 | SUP-NOID | 0.885 [0.869, 0.901] | 0.865 [0.843, 0.885] | +0.228 [+0.200, +0.259] | — |
 | 4.0 | DRT-NOID | 0.883 [0.866, 0.900] | 0.866 [0.842, 0.885] | +0.229 [+0.197, +0.260] | — |
+| 4.0 | SUP-IDF | 0.885 [0.869, 0.901] | 0.865 [0.841, 0.885] | +0.228 [+0.198, +0.258] | — |
+| 4.0 | DRT-IDF | 0.955 [0.949, 0.962] | 0.757 [0.723, 0.788] | +0.121 [+0.094, +0.148] | — |
 
 ### tabformer
 
@@ -361,6 +377,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 0.5 | DRT-AMT | 0.119 [0.110, 0.129] | 0.000 [0.000, 0.000] | +0.000 [+0.000, +0.000] | — |
 | 0.5 | SUP-NOID | 0.137 [0.127, 0.148] | 0.043 [0.032, 0.053] | +0.042 [+0.032, +0.053] | — |
 | 0.5 | DRT-NOID | 0.129 [0.119, 0.140] | 0.041 [0.032, 0.050] | +0.041 [+0.032, +0.050] | — |
+| 0.5 | SUP-IDF | 0.111 [0.103, 0.120] | 0.029 [0.021, 0.038] | +0.029 [+0.021, +0.038] | — |
+| 0.5 | DRT-IDF | 0.129 [0.120, 0.139] | 0.003 [0.001, 0.005] | +0.002 [+0.001, +0.005] | — |
 | 1.0 | RAND | 0.001 [0.000, 0.002] | 0.000 [0.000, 0.001] | -0.001 [-0.004, +0.001] | 1.000 |
 | 1.0 | SUP | 0.240 [0.227, 0.255] | 0.001 [0.000, 0.004] | +0.000 [+0.000, +0.000] | — |
 | 1.0 | ANO | 0.076 [0.067, 0.084] | 0.035 [0.028, 0.043] | +0.034 [+0.026, +0.041] | 0.001 |
@@ -382,6 +400,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 1.0 | DRT-AMT | 0.220 [0.206, 0.233] | 0.001 [0.000, 0.002] | -0.001 [-0.002, +0.000] | — |
 | 1.0 | SUP-NOID | 0.253 [0.238, 0.267] | 0.087 [0.072, 0.102] | +0.085 [+0.071, +0.099] | — |
 | 1.0 | DRT-NOID | 0.237 [0.223, 0.251] | 0.084 [0.069, 0.099] | +0.082 [+0.068, +0.096] | — |
+| 1.0 | SUP-IDF | 0.203 [0.191, 0.217] | 0.063 [0.049, 0.079] | +0.062 [+0.048, +0.076] | — |
+| 1.0 | DRT-IDF | 0.237 [0.223, 0.252] | 0.009 [0.005, 0.014] | +0.008 [+0.004, +0.011] | — |
 | 2.0 | RAND | 0.002 [0.001, 0.002] | 0.001 [0.000, 0.001] | -0.011 [-0.020, -0.005] | 0.001 |
 | 2.0 | SUP | 0.376 [0.361, 0.390] | 0.012 [0.005, 0.021] | +0.000 [+0.000, +0.000] | — |
 | 2.0 | ANO | 0.126 [0.115, 0.137] | 0.063 [0.052, 0.073] | +0.051 [+0.040, +0.061] | 0.001 |
@@ -403,6 +423,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 2.0 | DRT-AMT | 0.354 [0.340, 0.368] | 0.008 [0.003, 0.017] | -0.003 [-0.005, -0.002] | — |
 | 2.0 | SUP-NOID | 0.401 [0.384, 0.418] | 0.148 [0.126, 0.171] | +0.136 [+0.118, +0.157] | — |
 | 2.0 | DRT-NOID | 0.384 [0.367, 0.401] | 0.142 [0.121, 0.163] | +0.130 [+0.112, +0.148] | — |
+| 2.0 | SUP-IDF | 0.332 [0.316, 0.348] | 0.108 [0.088, 0.131] | +0.097 [+0.079, +0.116] | — |
+| 2.0 | DRT-IDF | 0.377 [0.362, 0.391] | 0.032 [0.021, 0.044] | +0.020 [+0.014, +0.027] | — |
 | 4.0 | RAND | 0.003 [0.002, 0.004] | 0.001 [0.000, 0.002] | -0.039 [-0.054, -0.027] | 0.001 |
 | 4.0 | SUP | 0.471 [0.460, 0.481] | 0.040 [0.027, 0.055] | +0.000 [+0.000, +0.000] | — |
 | 4.0 | ANO | 0.208 [0.193, 0.222] | 0.111 [0.096, 0.126] | +0.071 [+0.058, +0.084] | 0.001 |
@@ -424,6 +446,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 4.0 | DRT-AMT | 0.459 [0.448, 0.471] | 0.035 [0.023, 0.049] | -0.005 [-0.007, -0.003] | — |
 | 4.0 | SUP-NOID | 0.520 [0.506, 0.535] | 0.218 [0.193, 0.245] | +0.178 [+0.160, +0.197] | — |
 | 4.0 | DRT-NOID | 0.510 [0.496, 0.525] | 0.215 [0.190, 0.242] | +0.175 [+0.158, +0.193] | — |
+| 4.0 | SUP-IDF | 0.484 [0.470, 0.498] | 0.174 [0.146, 0.201] | +0.133 [+0.115, +0.152] | — |
+| 4.0 | DRT-IDF | 0.485 [0.472, 0.498] | 0.073 [0.056, 0.093] | +0.033 [+0.025, +0.041] | — |
 
 ## S3. Per held-out group (c = 1)
 
@@ -450,6 +474,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | ulb | cluster1 | DRT-AMT | 0.173 | 0.052 | 27 | 0.033 |
 | ulb | cluster1 | SUP-NOID | 0.173 | 0.052 | 27 | 0.033 |
 | ulb | cluster1 | DRT-NOID | 0.173 | 0.052 | 27 | 0.033 |
+| ulb | cluster1 | SUP-IDF | 0.173 | 0.052 | 27 | 0.033 |
+| ulb | cluster1 | DRT-IDF | 0.173 | 0.052 | 27 | 0.033 |
 | ulb | cluster2 | RAND | 0.000 | 0.000 | 25 | 0.000 |
 | ulb | cluster2 | SUP | 0.188 | 0.192 | 25 | 0.018 |
 | ulb | cluster2 | ANO | 0.023 | 0.008 | 25 | 0.018 |
@@ -471,6 +497,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | ulb | cluster2 | DRT-AMT | 0.188 | 0.192 | 25 | 0.018 |
 | ulb | cluster2 | SUP-NOID | 0.188 | 0.192 | 25 | 0.018 |
 | ulb | cluster2 | DRT-NOID | 0.188 | 0.192 | 25 | 0.018 |
+| ulb | cluster2 | SUP-IDF | 0.188 | 0.192 | 25 | 0.018 |
+| ulb | cluster2 | DRT-IDF | 0.188 | 0.192 | 25 | 0.018 |
 | banksim | es_health | RAND | 0.009 | 0.011 | 234 | 0.004 |
 | banksim | es_health | SUP | 0.653 | 0.000 | 234 | 0.000 |
 | banksim | es_health | ANO | 0.333 | 0.255 | 234 | 0.039 |
@@ -492,6 +520,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | banksim | es_health | DRT-AMT | 0.688 | 0.275 | 234 | 0.006 |
 | banksim | es_health | SUP-NOID | 0.635 | 0.646 | 234 | 0.008 |
 | banksim | es_health | DRT-NOID | 0.615 | 0.621 | 234 | 0.002 |
+| banksim | es_health | SUP-IDF | 0.635 | 0.646 | 234 | 0.008 |
+| banksim | es_health | DRT-IDF | 0.690 | 0.293 | 234 | 0.002 |
 | banksim | es_sportsandtoys | RAND | 0.009 | 0.009 | 232 | 0.002 |
 | banksim | es_sportsandtoys | SUP | 0.645 | 0.080 | 232 | 0.008 |
 | banksim | es_sportsandtoys | ANO | 0.336 | 0.340 | 232 | 0.033 |
@@ -513,6 +543,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | banksim | es_sportsandtoys | DRT-AMT | 0.671 | 0.284 | 232 | 0.011 |
 | banksim | es_sportsandtoys | SUP-NOID | 0.618 | 0.560 | 232 | 0.012 |
 | banksim | es_sportsandtoys | DRT-NOID | 0.599 | 0.541 | 232 | 0.016 |
+| banksim | es_sportsandtoys | SUP-IDF | 0.618 | 0.560 | 232 | 0.012 |
+| banksim | es_sportsandtoys | DRT-IDF | 0.671 | 0.292 | 232 | 0.008 |
 | banksim | es_travel | RAND | 0.011 | 0.016 | 74 | 0.011 |
 | banksim | es_travel | SUP | 0.793 | 0.005 | 74 | 0.007 |
 | banksim | es_travel | ANO | 0.378 | 0.846 | 74 | 0.012 |
@@ -534,6 +566,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | banksim | es_travel | DRT-AMT | 0.807 | 0.703 | 74 | 0.000 |
 | banksim | es_travel | SUP-NOID | 0.681 | 0.941 | 74 | 0.007 |
 | banksim | es_travel | DRT-NOID | 0.660 | 0.938 | 74 | 0.007 |
+| banksim | es_travel | SUP-IDF | 0.681 | 0.941 | 74 | 0.007 |
+| banksim | es_travel | DRT-IDF | 0.807 | 0.665 | 74 | 0.011 |
 | banksim | es_wellnessandbeauty | RAND | 0.011 | 0.005 | 118 | 0.005 |
 | banksim | es_wellnessandbeauty | SUP | 0.789 | 0.025 | 118 | 0.013 |
 | banksim | es_wellnessandbeauty | ANO | 0.375 | 0.261 | 118 | 0.007 |
@@ -555,6 +589,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | banksim | es_wellnessandbeauty | DRT-AMT | 0.793 | 0.317 | 118 | 0.005 |
 | banksim | es_wellnessandbeauty | SUP-NOID | 0.682 | 0.586 | 118 | 0.007 |
 | banksim | es_wellnessandbeauty | DRT-NOID | 0.663 | 0.573 | 118 | 0.019 |
+| banksim | es_wellnessandbeauty | SUP-IDF | 0.682 | 0.586 | 118 | 0.007 |
+| banksim | es_wellnessandbeauty | DRT-IDF | 0.806 | 0.388 | 118 | 0.014 |
 | tabformer | Chip | RAND | 0.000 | 0.000 | 1331 | 0.001 |
 | tabformer | Chip | SUP | 0.023 | 0.000 | 1331 | 0.000 |
 | tabformer | Chip | ANO | 0.030 | 0.030 | 1331 | 0.005 |
@@ -576,6 +612,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | tabformer | Chip | DRT-AMT | 0.021 | 0.000 | 1331 | 0.000 |
 | tabformer | Chip | SUP-NOID | 0.053 | 0.052 | 1331 | 0.005 |
 | tabformer | Chip | DRT-NOID | 0.049 | 0.050 | 1331 | 0.004 |
+| tabformer | Chip | SUP-IDF | 0.028 | 0.029 | 1331 | 0.002 |
+| tabformer | Chip | DRT-IDF | 0.023 | 0.001 | 1331 | 0.001 |
 | tabformer | Swipe | RAND | 0.002 | 0.001 | 136 | 0.003 |
 | tabformer | Swipe | SUP | 0.457 | 0.016 | 136 | 0.010 |
 | tabformer | Swipe | ANO | 0.121 | 0.088 | 136 | 0.017 |
@@ -597,6 +635,8 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | tabformer | Swipe | DRT-AMT | 0.418 | 0.009 | 136 | 0.010 |
 | tabformer | Swipe | SUP-NOID | 0.452 | 0.421 | 136 | 0.020 |
 | tabformer | Swipe | DRT-NOID | 0.424 | 0.416 | 136 | 0.014 |
+| tabformer | Swipe | SUP-IDF | 0.377 | 0.399 | 136 | 0.022 |
+| tabformer | Swipe | DRT-IDF | 0.451 | 0.088 | 136 | 0.017 |
 
 ## S4. Protection–cost frontier (c = 1)
 
@@ -668,6 +708,8 @@ Pre-registered frontier summary (best novel recall within relative overall-recal
 | ulb | DRT-AMT | 0.404 | +0.027 [-0.000, +0.081] | 0.119 [0.047, 0.227] |
 | ulb | SUP-NOID | 0.431 | +0.000 [-0.000, -0.000] | 0.119 [0.047, 0.219] |
 | ulb | DRT-NOID | 0.404 | +0.027 [-0.000, +0.081] | 0.119 [0.048, 0.214] |
+| ulb | SUP-IDF | 0.431 | +0.000 [-0.000, -0.000] | 0.119 [0.047, 0.217] |
+| ulb | DRT-IDF | 0.431 | +0.000 [-0.000, -0.000] | 0.119 [0.046, 0.217] |
 | banksim | DRT | 0.837 | +0.033 [+0.025, +0.041] | 0.104 [0.083, 0.123] |
 | banksim | DRT-ECOD | 0.838 | +0.033 [+0.026, +0.041] | — [—, —] |
 | banksim | DRT-UNC | 0.869 | +0.002 [-0.000, +0.005] | 0.033 [0.019, 0.050] |
@@ -682,6 +724,8 @@ Pre-registered frontier summary (best novel recall within relative overall-recal
 | banksim | DRT-AMT | 0.830 | +0.040 [+0.034, +0.046] | 0.334 [0.305, 0.361] |
 | banksim | SUP-NOID | 0.710 | +0.161 [+0.139, +0.181] | 0.638 [0.603, 0.672] |
 | banksim | DRT-NOID | 0.695 | +0.175 [+0.157, +0.194] | 0.620 [0.584, 0.653] |
+| banksim | SUP-IDF | 0.710 | +0.161 [+0.141, +0.181] | 0.638 [0.604, 0.671] |
+| banksim | DRT-IDF | 0.834 | +0.036 [+0.029, +0.043] | 0.352 [0.327, 0.379] |
 | tabformer | DRT | 0.461 | +0.033 [+0.027, +0.039] | 0.005 [0.002, 0.008] |
 | tabformer | DRT-ECOD | 0.457 | +0.037 [+0.031, +0.043] | — [—, —] |
 | tabformer | DRT-UNC | 0.487 | +0.007 [+0.004, +0.010] | 0.002 [0.000, 0.005] |
@@ -696,6 +740,8 @@ Pre-registered frontier summary (best novel recall within relative overall-recal
 | tabformer | DRT-AMT | 0.452 | +0.042 [+0.037, +0.048] | 0.001 [0.000, 0.002] |
 | tabformer | SUP-NOID | 0.482 | +0.012 [+0.006, +0.018] | 0.087 [0.072, 0.102] |
 | tabformer | DRT-NOID | 0.453 | +0.040 [+0.033, +0.049] | 0.084 [0.069, 0.099] |
+| tabformer | SUP-IDF | 0.387 | +0.107 [+0.092, +0.124] | 0.063 [0.049, 0.079] |
+| tabformer | DRT-IDF | 0.483 | +0.011 [+0.006, +0.016] | 0.009 [0.005, 0.014] |
 
 ## S6. Threshold-free signal quality on the test period (mean ± SD over runs)
 
@@ -887,74 +933,90 @@ delay = windows from the mechanism's first test occurrence to the first retrieve
 | banksim | es_health | DRT | 5/5 | 2 | 2.6 | 76 |
 | banksim | es_health | DRT-ADAPT | 5/5 | 2 | 1.8 | 76 |
 | banksim | es_health | DRT-AMT | 5/5 | 0 | 18.8 | 76 |
+| banksim | es_health | DRT-IDF | 5/5 | 0 | 20.6 | 76 |
 | banksim | es_health | DRT-LD | 0/5 | — | 0.0 | 76 |
 | banksim | es_health | DRT-NOID | 5/5 | 0 | 47.6 | 76 |
 | banksim | es_health | FUSE60 | 5/5 | 0 | 10.6 | 76 |
 | banksim | es_health | STACK | 0/5 | — | 0.0 | 76 |
 | banksim | es_health | SUP | 0/5 | — | 0.0 | 76 |
+| banksim | es_health | SUP-IDF | 5/5 | 0 | 48.6 | 76 |
 | banksim | es_health | SUP-NOID | 5/5 | 0 | 48.6 | 76 |
 | banksim | es_sportsandtoys | DRT | 5/5 | 0 | 6.2 | 64 |
 | banksim | es_sportsandtoys | DRT-ADAPT | 5/5 | 0 | 7.6 | 64 |
 | banksim | es_sportsandtoys | DRT-AMT | 5/5 | 0 | 17.4 | 64 |
+| banksim | es_sportsandtoys | DRT-IDF | 5/5 | 0 | 20.4 | 64 |
 | banksim | es_sportsandtoys | DRT-LD | 5/5 | 5 | 2.6 | 64 |
 | banksim | es_sportsandtoys | DRT-NOID | 5/5 | 0 | 40.0 | 64 |
 | banksim | es_sportsandtoys | FUSE60 | 5/5 | 0 | 23.2 | 64 |
 | banksim | es_sportsandtoys | STACK | 5/5 | 0 | 7.2 | 64 |
 | banksim | es_sportsandtoys | SUP | 5/5 | 0 | 7.2 | 64 |
+| banksim | es_sportsandtoys | SUP-IDF | 5/5 | 0 | 41.6 | 64 |
 | banksim | es_sportsandtoys | SUP-NOID | 5/5 | 0 | 41.6 | 64 |
 | banksim | es_travel | DRT | 5/5 | 0 | 10.4 | 28 |
 | banksim | es_travel | DRT-ADAPT | 5/5 | 2 | 5.2 | 28 |
 | banksim | es_travel | DRT-AMT | 5/5 | 0 | 17.0 | 28 |
+| banksim | es_travel | DRT-IDF | 5/5 | 0 | 16.0 | 28 |
 | banksim | es_travel | DRT-LD | 1/5 | 18 | 0.0 | 28 |
 | banksim | es_travel | DRT-NOID | 5/5 | 0 | 27.0 | 28 |
 | banksim | es_travel | FUSE60 | 5/5 | 0 | 15.0 | 28 |
 | banksim | es_travel | STACK | 2/5 | 18 | 0.0 | 28 |
 | banksim | es_travel | SUP | 2/5 | 18 | 0.0 | 28 |
+| banksim | es_travel | SUP-IDF | 5/5 | 0 | 27.0 | 28 |
 | banksim | es_travel | SUP-NOID | 5/5 | 0 | 27.0 | 28 |
 | banksim | es_wellnessandbeauty | DRT | 5/5 | 4 | 1.2 | 36 |
 | banksim | es_wellnessandbeauty | DRT-ADAPT | 5/5 | 4 | 0.8 | 36 |
 | banksim | es_wellnessandbeauty | DRT-AMT | 5/5 | 1 | 7.0 | 36 |
+| banksim | es_wellnessandbeauty | DRT-IDF | 5/5 | 0 | 14.4 | 36 |
 | banksim | es_wellnessandbeauty | DRT-LD | 4/5 | 9 | 0.0 | 36 |
 | banksim | es_wellnessandbeauty | DRT-NOID | 5/5 | 0 | 21.6 | 36 |
 | banksim | es_wellnessandbeauty | FUSE60 | 5/5 | 1 | 4.2 | 36 |
 | banksim | es_wellnessandbeauty | STACK | 5/5 | 7 | 0.0 | 36 |
 | banksim | es_wellnessandbeauty | SUP | 5/5 | 7 | 0.0 | 36 |
+| banksim | es_wellnessandbeauty | SUP-IDF | 5/5 | 0 | 22.8 | 36 |
 | banksim | es_wellnessandbeauty | SUP-NOID | 5/5 | 0 | 22.8 | 36 |
 | tabformer | Chip | DRT | 5/5 | 133 | 0.0 | 45 |
 | tabformer | Chip | DRT-ADAPT | 5/5 | 6 | 0.6 | 45 |
 | tabformer | Chip | DRT-AMT | 0/5 | — | 0.0 | 45 |
+| tabformer | Chip | DRT-IDF | 4/5 | 66 | 0.0 | 45 |
 | tabformer | Chip | DRT-LD | 0/5 | — | 0.0 | 45 |
 | tabformer | Chip | DRT-NOID | 5/5 | 0 | 2.8 | 45 |
 | tabformer | Chip | FUSE60 | 0/5 | — | 0.0 | 45 |
 | tabformer | Chip | STACK | 0/5 | — | 0.0 | 45 |
 | tabformer | Chip | SUP | 0/5 | — | 0.0 | 45 |
+| tabformer | Chip | SUP-IDF | 5/5 | 5 | 2.0 | 45 |
 | tabformer | Chip | SUP-NOID | 5/5 | 0 | 2.8 | 45 |
 | tabformer | Swipe | DRT | 5/5 | 12 | 0.0 | 10 |
 | tabformer | Swipe | DRT-ADAPT | 5/5 | 14 | 0.0 | 10 |
 | tabformer | Swipe | DRT-AMT | 3/5 | 42 | 0.0 | 10 |
+| tabformer | Swipe | DRT-IDF | 5/5 | 7 | 0.4 | 10 |
 | tabformer | Swipe | DRT-LD | 3/5 | 42 | 0.0 | 10 |
 | tabformer | Swipe | DRT-NOID | 5/5 | 0 | 5.0 | 10 |
 | tabformer | Swipe | FUSE60 | 5/5 | 2 | 1.4 | 10 |
 | tabformer | Swipe | STACK | 5/5 | 42 | 0.0 | 10 |
 | tabformer | Swipe | SUP | 5/5 | 42 | 0.0 | 10 |
+| tabformer | Swipe | SUP-IDF | 5/5 | 0 | 6.0 | 10 |
 | tabformer | Swipe | SUP-NOID | 5/5 | 0 | 5.2 | 10 |
 | ulb | cluster1 | DRT | 5/5 | 10 | 0.4 | 10 |
 | ulb | cluster1 | DRT-ADAPT | 5/5 | 10 | 0.4 | 10 |
 | ulb | cluster1 | DRT-AMT | 5/5 | 10 | 0.4 | 10 |
+| ulb | cluster1 | DRT-IDF | 5/5 | 10 | 0.4 | 10 |
 | ulb | cluster1 | DRT-LD | 5/5 | 10 | 0.4 | 10 |
 | ulb | cluster1 | DRT-NOID | 5/5 | 10 | 0.4 | 10 |
 | ulb | cluster1 | FUSE60 | 5/5 | 3 | 1.4 | 10 |
 | ulb | cluster1 | STACK | 5/5 | 10 | 0.4 | 10 |
 | ulb | cluster1 | SUP | 5/5 | 10 | 0.4 | 10 |
+| ulb | cluster1 | SUP-IDF | 5/5 | 10 | 0.4 | 10 |
 | ulb | cluster1 | SUP-NOID | 5/5 | 10 | 0.4 | 10 |
 | ulb | cluster2 | DRT | 5/5 | 5 | 2.0 | 16 |
 | ulb | cluster2 | DRT-ADAPT | 5/5 | 5 | 1.6 | 16 |
 | ulb | cluster2 | DRT-AMT | 5/5 | 5 | 2.0 | 16 |
+| ulb | cluster2 | DRT-IDF | 5/5 | 5 | 2.0 | 16 |
 | ulb | cluster2 | DRT-LD | 5/5 | 5 | 2.0 | 16 |
 | ulb | cluster2 | DRT-NOID | 5/5 | 5 | 2.0 | 16 |
 | ulb | cluster2 | FUSE60 | 5/5 | 5 | 1.8 | 16 |
 | ulb | cluster2 | STACK | 5/5 | 5 | 2.0 | 16 |
 | ulb | cluster2 | SUP | 5/5 | 5 | 2.0 | 16 |
+| ulb | cluster2 | SUP-IDF | 5/5 | 5 | 2.0 | 16 |
 | ulb | cluster2 | SUP-NOID | 5/5 | 5 | 2.0 | 16 |
 
 ## S14. Raw transaction amount as a signal for held-out groups (scripts/amount_signal.py; descriptive)

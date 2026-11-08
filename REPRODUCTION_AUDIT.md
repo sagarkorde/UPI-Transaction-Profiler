@@ -25,10 +25,10 @@ RUN_DIR=results/runs_check python scripts/analyze.py               # regenerates
 |---|---|---|---|
 | Table II | corpora, rows, frauds, periods | `scripts/prepare_data.py` | `results/dataset_summary.json`, `data/manifest.json` |
 | Table III | RQ1 recall@budget, stationary test, CIs, Holm *p* | `scripts/analyze.py` | `results/analysis/main_base.csv` |
-| Table IV | RQ2 held-out groups, pooled recall, Holm *p*; amount reserve and SUP-NOID rows | `scripts/analyze.py` | `results/analysis/emerging_pooled.csv` |
+| Table IV | RQ2 held-out groups, pooled recall, Holm *p*; DRT-AMT and DRT-IDF rows | `scripts/analyze.py` | `results/analysis/emerging_pooled.csv` |
 | Fig. 2 | protection–cost frontier | `scripts/make_figures.py` | `frontier_points.csv` |
 | RQ3 text | equal-cost comparison (Δ and CI at 5% / 10% cost) | `scripts/analyze.py` | `frontier_summary.csv` |
-| Table V | ablations and diagnostics: channel variants, adaptive ρ, amount reserve and learned deferral (v1.3–v1.4), SUP-NOID | `scripts/analyze.py` | `ablation.csv`, `emerging_pooled.csv` |
+| Table V | ablations and exploratory variants: channel variants, adaptive ρ, DRT-AMT, DRT-IDF, DRT-LD, SUP-NOID | `scripts/analyze.py` | `ablation.csv`, `emerging_pooled.csv` |
 | Mean ρ values | DRT-ADAPT and variants | `scripts/analyze.py` | `summary.json` (`mean_rho_adaptive`, `mean_rho_feedback_variants`) |
 | Assumption (A2) | precision by SUP rank band | `scripts/analyze.py` | `assumption_a2.csv` |
 | Cost prediction | calibration vs test premium | `scripts/analyze.py` | `premium.csv` |
@@ -56,6 +56,7 @@ supplement S11).
 | v1.2 re-run vs v1.1 (`results/reproduction_check_v1_2.txt`) | 55 runs identical, 0 different; 448,400 policy rows (new DRT-ADAPT-AUDIT rows excluded) |
 | v1.3 re-run vs v1.2 (`results/reproduction_check_v1_3.txt`) | 55 runs identical, 0 different; 465,440 policy rows (new DRT-LD rows excluded) |
 | v1.4 re-run vs v1.3 (`results/reproduction_check_v1_4.txt`) | 55 runs identical, 0 different; 482,480 policy rows (new v1.4 rows excluded) |
+| v1.5 re-run vs v1.4 (`results/reproduction_check_v1_5.txt`) | 55 runs identical, 0 different; 533,600 policy rows (new v1.5 rows excluded) |
 
-Archived outputs: `results/runs_v1_0/` (protocol v1.0), `results/runs_v1_1/` (v1.1), `results/runs_v1_2/` (v1.2), `results/runs_v1_3/` (v1.3).
-`results/runs/` holds the v1.4 outputs used for every statistic.
+Archived outputs: `results/runs_v1_0/` (protocol v1.0), `results/runs_v1_1/` (v1.1), `results/runs_v1_2/` (v1.2), `results/runs_v1_3/` (v1.3), `results/runs_v1_4/` (v1.4).
+`results/runs/` holds the v1.5 outputs used for every statistic.
