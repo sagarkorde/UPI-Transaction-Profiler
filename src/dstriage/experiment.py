@@ -17,7 +17,8 @@ from . import policies as P
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 MAIN_POLICIES = ["RAND", "SUP", "ANO", "UNC", "FUSE60", "FUSEW", "AUG", "STACK", "DRT"]
 ABLATIONS = ["DRT-UNC", "DRT-RAND", "DRT-ECOD", "DRT-ADAPT", "DRT-ADAPT-D1", "DRT-ADAPT-D3",
-             "DRT-ADAPT-D7", "DRT-ADAPT-NOISY", "DRT-ADAPT-AUDIT", "DRT-LD"]
+             "DRT-ADAPT-D7", "DRT-ADAPT-NOISY", "DRT-ADAPT-AUDIT", "DRT-LD",
+             "DRT-AMT", "SUP-NOID", "DRT-NOID"]
 
 
 def sha256_file(path):
@@ -52,6 +53,12 @@ def load_amendment_v13():
     return yaml.safe_load(open(path)), sha256_file(path)
 
 
+def load_amendment_v14():
+    import yaml
+    path = os.path.join(ROOT, "configs", "amendment_v1_4.yaml")
+    return yaml.safe_load(open(path)), sha256_file(path)
+
+
 def _auc(y, s):
     return float(roc_auc_score(y, s)) if 0 < y.sum() < len(y) else float("nan")
 
@@ -61,6 +68,7 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
     amend, amend_hash = load_amendment()
     amend12, amend12_hash = load_amendment_v12()
     amend13, amend13_hash = load_amendment_v13()
+    amend14, amend14_hash = load_amendment_v14()
     t0 = time.time()
     Pd = prepared or D.load(dataset)
     df = Pd.df
@@ -109,6 +117,16 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
     ev = np.r_[idx["tune"], idx["calib"], idx["test"]]
     s_raw = np.full(len(df), np.nan); s_raw[ev] = M.predict_lgbm(bst, X.iloc[ev])
     s_aug = np.full(len(df), np.nan); s_aug[ev] = M.predict_lgbm(bst_aug, Xa.iloc[ev])
+    # amendment v1.4: diagnostic supervised model without the features that identify held-out groups
+    ids = [f for f in amend14["identity_features"].get(dataset, []) if f in sup]
+    if ids:
+        Xn = X.drop(columns=ids)
+        bst_noid = M.fit_lgbm(Xn.iloc[tr_sup], y[tr_sup], Xn.iloc[idx["tune"]], y[idx["tune"]],
+                              [c for c in cats if c not in ids], sup_cfg, seed)
+        s_noid = np.full(len(df), np.nan); s_noid[ev] = M.predict_lgbm(bst_noid, Xn.iloc[ev])
+    else:
+        s_noid = s_raw
+    amt_all = df["amount"].to_numpy(float)
 
     # ---- reference ECDFs (tune), calibration & combiners (calib)
     s_ecdf, a_ecdf = M.ECDF(s_raw[idx["tune"]]), M.ECDF(a_raw[idx["tune"]])
@@ -238,6 +256,10 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
                                                    amend12["randomised_audit"], sta, arng)
         rho_traces.setdefault("DRT-ADAPT-AUDIT", {})[str(c)] = sta.trace
         sels["DRT-LD"] = drt_fixed(S(r_score), rho)  # amendment v1.3 (kept last: row order unchanged)
+        # amendment v1.4 (appended: row order of earlier policies unchanged)
+        sels["DRT-AMT"] = drt_fixed(S(amt_all), rho)
+        sels["SUP-NOID"] = P.topk(S(s_noid), S(s_noid), sl, k_tst)
+        sels["DRT-NOID"] = P.drt(S(s_noid), S(a_raw), ys, sl, k_tst, dp, None, False, rho)[0]
         # stationary premium of each reserved share, estimated on the calibration period
         sup_cal = P.topk(g(s_raw, cal), g(s_raw, cal), cal["sl"], k_cal)
         base_c = (sup_cal & (cal["y"] == 1)).sum()
@@ -274,7 +296,8 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
                              "base_rate_test": float(yt.mean()), "pi_hat_calib": pi_hat}
 
     meta = dict(dataset=dataset, scenario=scenario, seed=seed, mode=mode, config_sha256=cfg_hash,
-                amendment_sha256=amend_hash, amendment_v1_2_sha256=amend12_hash, amendment_v1_3_sha256=amend13_hash,
+                amendment_sha256=amend_hash, amendment_v1_2_sha256=amend12_hash, amendment_v1_3_sha256=amend13_hash, amendment_v1_4_sha256=amend14_hash,
+                identity_features_dropped=ids,
                 learned_deferral_positive_labels=ld_pos,
                 fuse_w_star=best_w, best_iter_sup=int(bst.best_iteration),
                 best_iter_aug=int(bst_aug.best_iteration), stack_coef=stk.coef_.ravel().tolist(),

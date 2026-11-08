@@ -1,0 +1,13 @@
+# Protocol amendment v1.4 (2026-11-08), written after the v1.3 evaluation in response to internal review.
+# protocol.yaml (v1.0) and amendments v1.1-v1.3 are unchanged; everything they specify is re-run identically.
+# Purpose: test whether DRT's BankSim gain reflects the anomaly detector or properties of the scenario design.
+#  * DRT-AMT  : DRT's split with the reserve ranked by raw transaction amount (a trivial label-free signal).
+#  * SUP-NOID : diagnostic supervised model trained without the features that identify the held-out group
+#               (it uses knowledge of how scenarios are defined, so it is not a deployable competitor).
+#  * DRT-NOID : DRT's split with SUP-NOID as the exploit ranking and the Isolation Forest reserve.
+# All three are exploratory.
+amendment_version: "1.4"
+identity_features:
+  banksim: [category, merchant, cat_freq_prior, merch_freq_prior]   # each merchant belongs to one category
+  tabformer: [use_chip, is_online]                                  # held-out groups are card channels
+  ulb: []                                                           # clusters have no identity feature
