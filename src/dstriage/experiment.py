@@ -16,7 +16,8 @@ from . import policies as P
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 MAIN_POLICIES = ["RAND", "SUP", "ANO", "UNC", "FUSE60", "FUSEW", "AUG", "STACK", "DRT"]
-ABLATIONS = ["DRT-UNC", "DRT-RAND", "DRT-ECOD", "DRT-ADAPT"]
+ABLATIONS = ["DRT-UNC", "DRT-RAND", "DRT-ECOD", "DRT-ADAPT", "DRT-ADAPT-D1", "DRT-ADAPT-D3",
+             "DRT-ADAPT-D7", "DRT-ADAPT-NOISY"]
 
 
 def sha256_file(path):
@@ -33,12 +34,19 @@ def load_cfg():
     return yaml.safe_load(open(path)), sha256_file(path)
 
 
+def load_amendment():
+    import yaml
+    path = os.path.join(ROOT, "configs", "amendment_v1_1.yaml")
+    return yaml.safe_load(open(path)), sha256_file(path)
+
+
 def _auc(y, s):
     return float(roc_auc_score(y, s)) if 0 < y.sum() < len(y) else float("nan")
 
 
 def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=None, out_dir=None):
     cfg, cfg_hash = load_cfg()
+    amend, amend_hash = load_amendment()
     t0 = time.time()
     Pd = prepared or D.load(dataset)
     df = Pd.df
@@ -172,6 +180,17 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
         st.trace = []
         sels["DRT-ADAPT"], st = P.drt(S(s_raw), S(a_raw), ys, sl, k_tst, dp, st, True)
         rho_traces[str(c)] = st.trace
+        # amendment v1.1: adaptive allocation under delayed or imperfect analyst feedback
+        variants = [(f"DRT-ADAPT-D{d}", d, None) for d in amend["feedback_delays"]]
+        variants.append(("DRT-ADAPT-NOISY", 0, amend["noisy_feedback"]))
+        for vi, (vname, dly, nz) in enumerate(variants):
+            frng = np.random.default_rng([seed, int(c * 1000), 77, vi])
+            _, stv = P.drt(g(s_raw, cal), g(a_raw, cal), cal["y"], cal["sl"], k_cal, dp, None, True,
+                           delay=dly, noise=nz, rng=frng)
+            stv.trace = []
+            sels[vname], stv = P.drt(S(s_raw), S(a_raw), ys, sl, k_tst, dp, stv, True,
+                                     delay=dly, noise=nz, rng=frng)
+            rho_traces.setdefault(vname, {})[str(c)] = stv.trace
         # stationary premium of each reserved share, estimated on the calibration period
         sup_cal = P.topk(g(s_raw, cal), g(s_raw, cal), cal["sl"], k_cal)
         base_c = (sup_cal & (cal["y"] == 1)).sum()
@@ -208,6 +227,7 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
                              "base_rate_test": float(yt.mean()), "pi_hat_calib": pi_hat}
 
     meta = dict(dataset=dataset, scenario=scenario, seed=seed, mode=mode, config_sha256=cfg_hash,
+                amendment_sha256=amend_hash,
                 fuse_w_star=best_w, best_iter_sup=int(bst.best_iteration),
                 best_iter_aug=int(bst_aug.best_iteration), stack_coef=stk.coef_.ravel().tolist(),
                 n={k: int(len(v)) for k, v in idx.items()},

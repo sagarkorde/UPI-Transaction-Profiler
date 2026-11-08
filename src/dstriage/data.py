@@ -60,12 +60,17 @@ def load_ulb(raw_dir=RAW) -> Prepared:
         out[c] = df[c].astype(np.float32)
     out["log_amount"] = np.log1p(df["Amount"]).astype(np.float32)
     feats = vcols + ["log_amount"]
-    # Held-out mechanism groups: k-means (k=4) on standardized features of frauds.
-    fr = out["y"] == 1
-    Z = StandardScaler().fit_transform(out.loc[fr, feats].to_numpy(np.float64))
-    km = KMeans(n_clusters=4, n_init=10, random_state=0).fit(Z)
+    # Held-out mechanism groups (amendment v1.1): k-means (k=4) fitted on standardized features of
+    # PRE-TEST frauds only; test-period frauds are assigned to the nearest fixed centroid.
+    import yaml
+    cfg = yaml.safe_load(open(os.path.join(os.path.dirname(__file__), "..", "..", "configs", "protocol.yaml")))
+    split = chronological_splits(out, cfg["splits"])
+    fr = (out["y"] == 1).to_numpy()
+    pre = fr & (split != "test")
+    sc = StandardScaler().fit(out.loc[pre, feats].to_numpy(np.float64))
+    km = KMeans(n_clusters=4, n_init=10, random_state=0).fit(sc.transform(out.loc[pre, feats].to_numpy(np.float64)))
     out["group"] = ""
-    out.loc[fr, "group"] = [f"cluster{c}" for c in km.labels_]
+    out.loc[fr, "group"] = [f"cluster{c}" for c in km.predict(sc.transform(out.loc[fr, feats].to_numpy(np.float64)))]
     return Prepared("ulb", out, feats, [], feats, {"window_unit": "10 minutes"})
 
 

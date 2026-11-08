@@ -1,0 +1,16 @@
+# Protocol amendment v1.1 (2026-11-08), written after the v1.0 test evaluation in response to peer review.
+# configs/protocol.yaml (v1.0) is unchanged; everything it specifies is re-run identically.
+# Changes:
+#  1. ULB held-out clusters are fitted on PRE-TEST frauds only (train+tune+calibration periods);
+#     test-period frauds are assigned to the nearest fixed centroid. v1.0 clustered all frauds,
+#     which used test-period information in scenario design (not in model fitting).
+#  2. Added ablations of DRT-ADAPT under realistic feedback:
+#       feedback delayed by d windows, and imperfect analyst outcomes.
+#     Retrieval is always counted with the true labels; only the feedback that drives rho is degraded.
+#  3. The scenario rule (>= 10 test frauds per held-out group) is unchanged and re-applied.
+amendment_version: "1.1"
+ulb_clusters_fit_on: pre_test
+feedback_delays: [1, 3, 7]          # windows
+noisy_feedback:
+  fraud_detected_prob: 0.9          # analysts confirm 90% of reviewed frauds
+  false_alarm_prob: 0.01            # 1% of reviewed legitimate transactions reported as fraud

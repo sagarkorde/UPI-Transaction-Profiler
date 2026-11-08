@@ -57,9 +57,20 @@ class DRTState:
     N_B: float = 0.0
     acc_B: float = 0.0
     trace: list = field(default_factory=list)
+    pending: list = field(default_factory=list)
 
 
-def drt(s, b, y, slices, k_w, p, state: DRTState | None = None, adaptive=True, rho_fixed=None):
+def _observe(y_true, noise, rng):
+    """Analyst-reported fraud count for reviewed rows; exact when noise is None."""
+    if noise is None or len(y_true) == 0:
+        return float(np.sum(y_true))
+    u = rng.random(len(y_true))
+    rep = np.where(y_true == 1, u < noise["fraud_detected_prob"], u < noise["false_alarm_prob"])
+    return float(rep.sum())
+
+
+def drt(s, b, y, slices, k_w, p, state: DRTState | None = None, adaptive=True, rho_fixed=None,
+        delay=0, noise=None, rng=None):
     """Disagreement-Reserved Triage.
 
     Channel A (exploit) reviews the top (1-rho) share of the budget by supervised score s.
@@ -87,13 +98,19 @@ def drt(s, b, y, slices, k_w, p, state: DRTState | None = None, adaptive=True, r
         pickB = _order(b, s, rest)[:kB] if kB > 0 else idx[:0]
         sel[pickA] = True
         sel[pickB] = True
-        # feedback from reviewed marginal picks
+        # feedback from reviewed marginal picks (optionally noisy and delayed; amendment v1.1).
+        # Retrieval is always scored with true labels; only the feedback driving rho is degraded.
         mA = pickA[len(pickA) - math.ceil(q * len(pickA)):] if len(pickA) else pickA
         mB = pickB[len(pickB) - math.ceil(q * len(pickB)):] if len(pickB) else pickB
-        state.S_A = lam * state.S_A + float(y[mA].sum())
-        state.N_A = lam * state.N_A + len(mA)
-        state.S_B = lam * state.S_B + float(y[mB].sum())
-        state.N_B = lam * state.N_B + len(mB)
+        obs = lambda m: _observe(y[m], noise, rng)
+        state.pending.append((obs(mA), len(mA), obs(mB), len(mB)))
+        fA = fB = 0.0; nA = nB = 0
+        if len(state.pending) > delay:
+            fA, nA, fB, nB = state.pending.pop(0)
+        state.S_A = lam * state.S_A + fA
+        state.N_A = lam * state.N_A + nA
+        state.S_B = lam * state.S_B + fB
+        state.N_B = lam * state.N_B + nB
         if adaptive and rho_fixed is None:
             pA = (state.S_A + a0) / (state.N_A + a0 + b0)
             pB = (state.S_B + a0) / (state.N_B + a0 + b0)

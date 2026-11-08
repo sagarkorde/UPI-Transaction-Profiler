@@ -174,3 +174,28 @@ def test_tabformer_24h_count_is_strict(tmp_path):
     # same-minute rows do not see each other; 11:00 sees two; 12:00 sees three;
     # next day 11:30 sees 11:00(prev day)? no: window [11:30-24h, 11:30) contains 12:00 only.
     assert f["n_24h"].tolist() == [0, 0, 2, 3, 1]
+
+
+def test_drt_zero_delay_no_noise_matches_default():
+    w, y, s, a = _random_period(4)
+    sl = P.window_slices(w)
+    k = P.allocate_budget(np.array([b - a_ for a_, b in sl]), 0.05)
+    s1, st1 = P.drt(s, a, y, sl, k, DP, None, True)
+    s2, st2 = P.drt(s, a, y, sl, k, DP, None, True, delay=0, noise=None)
+    assert np.array_equal(s1, s2) and st1.trace == st2.trace
+
+
+def test_drt_delay_changes_only_allocation_not_budget():
+    w, y, s, a = _random_period(5)
+    sl = P.window_slices(w)
+    k = P.allocate_budget(np.array([b - a_ for a_, b in sl]), 0.05)
+    noise = {"fraud_detected_prob": 0.9, "false_alarm_prob": 0.01}
+    sel, st = P.drt(s, a, y, sl, k, DP, None, True, delay=3, noise=noise, rng=np.random.default_rng(0))
+    assert sel.sum() == k.sum()
+    assert all(DP["rho_min"] - 1e-12 <= r <= DP["rho_max"] + 1e-12 for r in st.trace)
+
+
+def test_ulb_clusters_fit_without_test_frauds():
+    import inspect
+    src = inspect.getsource(D.load_ulb)
+    assert 'split != "test"' in src and "km.predict" in src
