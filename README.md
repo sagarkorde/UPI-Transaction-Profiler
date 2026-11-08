@@ -31,7 +31,7 @@ To check a re-run against the released numbers:
 * `configs/protocol.yaml` fixes every hyper-parameter, policy, budget, scenario rule and statistical test.
   Its SHA-256 (`7d4914e7be97512a2b5867f532e0f8f7da51d63f5aff43c656ccb96a78a9a132`) is written into every
   result file, and `scripts/analyze.py` refuses to mix results from a different protocol.
-* The git history shows the protocol and code committed (`aeddb8d`, "Freeze protocol v1.0 and code before
+* The git history shows the protocol and code committed (`0a5cc29`, "Freeze protocol v1.0 and code before
   any test-period evaluation") before the first test-period run.
 * Development used `mode="dev"`, which deletes the real test period before any processing
   (`tests/test_experiment.py::test_dev_mode_never_reads_test_period`).
