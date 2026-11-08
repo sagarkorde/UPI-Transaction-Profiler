@@ -118,5 +118,29 @@ if os.path.exists(pv_path):
                    f"{', '.join(r['candidates_pre_test_only'])} | {'yes' if r['identical'] else 'NO'} |")
     out += ["", "The >= 10 test-fraud retention rule necessarily reads test-period counts; it was fixed before testing, "
             "is applied identically to all candidates, and every exclusion is listed in S10 above."]
+dep_path = os.path.join(ROOT, "results", "analysis", "dependence.csv")
+if os.path.exists(dep_path):
+    dp = pd.read_csv(dep_path)
+    out += ["", "## S11. Robustness of inference to temporal dependence (scripts/check_dependence.py; post-hoc)", "",
+            "Per-window paired differences d_w (policy minus SUP retrieved frauds, seed-averaged, held-out scenarios summed "
+            "within each test window), c = 1. acf1 = lag-1 autocorrelation; LB = Ljung-Box p (lags 1-3). p_L = two-sided "
+            "sign-flip p with one sign per block of L consecutive windows (exact when <= 20 blocks), with the smallest "
+            "attainable value in brackets; CI_L = moving-block bootstrap 95% CI of the recall difference. L = 1 is the "
+            "protocol's test. Windows: ULB 35, BankSim 24, TabFormer 209.", "",
+            "| dataset | setting | policy | diff | acf1 | LB | p_L1 | p_L2 | p_L5 [min] | p_L10 [min] | CI_L1 | CI_L5 | CI_L10 |",
+            "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    g = lambda v: "—" if pd.isna(v) else f"{v:.3f}"
+    for _, x in dp.iterrows():
+        out.append(f"| {x.dataset} | {x.setting} | {x.policy} | {x['diff']:+.3f} | {g(x.acf1)} | {g(x.ljung_box_p)} | "
+                   f"{x.p_L1:.4f} | {x.p_L2:.4f} | {x.p_L5:.4f} [{x.pmin_L5:.4f}] | {x.p_L10:.4f} [{x.pmin_L10:.4f}] | "
+                   f"[{x.lo_L1:+.3f}, {x.hi_L1:+.3f}] | [{x.lo_L5:+.3f}, {x.hi_L5:+.3f}] | [{x.lo_L10:+.3f}, {x.hi_L10:+.3f}] |")
+    sig1 = dp.p_L1 < 0.05
+    lb = dp.ljung_box_p.dropna()
+    out += ["", f"Summary: Ljung-Box p < 0.05 (uncorrected) in {(lb < 0.05).sum()} of {len(lb)} comparisons. "
+            "No bootstrap CI that excluded zero at L = 1 included zero at L = 2, 5 or 10. With L = 2 no comparison changed "
+            f"significance; with L = 5, {int((sig1 & (dp.p_L5 >= 0.05)).sum())} lost unadjusted significance, of which "
+            f"{int((sig1 & (dp.p_L5 >= 0.05) & (dp.pmin_L5 >= 0.05)).sum())} cannot reach p < 0.05 with so few blocks and the "
+            "rest (ULB FUSE60 stationary; ULB RAND and ANO novel) are not significant after Holm correction in the main analysis; "
+            f"with L = 10, all {int((sig1 & (dp.p_L10 >= 0.05)).sum())} changes are of the first kind."]
 open(os.path.join(ROOT, "results", "SUPPLEMENT.md"), "w").write("\n".join(out) + "\n")
 print("wrote results/SUPPLEMENT.md")

@@ -36,7 +36,16 @@ RUN_DIR=results/runs_check python scripts/analyze.py               # regenerates
 | Discussion (per group) | detector advantage vs DRT gain | `scripts/analyze.py` | `group_signal.csv`, `emerging_groups.csv` |
 | Signal quality | AP / AUC, novel AP | `scripts/analyze.py` | `signals.csv` |
 | Scenario provenance | candidate groups from pre-test frauds only | `scripts/check_scenario_provenance.py` | `scenario_provenance.json`, `SUPPLEMENT.md` S10b |
-| Supplement S0–S10b | full hashes, per-group and per-budget tables | `scripts/make_supplement.py` | `results/SUPPLEMENT.md` |
+| Inference under temporal dependence | autocorrelation, block sign-flip *p* and block-bootstrap CIs (blocks of 1/2/5/10 windows) | `scripts/check_dependence.py` | `dependence.csv`, `SUPPLEMENT.md` S11 |
+| Supplement S0–S11 | full hashes, per-group and per-budget tables | `scripts/make_supplement.py` | `results/SUPPLEMENT.md` |
+
+## What an independent check should cover beyond matching outputs
+
+Matching outputs show computational reproducibility only. A reviewer should also inspect: the chronological
+splits and leakage-safe features (`src/dstriage/data.py`, `tests/test_core.py`, `tests/test_experiment.py`),
+the held-out scenario rule and its provenance (`scripts/run_all.py::holdout_groups`, supplement S10/S10b),
+the policies (`src/dstriage/policies.py`), and the statistics (`src/dstriage/stats.py`, `scripts/analyze.py`,
+supplement S11).
 
 ## Re-run records
 
