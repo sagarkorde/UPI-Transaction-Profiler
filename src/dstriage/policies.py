@@ -129,3 +129,68 @@ def per_window(sel, y, amount, novel, slices):
     cn = np.r_[0, np.cumsum(sel & novel)]
     st = np.array([a for a, _ in slices]); en = np.array([b for _, b in slices])
     return cs[en] - cs[st], ca[en] - ca[st], cn[en] - cn[st]
+
+
+def drt_audit(s, b, y, slices, k_w, p, audit, state: DRTState | None = None, rng=None):
+    """DRT with allocation driven only by an explicitly randomised audit (amendment v1.2).
+
+    In each window an audit share alpha of the budget is reviewed by uniform random sampling from
+    two boundary bands of the non-selected transactions: band A holds the next w_A transactions by
+    supervised score (what one more unit of exploit budget would review), band B the next w_B by
+    anomaly score (one more unit of disagreement budget), with w = band_width * k_w. Because audit
+    draws are uniform within each band, the audit fraud rates are unbiased estimates of each
+    channel's marginal precision; rho moves towards the channel with the higher discounted Beta
+    estimate. The channels' own (selectively observed) outcomes are NOT used for allocation.
+    Audited transactions are real reviews: they consume budget and their frauds count as retrieved.
+    """
+    rng = rng if rng is not None else np.random.default_rng(0)
+    if state is None:
+        state = DRTState(rho=p["rho0"])
+    if not hasattr(state, "acc_U"):
+        state.acc_U = 0.0
+    lam, eta = p["discount"], p["eta"]
+    a0, b0 = p["prior"]
+    alpha, bw = audit["share"], audit["band_width"]
+    sel = np.zeros(len(s), dtype=bool)
+    for (a, e), k in zip(slices, k_w):
+        k = int(k)
+        state.acc_U += alpha * k
+        kU = min(int(math.floor(state.acc_U + 1e-9)), k)
+        state.acc_U -= kU
+        kr = k - kU
+        state.acc_B += state.rho * kr
+        kB = min(int(math.floor(state.acc_B + 1e-9)), kr)
+        state.acc_B -= kB
+        kA = kr - kB
+        idx = np.arange(a, e)
+        pickA = _order(s, b, idx)[:kA] if kA > 0 else idx[:0]
+        rest = np.setdiff1d(idx, pickA, assume_unique=True)
+        pickB = _order(b, s, rest)[:kB] if kB > 0 else idx[:0]
+        rest = np.setdiff1d(rest, pickB, assume_unique=True)
+        w = max(int(math.ceil(bw * max(k, 1))), 1)
+        bandA = _order(s, b, rest)[:w]
+        bandB = np.setdiff1d(_order(b, s, rest)[:w], bandA, assume_unique=True)
+        nA = min(kU // 2 + (kU % 2) * int(rng.random() < 0.5), len(bandA))
+        nB = min(kU - nA, len(bandB))
+        audA = rng.choice(bandA, nA, replace=False) if nA > 0 else idx[:0]
+        audB = rng.choice(bandB, nB, replace=False) if nB > 0 else idx[:0]
+        left = kU - nA - nB  # bands too small: fill remaining audit uniformly from the rest
+        if left > 0:
+            pool = np.setdiff1d(rest, np.r_[audA, audB])
+            extra = rng.choice(pool, min(left, len(pool)), replace=False)
+        else:
+            extra = idx[:0]
+        for m in (pickA, pickB, audA, audB, extra):
+            sel[m] = True
+        state.S_A = lam * state.S_A + float(y[audA].sum())
+        state.N_A = lam * state.N_A + len(audA)
+        state.S_B = lam * state.S_B + float(y[audB].sum())
+        state.N_B = lam * state.N_B + len(audB)
+        pA = (state.S_A + a0) / (state.N_A + a0 + b0)
+        pB = (state.S_B + a0) / (state.N_B + a0 + b0)
+        if pB > pA:
+            state.rho = min(p["rho_max"], state.rho + eta)
+        elif pB < pA:
+            state.rho = max(p["rho_min"], state.rho - eta)
+        state.trace.append(state.rho)
+    return sel, state

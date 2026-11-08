@@ -678,3 +678,15 @@ Rule (fixed in configs/protocol.yaml before any test evaluation): keep a candida
 | tabformer | Chip | 1331 | yes |
 | tabformer | Online | 0 | no (< 10 test frauds) |
 | tabformer | Swipe | 136 | yes |
+
+### S10b. Provenance of candidate groups (scripts/check_scenario_provenance.py)
+
+The same candidate rule applied to pre-test frauds only (train + calibration + validation) is compared with the rule as run. Identical sets mean the candidate choice did not depend on test-period labels.
+
+| dataset | rule | candidates (as run) | candidates (pre-test only) | identical |
+|---|---|---|---|---|
+| ulb | kmeans4 | cluster0, cluster1, cluster2, cluster3 | cluster0, cluster1, cluster2, cluster3 | yes |
+| banksim | top4_category | es_sportsandtoys, es_health, es_wellnessandbeauty, es_travel | es_sportsandtoys, es_health, es_wellnessandbeauty, es_travel | yes |
+| tabformer | channel | Chip, Online, Swipe | Chip, Online, Swipe | yes |
+
+The >= 10 test-fraud retention rule necessarily reads test-period counts; it was fixed before testing, is applied identically to all candidates, and every exclusion is listed in S10 above.

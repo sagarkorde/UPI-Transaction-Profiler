@@ -1,0 +1,9 @@
+# Protocol amendment v1.2 (2026-11-08), written after the v1.1 evaluation in response to peer review.
+# protocol.yaml (v1.0) and amendment_v1_1.yaml are unchanged; everything they specify is re-run identically.
+# Change: one exploratory ablation, DRT-ADAPT-AUDIT, whose rho is driven only by an explicitly randomised
+# audit of the boundary bands just beyond each channel's cut-off (uniform sampling within each band), to test
+# whether adaptive allocation is an artefact of selectively observed feedback. Results are exploratory.
+amendment_version: "1.2"
+randomised_audit:
+  share: 0.05        # fraction of each window's budget spent on audit draws (carry-over accumulator)
+  band_width: 1.0    # each boundary band holds band_width * k_w transactions

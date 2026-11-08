@@ -1,0 +1,73 @@
+{
+ "ulb": {
+  "rule": "kmeans4",
+  "candidates_all_periods": [
+   "cluster0",
+   "cluster1",
+   "cluster2",
+   "cluster3"
+  ],
+  "candidates_pre_test_only": [
+   "cluster0",
+   "cluster1",
+   "cluster2",
+   "cluster3"
+  ],
+  "identical": true,
+  "pre_test_fraud_counts": {
+   "cluster1": 172,
+   "cluster2": 161,
+   "cluster0": 92,
+   "cluster3": 15
+  }
+ },
+ "banksim": {
+  "rule": "top4_category",
+  "candidates_all_periods": [
+   "es_sportsandtoys",
+   "es_health",
+   "es_wellnessandbeauty",
+   "es_travel"
+  ],
+  "candidates_pre_test_only": [
+   "es_sportsandtoys",
+   "es_health",
+   "es_wellnessandbeauty",
+   "es_travel"
+  ],
+  "identical": true,
+  "pre_test_fraud_counts": {
+   "es_sportsandtoys": 1750,
+   "es_health": 1462,
+   "es_wellnessandbeauty": 600,
+   "es_travel": 504,
+   "es_hotelservices": 464,
+   "es_leisure": 422,
+   "es_home": 276,
+   "es_hyper": 242,
+   "es_otherservices": 194,
+   "es_tech": 132,
+   "es_fashion": 98,
+   "es_barsandrestaurants": 96
+  }
+ },
+ "tabformer": {
+  "rule": "channel",
+  "candidates_all_periods": [
+   "Chip",
+   "Online",
+   "Swipe"
+  ],
+  "candidates_pre_test_only": [
+   "Chip",
+   "Online",
+   "Swipe"
+  ],
+  "identical": true,
+  "pre_test_fraud_counts": {
+   "Chip": 3204,
+   "Online": 3201,
+   "Swipe": 540
+  }
+ }
+}

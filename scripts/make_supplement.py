@@ -106,5 +106,17 @@ out += ["", "## S10. Held-out scenario candidates and exclusions", "",
 for ds, sc in mf["scenarios"].items():
     for g, n in sc["test_fraud_counts"].items():
         out.append(f"| {ds} | {g} | {n} | {'yes' if g in sc['holdout_groups'] else 'no (< 10 test frauds)'} |")
+pv_path = os.path.join(ROOT, "results", "analysis", "scenario_provenance.json")
+if os.path.exists(pv_path):
+    pv = json.load(open(pv_path))
+    out += ["", "### S10b. Provenance of candidate groups (scripts/check_scenario_provenance.py)", "",
+            "The same candidate rule applied to pre-test frauds only (train + calibration + validation) is compared "
+            "with the rule as run. Identical sets mean the candidate choice did not depend on test-period labels.", "",
+            "| dataset | rule | candidates (as run) | candidates (pre-test only) | identical |", "|---|---|---|---|---|"]
+    for ds, r in pv.items():
+        out.append(f"| {ds} | {r['rule']} | {', '.join(r['candidates_all_periods'])} | "
+                   f"{', '.join(r['candidates_pre_test_only'])} | {'yes' if r['identical'] else 'NO'} |")
+    out += ["", "The >= 10 test-fraud retention rule necessarily reads test-period counts; it was fixed before testing, "
+            "is applied identically to all candidates, and every exclusion is listed in S10 above."]
 open(os.path.join(ROOT, "results", "SUPPLEMENT.md"), "w").write("\n".join(out) + "\n")
 print("wrote results/SUPPLEMENT.md")
