@@ -18,7 +18,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 MAIN_POLICIES = ["RAND", "SUP", "ANO", "UNC", "FUSE60", "FUSEW", "AUG", "STACK", "DRT"]
 ABLATIONS = ["DRT-UNC", "DRT-RAND", "DRT-ECOD", "DRT-ADAPT", "DRT-ADAPT-D1", "DRT-ADAPT-D3",
              "DRT-ADAPT-D7", "DRT-ADAPT-NOISY", "DRT-ADAPT-AUDIT", "DRT-LD",
-             "DRT-AMT", "SUP-NOID", "DRT-NOID"]
+             "DRT-AMT", "SUP-NOID", "DRT-NOID", "SUP-IDF", "DRT-IDF"]
 
 
 def sha256_file(path):
@@ -59,6 +59,12 @@ def load_amendment_v14():
     return yaml.safe_load(open(path)), sha256_file(path)
 
 
+def load_amendment_v15():
+    import yaml
+    path = os.path.join(ROOT, "configs", "amendment_v1_5.yaml")
+    return yaml.safe_load(open(path)), sha256_file(path)
+
+
 def _auc(y, s):
     return float(roc_auc_score(y, s)) if 0 < y.sum() < len(y) else float("nan")
 
@@ -69,6 +75,7 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
     amend12, amend12_hash = load_amendment_v12()
     amend13, amend13_hash = load_amendment_v13()
     amend14, amend14_hash = load_amendment_v14()
+    amend15, amend15_hash = load_amendment_v15()
     t0 = time.time()
     Pd = prepared or D.load(dataset)
     df = Pd.df
@@ -127,6 +134,17 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
     else:
         s_noid = s_raw
     amt_all = df["amount"].to_numpy(float)
+    # amendment v1.5: identity-free supervised model under one fixed, scenario-independent rule
+    idf = [f for f in amend15["segment_identifier_features"].get(dataset, []) if f in sup]
+    if idf and sorted(idf) == sorted(ids):
+        s_idf = s_noid  # same feature set as the v1.4 diagnostic (BankSim): identical model, reuse it
+    elif idf:
+        Xi = X.drop(columns=idf)
+        bst_idf = M.fit_lgbm(Xi.iloc[tr_sup], y[tr_sup], Xi.iloc[idx["tune"]], y[idx["tune"]],
+                             [c for c in cats if c not in idf], sup_cfg, seed)
+        s_idf = np.full(len(df), np.nan); s_idf[ev] = M.predict_lgbm(bst_idf, Xi.iloc[ev])
+    else:
+        s_idf = s_raw
 
     # ---- reference ECDFs (tune), calibration & combiners (calib)
     s_ecdf, a_ecdf = M.ECDF(s_raw[idx["tune"]]), M.ECDF(a_raw[idx["tune"]])
@@ -260,6 +278,9 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
         sels["DRT-AMT"] = drt_fixed(S(amt_all), rho)
         sels["SUP-NOID"] = P.topk(S(s_noid), S(s_noid), sl, k_tst)
         sels["DRT-NOID"] = P.drt(S(s_noid), S(a_raw), ys, sl, k_tst, dp, None, False, rho)[0]
+        # amendment v1.5 (appended: row order of earlier policies unchanged)
+        sels["SUP-IDF"] = P.topk(S(s_idf), S(s_idf), sl, k_tst)
+        sels["DRT-IDF"] = drt_fixed(S(s_idf), rho)
         # stationary premium of each reserved share, estimated on the calibration period
         sup_cal = P.topk(g(s_raw, cal), g(s_raw, cal), cal["sl"], k_cal)
         base_c = (sup_cal & (cal["y"] == 1)).sum()
@@ -296,7 +317,8 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
                              "base_rate_test": float(yt.mean()), "pi_hat_calib": pi_hat}
 
     meta = dict(dataset=dataset, scenario=scenario, seed=seed, mode=mode, config_sha256=cfg_hash,
-                amendment_sha256=amend_hash, amendment_v1_2_sha256=amend12_hash, amendment_v1_3_sha256=amend13_hash, amendment_v1_4_sha256=amend14_hash,
+                amendment_sha256=amend_hash, amendment_v1_2_sha256=amend12_hash, amendment_v1_3_sha256=amend13_hash, amendment_v1_4_sha256=amend14_hash, amendment_v1_5_sha256=amend15_hash,
+                segment_identifier_features_dropped=idf,
                 identity_features_dropped=ids,
                 learned_deferral_positive_labels=ld_pos,
                 fuse_w_star=best_w, best_iter_sup=int(bst.best_iteration),

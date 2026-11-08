@@ -22,7 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RUN = os.environ.get("RUN_DIR", os.path.join(ROOT, "results", "runs"))
 OUT = os.path.join(ROOT, "results", "analysis")
 C1 = 1.0
-POL = ["SUP", "DRT", "FUSE60", "STACK", "DRT-LD", "DRT-AMT", "SUP-NOID", "DRT-NOID", "DRT-ADAPT"]
+POL = ["SUP", "DRT", "FUSE60", "STACK", "DRT-LD", "DRT-AMT", "SUP-NOID", "DRT-NOID", "DRT-ADAPT", "SUP-IDF", "DRT-IDF"]
 
 runs = []
 for f in sorted(glob.glob(os.path.join(RUN, "*__policy.parquet"))):

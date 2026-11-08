@@ -1,0 +1,13 @@
+# Protocol amendment v1.5 (2026-11-08), written after the v1.4 evaluation in response to internal review.
+# protocol.yaml (v1.0) and amendments v1.1-v1.4 are unchanged; everything they specify is re-run identically.
+# Purpose: test a deployable form of the paper's recommendation. Unlike SUP-NOID (v1.4), which drops exactly the
+# features that define each held-out group, the features dropped here follow one fixed rule applied to every corpus
+# regardless of scenario: identifiers of merchant, merchant category and channel, and their frequency encodings.
+#  * SUP-IDF : LightGBM trained without those identifier features.
+#  * DRT-IDF : DRT's split (rho = 0.1) with SUP as the exploit ranking and SUP-IDF's ranking filling the reserve.
+# Both are exploratory.
+amendment_version: "1.5"
+segment_identifier_features:
+  banksim: [category, merchant, cat_freq_prior, merch_freq_prior]
+  tabformer: [mcc, mcc_freq_prior, use_chip, is_online]
+  ulb: []
