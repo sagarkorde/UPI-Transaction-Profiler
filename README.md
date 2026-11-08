@@ -4,7 +4,7 @@ Code, frozen protocol and results for budget-constrained dual-signal fraud triag
 (Disagreement-Reserved Triage, DRT): a share ρ of each analyst review batch is reserved for transactions
 the supervised model ranks below its cut-off but an anomaly detector ranks highest.
 
-Every result is produced by the scripts in this repository from three openly licensed corpora
+Every result is produced by the scripts in this repository from three publicly accessible corpora
 that are downloaded by script and verified by SHA-256.
 
 ## One command
@@ -56,7 +56,7 @@ To check a re-run against the released numbers:
 | Corpus | Source | SHA-256 (prefix) | Rows / frauds | Licence |
 |---|---|---|---|---|
 | ULB credit-card (real, 2 days) | GitHub mirror of Kaggle `mlg-ulb/creditcardfraud` | `33a178be…` | 284,807 / 492 | ODbL (contents DbCL) |
-| BankSim (simulated bank payments) | GitHub mirror of Kaggle `ealaxi/banksim1` | `e37006f7…` | 594,643 / 7,200 | see Kaggle page |
+| BankSim (simulated bank payments) | GitHub mirror of Kaggle `ealaxi/banksim1` | `e37006f7…` | 594,643 / 7,200 | none stated on the public release; cited as the authors request |
 | IBM TabFormer (simulated cards) | `IBM/TabFormer` Git-LFS | `e9f589a0…` | 24,386,900 / 29,757 | Apache-2.0 |
 
 Full URLs, hashes and expected counts are in `data/manifest.json`. The ULB mirror rounds the PCA
