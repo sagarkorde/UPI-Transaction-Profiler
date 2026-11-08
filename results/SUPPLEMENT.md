@@ -524,3 +524,20 @@ Mean ρ of DRT-ADAPT over the test period (c = 1): `{"ulb": {"base": 0.050000000
 Tuned fusion weight ω* = 1 in 54 of 55 runs.
 
 DRT relative stationary cost by dataset and budget: `[['ulb', 0.5, 0.0], ['ulb', 1.0, 0.0625], ['ulb', 2.0, 0.0491], ['ulb', 4.0, 0.005], ['banksim', 0.5, 0.0477], ['banksim', 1.0, 0.0383], ['banksim', 2.0, 0.0], ['banksim', 4.0, 0.0002], ['tabformer', 0.5, 0.0592], ['tabformer', 1.0, 0.066], ['tabformer', 2.0, 0.0479], ['tabformer', 4.0, 0.0189]]`
+
+## S9. Exploratory (not in the frozen protocol): per-group signal quality vs DRT gain (c = 1)
+
+Figure: `paper/figures/fig_groups.png`.
+
+| dataset | group | AP novel (SUP) | AP novel (anomaly) | novel recall SUP | novel recall DRT | DRT gain |
+|---|---|---|---|---|---|---|
+| banksim | es_health | 0.047 | 0.081 | 0.000 | 0.040 | +0.040 |
+| banksim | es_sportsandtoys | 0.119 | 0.133 | 0.080 | 0.099 | +0.019 |
+| banksim | es_travel | 0.026 | 0.345 | 0.005 | 0.362 | +0.357 |
+| banksim | es_wellnessandbeauty | 0.027 | 0.048 | 0.025 | 0.076 | +0.051 |
+| tabformer | Chip | 0.005 | 0.062 | 0.000 | 0.002 | +0.002 |
+| tabformer | Swipe | 0.015 | 0.015 | 0.016 | 0.038 | +0.022 |
+| ulb | cluster0 | 0.298 | 0.011 | 0.097 | 0.069 | -0.028 |
+| ulb | cluster1 | 0.863 | 0.045 | 0.235 | 0.235 | +0.000 |
+
+Spearman r_s = 0.690 (p = 0.058, n = 8)

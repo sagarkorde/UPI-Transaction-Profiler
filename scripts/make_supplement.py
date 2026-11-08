@@ -75,5 +75,13 @@ out += ["", f"Correlation over all (dataset, ρ): {summ['premium_corr']:.3f}", "
         "## S8. Adaptive allocation", "", f"Mean ρ of DRT-ADAPT over the test period (c = 1): `{json.dumps(summ['mean_rho_adaptive'])}`", "",
         f"Tuned fusion weight ω* = 1 in {summ['fuse_w_star_is_1']} of {summ['n_runs']} runs.", "",
         f"DRT relative stationary cost by dataset and budget: `{summ['drt_rel_cost_by']}`"]
+gq = r("group_signal.csv")
+out += ["", "## S9. Exploratory (not in the frozen protocol): per-group signal quality vs DRT gain (c = 1)", "",
+        "Figure: `paper/figures/fig_groups.png`.", "",
+        "| dataset | group | AP novel (SUP) | AP novel (anomaly) | novel recall SUP | novel recall DRT | DRT gain |",
+        "|---|---|---|---|---|---|---|"]
+for _, x in gq.iterrows():
+    out.append(f"| {x.dataset} | {x.group} | {f3(x.ap_novel_SUP)} | {f3(x.ap_novel_ANO)} | {f3(x.SUP)} | {f3(x.DRT)} | {x.drt_gain:+.3f} |")
+out += ["", f"Spearman r_s = {summ['group_spearman']:.3f} (p = {summ['group_spearman_p']:.3f}, n = {summ['n_groups']})"]
 open(os.path.join(ROOT, "results", "SUPPLEMENT.md"), "w").write("\n".join(out) + "\n")
 print("wrote results/SUPPLEMENT.md")
