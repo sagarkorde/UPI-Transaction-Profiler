@@ -49,6 +49,12 @@ To check a re-run against the released numbers:
   reserved share is filled by a rejector trained on calibration-period outcomes to predict the frauds SUP's queue missed.
   A third full re-run reproduced all 55 v1.2 runs bit-for-bit (`results/reproduction_check_v1_3.txt`); v1.2 outputs are kept in
   `results/runs_v1_2/`, and `results/runs/` holds the v1.3 results used for all statistics.
+* **Amendment v1.4** (`configs/amendment_v1_4.yaml`, exploratory): adds DRT-AMT (reserve ranked by raw amount),
+  SUP-NOID (supervised model without the features that identify held-out groups; a diagnostic, not a deployable policy)
+  and DRT-NOID. A fourth full re-run reproduced all 55 v1.3 runs bit-for-bit (`results/reproduction_check_v1_4.txt`);
+  v1.3 outputs are kept in `results/runs_v1_3/`, and `results/runs/` holds the v1.4 results used for all statistics.
+  Descriptive analyses: `scripts/operational_metrics.py` (capacity in held-out scenarios, time to first detection) and
+  `scripts/amount_signal.py` (how well raw amount ranks each held-out group).
 * **Scenario provenance.** `scripts/check_scenario_provenance.py` shows that every candidate held-out group is
   the same when chosen from pre-test frauds only (supplement S10b).
 * **Audit map.** `REPRODUCTION_AUDIT.md` maps every table, figure and quoted number to its script and file.

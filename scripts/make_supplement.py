@@ -142,5 +142,55 @@ if os.path.exists(dep_path):
             f"{int((sig1 & (dp.p_L5 >= 0.05) & (dp.pmin_L5 >= 0.05)).sum())} cannot reach p < 0.05 with so few blocks and the "
             "rest (ULB FUSE60 stationary; ULB RAND and ANO novel) are not significant after Holm correction in the main analysis; "
             f"with L = 10, all {int((sig1 & (dp.p_L10 >= 0.05)).sum())} changes are of the first kind."]
+cap_path = os.path.join(ROOT, "results", "analysis", "capacity_heldout.csv")
+if os.path.exists(cap_path):
+    cp_ = pd.read_csv(cap_path)
+    out += ["", "## S12. Capacity in held-out scenarios (scripts/operational_metrics.py; descriptive)", "",
+            "Capacity follows the pre-test fraud rate q (A3). The held-out group's frauds are absent before the test period, "
+            "so q and the budget shrink. c = 1, seed-averaged.", "",
+            "| dataset | scenario | test budget | base budget | budget / base | test frauds | held-out frauds | budget / frauds |",
+            "|---|---|---|---|---|---|---|---|"]
+    for _, x in cp_.iterrows():
+        out.append(f"| {x.dataset} | {x.scenario} | {x.budget:.0f} | {x.base_budget:.0f} | {x.budget_vs_base:.2f} | "
+                   f"{x.test_frauds:.0f} | {x.novel_frauds:.0f} | {x.budget_vs_frauds:.2f} |")
+ttd_path = os.path.join(ROOT, "results", "analysis", "time_to_detection.csv")
+if os.path.exists(ttd_path):
+    td = pd.read_csv(ttd_path)
+    sm = (td.groupby(["dataset", "scenario", "policy"])
+          .agg(detected=("detected", "sum"), seeds=("seed", "nunique"), median_delay=("delay", "median"),
+               first7=("novel_first7", "mean"), of=("novel_total_first7", "mean")).reset_index())
+    out += ["", "## S13. Time to first detection of the held-out mechanism (c = 1; descriptive)", "",
+            "delay = windows from the mechanism's first test occurrence to the first retrieved case (one window = one day on "
+            "BankSim and TabFormer, ten minutes on ULB); median over the seeds in which it was detected. first 7 = held-out "
+            "frauds retrieved in the seven windows after first occurrence (mean over seeds), of the number that occurred.", "",
+            "| dataset | scenario | policy | detected (seeds) | median delay | first 7 | of |", "|---|---|---|---|---|---|---|"]
+    for _, x in sm.iterrows():
+        dl = "—" if pd.isna(x.median_delay) else f"{x.median_delay:.0f}"
+        out.append(f"| {x.dataset} | {x.scenario} | {x.policy} | {int(x.detected)}/{int(x.seeds)} | {dl} | "
+                   f"{x.first7:.1f} | {x['of']:.0f} |")
+am_path = os.path.join(ROOT, "results", "analysis", "amount_signal.csv")
+if os.path.exists(am_path):
+    am = pd.read_csv(am_path)
+    out += ["", "## S14. Raw transaction amount as a signal for held-out groups (scripts/amount_signal.py; descriptive)", "",
+            "Average precision of raw amount for each held-out group's test-period frauds against legitimate test "
+            "transactions (no model fitted), with the corpus-wide mean amount of fraud and legitimate transactions.", "",
+            "| dataset | group | test frauds of group | AP of amount | base rate | mean amount fraud / legit |",
+            "|---|---|---|---|---|---|"]
+    for _, x in am.iterrows():
+        out.append(f"| {x.dataset} | {x.group} | {x.test_novel} | {x.ap_amount_novel:.3f} | {x.base_rate:.4f} | "
+                   f"{x.mean_amount_fraud:.1f} / {x.mean_amount_legit:.1f} |")
+out += ["", "## S15. Randomised-audit allocation (DRT-ADAPT-AUDIT, amendment v1.2): sampling design and estimator", "",
+        "Per window w with budget k_w, an audit share m_w = 5% of k_w (carry-over accumulator) is taken from the variant's own "
+        "budget, so every policy still reviews exactly k_w transactions. Among transactions selected by neither channel, band "
+        "B_A holds the next ceil(k_w) by the supervised score s and band B_B the next ceil(k_w) by the anomaly score a, "
+        "excluding B_A (no overlap). m_w/2 transactions are drawn uniformly without replacement from each band (an odd "
+        "remainder goes to a band chosen by a fair coin; if a band is too small, the remainder is drawn uniformly from the "
+        "other non-selected transactions). Each band member is therefore reviewed with known probability (m_w/2)/|B_j|, and "
+        "each window's audit hit rate f_j/n_j is design-unbiased for that band's fraud rate in that window.", "",
+        "Allocation uses only audit outcomes: S_j <- lambda*S_j + f_j and N_j <- lambda*N_j + n_j with lambda = 0.95, and "
+        "p~_j = (S_j + 1)/(N_j + 2) (Beta(1, 1) prior). p~_j is a shrinkage estimate, biased towards 1/2 and towards recent "
+        "windows, of the fraud yield of band j, i.e. of the next unit of budget in channel j; it says nothing about the "
+        "unreviewed population outside the bands. rho moves by eta = 0.02 towards the channel with the larger p~_j within "
+        "[0.05, 0.5]. At c = 1 a window has few audit draws, so p~_j leans on the prior; the audit share was not varied."]
 open(os.path.join(ROOT, "results", "SUPPLEMENT.md"), "w").write("\n".join(out) + "\n")
 print("wrote results/SUPPLEMENT.md")
