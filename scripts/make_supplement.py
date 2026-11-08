@@ -1,4 +1,4 @@
-"""Write results/SUPPLEMENT.md: every statistic behind the paper, at every budget, with CIs."""
+"""Write results/SUPPLEMENT.md: every statistic, at every budget, with CIs."""
 import json
 import os
 
@@ -77,7 +77,7 @@ out += ["", f"Correlation over all (dataset, ρ): {summ['premium_corr']:.3f}", "
         f"DRT relative stationary cost by dataset and budget: `{summ['drt_rel_cost_by']}`"]
 gq = r("group_signal.csv")
 out += ["", "## S9. Exploratory (not in the frozen protocol): per-group signal quality vs DRT gain (c = 1)", "",
-        "Figure: `paper/figures/fig_groups.png`.", "",
+        "Figure: `figures/fig_groups.png`.", "",
         "| dataset | group | AP novel (SUP) | AP novel (anomaly) | novel recall SUP | novel recall DRT | DRT gain |",
         "|---|---|---|---|---|---|---|"]
 for _, x in gq.iterrows():

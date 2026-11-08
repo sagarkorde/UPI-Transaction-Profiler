@@ -1,4 +1,4 @@
-"""Architecture (overview) figure of Disagreement-Reserved Triage -> paper/figures/fig_architecture.png"""
+"""Architecture (overview) figure of Disagreement-Reserved Triage -> figures/fig_architecture.png"""
 import os
 
 import matplotlib
@@ -7,7 +7,8 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-OUT = os.path.join(ROOT, "paper", "figures")
+OUT = os.path.join(ROOT, "figures")
+os.makedirs(OUT, exist_ok=True)
 BLUE, ORANGE, INK, INK2 = "#2a78d6", "#eb6834", "#0b0b0b", "#52514e"
 FILL_B, FILL_O, FILL_N = "#e8f1fb", "#fdeee7", "#f3f2ef"
 plt.rcParams.update({"font.family": "serif", "font.serif": ["TeX Gyre Termes", "Liberation Serif", "DejaVu Serif"],

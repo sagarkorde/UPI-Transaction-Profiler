@@ -11,7 +11,8 @@ import pandas as pd  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 A = os.environ.get("ANALYSIS_DIR", os.path.join(ROOT, "results", "analysis"))
-OUT = os.path.join(ROOT, "paper", "figures")
+OUT = os.path.join(ROOT, "figures")
+os.makedirs(OUT, exist_ok=True)
 os.makedirs(OUT, exist_ok=True)
 
 SLOT = {"blue": "#2a78d6", "orange": "#eb6834", "aqua": "#1baf7a", "yellow": "#eda100"}

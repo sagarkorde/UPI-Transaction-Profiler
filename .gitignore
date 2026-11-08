@@ -4,3 +4,5 @@ results/dev_runs/
 __pycache__/
 .pytest_cache/
 *.pyc
+paper/
+figures/

@@ -527,7 +527,7 @@ DRT relative stationary cost by dataset and budget: `[['ulb', 0.5, 0.0], ['ulb',
 
 ## S9. Exploratory (not in the frozen protocol): per-group signal quality vs DRT gain (c = 1)
 
-Figure: `paper/figures/fig_groups.png`.
+Figure: `figures/fig_groups.png`.
 
 | dataset | group | AP novel (SUP) | AP novel (anomaly) | novel recall SUP | novel recall DRT | DRT gain |
 |---|---|---|---|---|---|---|

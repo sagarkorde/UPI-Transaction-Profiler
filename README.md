@@ -1,10 +1,11 @@
 # Disagreement-Reserved Triage (DRT): reproducibility package
 
-Code, frozen protocol and results for the paper
-**"Reserving Analyst Capacity for Disagreement: Budget-Constrained Dual-Signal Triage for Emerging Digital-Payment Fraud."**
+Code, frozen protocol and results for budget-constrained dual-signal fraud triage
+(Disagreement-Reserved Triage, DRT): a share ρ of each analyst review batch is reserved for transactions
+the supervised model ranks below its cut-off but an anomaly detector ranks highest.
 
-Every number, table and figure in the paper is produced by the scripts in this repository from three
-openly licensed corpora that are downloaded by script and verified by SHA-256.
+Every result is produced by the scripts in this repository from three openly licensed corpora
+that are downloaded by script and verified by SHA-256.
 
 ## One command
 
@@ -19,8 +20,8 @@ bash reproduce.sh          # ~75 min on 2 CPU cores, ~7 GB RAM, ~12 GB disk
 | Feature tables + split summary | `scripts/prepare_data.py` | `results/dataset_summary.json` |
 | Experiments (55 runs = 11 dataset/scenario cells × 5 seeds) | `scripts/run_all.py` | `results/runs/` |
 | Statistics (bootstrap CIs, permutation tests, Holm) | `scripts/analyze.py` | `results/analysis/*.csv` |
-| Figures | `scripts/make_figures.py` | `paper/figures/` |
-| Manuscript | `paper/compose.py` + `paper/build_docx.js` | `paper/DRT_paper.docx` |
+| Figures | `scripts/make_figures.py`, `scripts/make_architecture.py` | `figures/` |
+| Supplementary tables | `scripts/make_supplement.py` | `results/SUPPLEMENT.md` |
 
 To check a re-run against the released numbers:
 `python scripts/compare_results.py results/analysis <released>/results/analysis`.
@@ -51,11 +52,11 @@ features to nine decimals; counts match the original release.
 All randomness is seeded (`seeds: [0..4]`, LightGBM `deterministic: true`, fixed thread count).
 Re-running a configuration yields bit-identical per-window results on the same platform
 (`test_deterministic_rerun`). Across CPU architectures, LightGBM may differ in the last floating-point
-digits; the statistics in the paper are reported to three decimals.
+digits; reported statistics use three decimals.
 
 ## Environment
 
-Python 3.13, packages pinned in `requirements.txt`; Node.js with the `docx` package for the manuscript only.
+Python 3.13, packages pinned in `requirements.txt`.
 
 ## Layout
 
@@ -66,5 +67,5 @@ src/dstriage/              data.py (features), models.py, policies.py (DRT etc.)
 scripts/                   fetch, prepare, run_all, analyze, make_figures, compare_results
 tests/                     leakage, budget, split and determinism tests
 results/                   runs/ (per-window outputs), analysis/ (all statistics), logs
-paper/                     compose.py + text.py (numbers pulled from results), build_docx.js, figures/
+figures/                   generated figures (created by the figure scripts)
 ```
