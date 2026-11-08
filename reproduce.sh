@@ -11,5 +11,6 @@ echo "== 3. features";     python scripts/prepare_data.py               # result
 echo "== 4. experiments";  python scripts/run_all.py                    # 55 runs -> results/runs/
 echo "== 5. statistics";   python scripts/analyze.py                    # results/analysis/*.csv
 echo "== 6. figures";      python scripts/make_figures.py && python scripts/make_architecture.py   # figures/
-echo "== 7. supplement";   python scripts/make_supplement.py            # results/SUPPLEMENT.md
-echo "done. Compare results/analysis/*.csv with the released copies (scripts/compare_results.py)."
+echo "== 7. provenance";   python scripts/check_scenario_provenance.py  # results/analysis/scenario_provenance.json
+echo "== 8. supplement";   python scripts/make_supplement.py            # results/SUPPLEMENT.md
+echo "done. Compare with the released results: scripts/compare_runs.py and scripts/compare_results.py (see REPRODUCTION_AUDIT.md)."

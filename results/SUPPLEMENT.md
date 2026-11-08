@@ -178,6 +178,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 0.5 | DRT-ADAPT-D3 | 0.069 [0.026, 0.123] | 0.035 [0.000, 0.082] | -0.008 [-0.023, +0.000] | — |
 | 0.5 | DRT-ADAPT-D7 | 0.067 [0.024, 0.124] | 0.042 [0.000, 0.092] | +0.000 [+0.000, +0.000] | — |
 | 0.5 | DRT-ADAPT-NOISY | 0.073 [0.028, 0.132] | 0.035 [0.000, 0.080] | -0.008 [-0.023, +0.000] | — |
+| 0.5 | DRT-ADAPT-AUDIT | 0.067 [0.030, 0.112] | 0.027 [0.000, 0.065] | -0.015 [-0.052, +0.000] | — |
 | 1.0 | RAND | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | -0.119 [-0.222, -0.048] | 0.063 |
 | 1.0 | SUP | 0.181 [0.108, 0.274] | 0.119 [0.046, 0.222] | +0.000 [+0.000, +0.000] | — |
 | 1.0 | ANO | 0.031 [0.000, 0.085] | 0.035 [0.000, 0.095] | -0.085 [-0.180, -0.017] | 0.255 |
@@ -194,6 +195,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 1.0 | DRT-ADAPT-D3 | 0.183 [0.112, 0.272] | 0.119 [0.047, 0.224] | +0.000 [+0.000, +0.000] | — |
 | 1.0 | DRT-ADAPT-D7 | 0.173 [0.106, 0.269] | 0.115 [0.043, 0.224] | -0.004 [-0.013, +0.000] | — |
 | 1.0 | DRT-ADAPT-NOISY | 0.160 [0.095, 0.243] | 0.115 [0.046, 0.211] | -0.004 [-0.018, +0.010] | — |
+| 1.0 | DRT-ADAPT-AUDIT | 0.160 [0.092, 0.258] | 0.115 [0.049, 0.217] | -0.004 [-0.023, +0.020] | — |
 | 2.0 | RAND | 0.004 [0.000, 0.013] | 0.004 [0.000, 0.013] | -0.277 [-0.427, -0.168] | 0.004 |
 | 2.0 | SUP | 0.356 [0.273, 0.462] | 0.281 [0.169, 0.432] | +0.000 [+0.000, +0.000] | — |
 | 2.0 | ANO | 0.079 [0.025, 0.138] | 0.085 [0.025, 0.153] | -0.196 [-0.358, -0.076] | 0.031 |
@@ -210,6 +212,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 2.0 | DRT-ADAPT-D3 | 0.340 [0.264, 0.441] | 0.262 [0.157, 0.400] | -0.019 [-0.067, +0.021] | — |
 | 2.0 | DRT-ADAPT-D7 | 0.333 [0.247, 0.443] | 0.250 [0.141, 0.384] | -0.031 [-0.069, +0.000] | — |
 | 2.0 | DRT-ADAPT-NOISY | 0.342 [0.260, 0.446] | 0.265 [0.156, 0.414] | -0.015 [-0.032, +0.000] | — |
+| 2.0 | DRT-ADAPT-AUDIT | 0.294 [0.218, 0.386] | 0.231 [0.141, 0.345] | -0.050 [-0.100, -0.014] | — |
 | 4.0 | RAND | 0.000 [0.000, 0.000] | 0.000 [0.000, 0.000] | -0.577 [-0.714, -0.446] | 0.001 |
 | 4.0 | SUP | 0.612 [0.482, 0.745] | 0.577 [0.439, 0.714] | +0.000 [+0.000, +0.000] | — |
 | 4.0 | ANO | 0.165 [0.079, 0.253] | 0.169 [0.079, 0.255] | -0.408 [-0.587, -0.262] | 0.002 |
@@ -226,6 +229,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 4.0 | DRT-ADAPT-D3 | 0.606 [0.479, 0.733] | 0.565 [0.432, 0.702] | -0.012 [-0.022, +0.000] | — |
 | 4.0 | DRT-ADAPT-D7 | 0.565 [0.432, 0.720] | 0.515 [0.382, 0.665] | -0.062 [-0.091, -0.028] | — |
 | 4.0 | DRT-ADAPT-NOISY | 0.592 [0.467, 0.730] | 0.550 [0.424, 0.695] | -0.027 [-0.050, -0.005] | — |
+| 4.0 | DRT-ADAPT-AUDIT | 0.508 [0.411, 0.619] | 0.462 [0.354, 0.588] | -0.115 [-0.171, -0.060] | — |
 
 ### banksim
 
@@ -247,6 +251,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 0.5 | DRT-ADAPT-D3 | 0.408 [0.403, 0.413] | 0.022 [0.014, 0.030] | +0.022 [+0.014, +0.030] | — |
 | 0.5 | DRT-ADAPT-D7 | 0.408 [0.403, 0.413] | 0.025 [0.017, 0.033] | +0.025 [+0.017, +0.033] | — |
 | 0.5 | DRT-ADAPT-NOISY | 0.408 [0.403, 0.413] | 0.025 [0.017, 0.033] | +0.025 [+0.017, +0.033] | — |
+| 0.5 | DRT-ADAPT-AUDIT | 0.397 [0.392, 0.402] | 0.033 [0.023, 0.043] | +0.033 [+0.023, +0.043] | — |
 | 1.0 | RAND | 0.010 [0.008, 0.012] | 0.010 [0.007, 0.013] | -0.023 [-0.041, -0.009] | 0.027 |
 | 1.0 | SUP | 0.720 [0.706, 0.734] | 0.033 [0.018, 0.050] | +0.000 [+0.000, +0.000] | — |
 | 1.0 | ANO | 0.356 [0.330, 0.381] | 0.352 [0.326, 0.380] | +0.319 [+0.286, +0.349] | 0.001 |
@@ -263,6 +268,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 1.0 | DRT-ADAPT-D3 | 0.713 [0.700, 0.726] | 0.078 [0.059, 0.099] | +0.044 [+0.030, +0.061] | — |
 | 1.0 | DRT-ADAPT-D7 | 0.713 [0.701, 0.726] | 0.078 [0.060, 0.098] | +0.045 [+0.029, +0.061] | — |
 | 1.0 | DRT-ADAPT-NOISY | 0.714 [0.701, 0.726] | 0.077 [0.057, 0.097] | +0.043 [+0.028, +0.060] | — |
+| 1.0 | DRT-ADAPT-AUDIT | 0.694 [0.683, 0.705] | 0.090 [0.073, 0.105] | +0.056 [+0.039, +0.073] | — |
 | 2.0 | RAND | 0.020 [0.017, 0.024] | 0.020 [0.016, 0.024] | -0.274 [-0.313, -0.235] | 0.001 |
 | 2.0 | SUP | 0.860 [0.845, 0.873] | 0.294 [0.251, 0.334] | +0.000 [+0.000, +0.000] | — |
 | 2.0 | ANO | 0.493 [0.467, 0.519] | 0.485 [0.453, 0.516] | +0.191 [+0.141, +0.239] | 0.001 |
@@ -279,6 +285,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 2.0 | DRT-ADAPT-D3 | 0.870 [0.857, 0.884] | 0.368 [0.330, 0.406] | +0.074 [+0.047, +0.101] | — |
 | 2.0 | DRT-ADAPT-D7 | 0.870 [0.857, 0.882] | 0.366 [0.331, 0.402] | +0.072 [+0.046, +0.097] | — |
 | 2.0 | DRT-ADAPT-NOISY | 0.871 [0.857, 0.883] | 0.377 [0.339, 0.412] | +0.083 [+0.053, +0.111] | — |
+| 2.0 | DRT-ADAPT-AUDIT | 0.860 [0.849, 0.871] | 0.363 [0.327, 0.401] | +0.069 [+0.035, +0.102] | — |
 | 4.0 | RAND | 0.035 [0.031, 0.040] | 0.034 [0.028, 0.042] | -0.602 [-0.637, -0.567] | 0.001 |
 | 4.0 | SUP | 0.936 [0.928, 0.944] | 0.636 [0.600, 0.674] | +0.000 [+0.000, +0.000] | — |
 | 4.0 | ANO | 0.649 [0.621, 0.675] | 0.610 [0.582, 0.642] | -0.026 [-0.070, +0.016] | 0.745 |
@@ -295,6 +302,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 4.0 | DRT-ADAPT-D3 | 0.938 [0.930, 0.946] | 0.660 [0.621, 0.698] | +0.024 [+0.001, +0.048] | — |
 | 4.0 | DRT-ADAPT-D7 | 0.936 [0.926, 0.944] | 0.655 [0.617, 0.690] | +0.018 [-0.012, +0.047] | — |
 | 4.0 | DRT-ADAPT-NOISY | 0.937 [0.929, 0.944] | 0.652 [0.613, 0.686] | +0.015 [-0.008, +0.037] | — |
+| 4.0 | DRT-ADAPT-AUDIT | 0.936 [0.928, 0.944] | 0.650 [0.614, 0.687] | +0.014 [-0.007, +0.035] | — |
 
 ### tabformer
 
@@ -316,6 +324,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 0.5 | DRT-ADAPT-D3 | 0.128 [0.118, 0.137] | 0.006 [0.004, 0.009] | +0.006 [+0.004, +0.009] | — |
 | 0.5 | DRT-ADAPT-D7 | 0.128 [0.119, 0.137] | 0.007 [0.004, 0.010] | +0.007 [+0.004, +0.010] | — |
 | 0.5 | DRT-ADAPT-NOISY | 0.127 [0.119, 0.136] | 0.007 [0.005, 0.011] | +0.007 [+0.005, +0.011] | — |
+| 0.5 | DRT-ADAPT-AUDIT | 0.121 [0.112, 0.130] | 0.004 [0.002, 0.006] | +0.004 [+0.002, +0.005] | — |
 | 1.0 | RAND | 0.001 [0.000, 0.002] | 0.000 [0.000, 0.001] | -0.001 [-0.004, +0.001] | 1.000 |
 | 1.0 | SUP | 0.240 [0.227, 0.255] | 0.001 [0.000, 0.004] | +0.000 [+0.000, +0.000] | — |
 | 1.0 | ANO | 0.076 [0.067, 0.084] | 0.035 [0.028, 0.043] | +0.034 [+0.026, +0.041] | 0.001 |
@@ -332,6 +341,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 1.0 | DRT-ADAPT-D3 | 0.236 [0.223, 0.249] | 0.014 [0.010, 0.019] | +0.013 [+0.009, +0.017] | — |
 | 1.0 | DRT-ADAPT-D7 | 0.235 [0.222, 0.249] | 0.015 [0.011, 0.019] | +0.013 [+0.010, +0.017] | — |
 | 1.0 | DRT-ADAPT-NOISY | 0.235 [0.222, 0.249] | 0.014 [0.010, 0.018] | +0.013 [+0.009, +0.016] | — |
+| 1.0 | DRT-ADAPT-AUDIT | 0.228 [0.215, 0.242] | 0.010 [0.006, 0.013] | +0.008 [+0.005, +0.011] | — |
 | 2.0 | RAND | 0.002 [0.001, 0.002] | 0.001 [0.000, 0.001] | -0.011 [-0.020, -0.005] | 0.001 |
 | 2.0 | SUP | 0.376 [0.361, 0.390] | 0.012 [0.005, 0.021] | +0.000 [+0.000, +0.000] | — |
 | 2.0 | ANO | 0.126 [0.115, 0.137] | 0.063 [0.052, 0.073] | +0.051 [+0.040, +0.061] | 0.001 |
@@ -348,6 +358,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 2.0 | DRT-ADAPT-D3 | 0.373 [0.358, 0.387] | 0.035 [0.026, 0.044] | +0.023 [+0.017, +0.028] | — |
 | 2.0 | DRT-ADAPT-D7 | 0.373 [0.359, 0.388] | 0.034 [0.026, 0.043] | +0.022 [+0.017, +0.028] | — |
 | 2.0 | DRT-ADAPT-NOISY | 0.372 [0.357, 0.386] | 0.030 [0.023, 0.039] | +0.019 [+0.014, +0.024] | — |
+| 2.0 | DRT-ADAPT-AUDIT | 0.350 [0.335, 0.365] | 0.022 [0.016, 0.031] | +0.011 [+0.006, +0.015] | — |
 | 4.0 | RAND | 0.003 [0.002, 0.004] | 0.001 [0.000, 0.002] | -0.039 [-0.054, -0.027] | 0.001 |
 | 4.0 | SUP | 0.471 [0.460, 0.481] | 0.040 [0.027, 0.055] | +0.000 [+0.000, +0.000] | — |
 | 4.0 | ANO | 0.208 [0.193, 0.222] | 0.111 [0.096, 0.126] | +0.071 [+0.058, +0.084] | 0.001 |
@@ -364,6 +375,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | 4.0 | DRT-ADAPT-D3 | 0.476 [0.463, 0.487] | 0.079 [0.065, 0.094] | +0.039 [+0.031, +0.047] | — |
 | 4.0 | DRT-ADAPT-D7 | 0.473 [0.459, 0.486] | 0.082 [0.068, 0.097] | +0.042 [+0.033, +0.051] | — |
 | 4.0 | DRT-ADAPT-NOISY | 0.477 [0.465, 0.489] | 0.081 [0.066, 0.097] | +0.041 [+0.033, +0.049] | — |
+| 4.0 | DRT-ADAPT-AUDIT | 0.467 [0.455, 0.479] | 0.067 [0.054, 0.082] | +0.027 [+0.021, +0.034] | — |
 
 ## S3. Per held-out group (c = 1)
 
@@ -385,6 +397,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | ulb | cluster1 | DRT-ADAPT-D3 | 0.173 | 0.052 | 27 | 0.033 |
 | ulb | cluster1 | DRT-ADAPT-D7 | 0.158 | 0.044 | 27 | 0.017 |
 | ulb | cluster1 | DRT-ADAPT-NOISY | 0.162 | 0.059 | 27 | 0.033 |
+| ulb | cluster1 | DRT-ADAPT-AUDIT | 0.165 | 0.067 | 27 | 0.031 |
 | ulb | cluster2 | RAND | 0.000 | 0.000 | 25 | 0.000 |
 | ulb | cluster2 | SUP | 0.188 | 0.192 | 25 | 0.018 |
 | ulb | cluster2 | ANO | 0.023 | 0.008 | 25 | 0.018 |
@@ -401,6 +414,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | ulb | cluster2 | DRT-ADAPT-D3 | 0.192 | 0.192 | 25 | 0.018 |
 | ulb | cluster2 | DRT-ADAPT-D7 | 0.188 | 0.192 | 25 | 0.018 |
 | ulb | cluster2 | DRT-ADAPT-NOISY | 0.158 | 0.176 | 25 | 0.036 |
+| ulb | cluster2 | DRT-ADAPT-AUDIT | 0.154 | 0.168 | 25 | 0.052 |
 | banksim | es_health | RAND | 0.009 | 0.011 | 234 | 0.004 |
 | banksim | es_health | SUP | 0.653 | 0.000 | 234 | 0.000 |
 | banksim | es_health | ANO | 0.333 | 0.255 | 234 | 0.039 |
@@ -417,6 +431,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | banksim | es_health | DRT-ADAPT-D3 | 0.643 | 0.024 | 234 | 0.002 |
 | banksim | es_health | DRT-ADAPT-D7 | 0.644 | 0.023 | 234 | 0.002 |
 | banksim | es_health | DRT-ADAPT-NOISY | 0.645 | 0.021 | 234 | 0.006 |
+| banksim | es_health | DRT-ADAPT-AUDIT | 0.622 | 0.039 | 234 | 0.006 |
 | banksim | es_sportsandtoys | RAND | 0.009 | 0.009 | 232 | 0.002 |
 | banksim | es_sportsandtoys | SUP | 0.645 | 0.080 | 232 | 0.008 |
 | banksim | es_sportsandtoys | ANO | 0.336 | 0.340 | 232 | 0.033 |
@@ -433,6 +448,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | banksim | es_sportsandtoys | DRT-ADAPT-D3 | 0.639 | 0.107 | 232 | 0.016 |
 | banksim | es_sportsandtoys | DRT-ADAPT-D7 | 0.639 | 0.103 | 232 | 0.015 |
 | banksim | es_sportsandtoys | DRT-ADAPT-NOISY | 0.638 | 0.103 | 232 | 0.015 |
+| banksim | es_sportsandtoys | DRT-ADAPT-AUDIT | 0.623 | 0.091 | 232 | 0.013 |
 | banksim | es_travel | RAND | 0.011 | 0.016 | 74 | 0.011 |
 | banksim | es_travel | SUP | 0.793 | 0.005 | 74 | 0.007 |
 | banksim | es_travel | ANO | 0.378 | 0.846 | 74 | 0.012 |
@@ -449,6 +465,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | banksim | es_travel | DRT-ADAPT-D3 | 0.790 | 0.173 | 74 | 0.042 |
 | banksim | es_travel | DRT-ADAPT-D7 | 0.790 | 0.186 | 74 | 0.049 |
 | banksim | es_travel | DRT-ADAPT-NOISY | 0.791 | 0.184 | 74 | 0.046 |
+| banksim | es_travel | DRT-ADAPT-AUDIT | 0.771 | 0.268 | 74 | 0.082 |
 | banksim | es_wellnessandbeauty | RAND | 0.011 | 0.005 | 118 | 0.005 |
 | banksim | es_wellnessandbeauty | SUP | 0.789 | 0.025 | 118 | 0.013 |
 | banksim | es_wellnessandbeauty | ANO | 0.375 | 0.261 | 118 | 0.007 |
@@ -465,6 +482,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | banksim | es_wellnessandbeauty | DRT-ADAPT-D3 | 0.780 | 0.068 | 118 | 0.012 |
 | banksim | es_wellnessandbeauty | DRT-ADAPT-D7 | 0.782 | 0.071 | 118 | 0.013 |
 | banksim | es_wellnessandbeauty | DRT-ADAPT-NOISY | 0.781 | 0.068 | 118 | 0.012 |
+| banksim | es_wellnessandbeauty | DRT-ADAPT-AUDIT | 0.762 | 0.076 | 118 | 0.012 |
 | tabformer | Chip | RAND | 0.000 | 0.000 | 1331 | 0.001 |
 | tabformer | Chip | SUP | 0.023 | 0.000 | 1331 | 0.000 |
 | tabformer | Chip | ANO | 0.030 | 0.030 | 1331 | 0.005 |
@@ -481,6 +499,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | tabformer | Chip | DRT-ADAPT-D3 | 0.026 | 0.012 | 1331 | 0.003 |
 | tabformer | Chip | DRT-ADAPT-D7 | 0.028 | 0.013 | 1331 | 0.003 |
 | tabformer | Chip | DRT-ADAPT-NOISY | 0.028 | 0.013 | 1331 | 0.003 |
+| tabformer | Chip | DRT-ADAPT-AUDIT | 0.025 | 0.008 | 1331 | 0.004 |
 | tabformer | Swipe | RAND | 0.002 | 0.001 | 136 | 0.003 |
 | tabformer | Swipe | SUP | 0.457 | 0.016 | 136 | 0.010 |
 | tabformer | Swipe | ANO | 0.121 | 0.088 | 136 | 0.017 |
@@ -497,6 +516,7 @@ All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap ove
 | tabformer | Swipe | DRT-ADAPT-D3 | 0.445 | 0.031 | 136 | 0.010 |
 | tabformer | Swipe | DRT-ADAPT-D7 | 0.442 | 0.032 | 136 | 0.013 |
 | tabformer | Swipe | DRT-ADAPT-NOISY | 0.442 | 0.029 | 136 | 0.014 |
+| tabformer | Swipe | DRT-ADAPT-AUDIT | 0.430 | 0.024 | 136 | 0.011 |
 
 ## S4. Protection–cost frontier (c = 1)
 
@@ -563,6 +583,7 @@ Pre-registered frontier summary (best novel recall within relative overall-recal
 | ulb | DRT-ADAPT-D3 | 0.431 | +0.000 [-0.000, -0.000] | 0.119 [0.047, 0.224] |
 | ulb | DRT-ADAPT-D7 | 0.373 | +0.058 [-0.000, +0.132] | 0.115 [0.043, 0.224] |
 | ulb | DRT-ADAPT-NOISY | 0.419 | +0.012 [-0.000, +0.025] | 0.115 [0.046, 0.211] |
+| ulb | DRT-ADAPT-AUDIT | 0.392 | +0.038 [-0.000, +0.085] | 0.115 [0.049, 0.217] |
 | banksim | DRT | 0.837 | +0.033 [+0.025, +0.041] | 0.104 [0.083, 0.123] |
 | banksim | DRT-ECOD | 0.838 | +0.033 [+0.026, +0.041] | — [—, —] |
 | banksim | DRT-UNC | 0.869 | +0.002 [-0.000, +0.005] | 0.033 [0.019, 0.050] |
@@ -572,6 +593,7 @@ Pre-registered frontier summary (best novel recall within relative overall-recal
 | banksim | DRT-ADAPT-D3 | 0.852 | +0.018 [+0.013, +0.023] | 0.078 [0.059, 0.099] |
 | banksim | DRT-ADAPT-D7 | 0.852 | +0.018 [+0.013, +0.024] | 0.078 [0.060, 0.098] |
 | banksim | DRT-ADAPT-NOISY | 0.853 | +0.018 [+0.012, +0.023] | 0.077 [0.057, 0.097] |
+| banksim | DRT-ADAPT-AUDIT | 0.835 | +0.035 [+0.029, +0.042] | 0.090 [0.073, 0.105] |
 | tabformer | DRT | 0.461 | +0.033 [+0.027, +0.039] | 0.005 [0.002, 0.008] |
 | tabformer | DRT-ECOD | 0.457 | +0.037 [+0.031, +0.043] | — [—, —] |
 | tabformer | DRT-UNC | 0.487 | +0.007 [+0.004, +0.010] | 0.002 [0.000, 0.005] |
@@ -581,6 +603,7 @@ Pre-registered frontier summary (best novel recall within relative overall-recal
 | tabformer | DRT-ADAPT-D3 | 0.478 | +0.016 [+0.012, +0.019] | 0.014 [0.010, 0.019] |
 | tabformer | DRT-ADAPT-D7 | 0.479 | +0.015 [+0.011, +0.019] | 0.015 [0.011, 0.019] |
 | tabformer | DRT-ADAPT-NOISY | 0.478 | +0.016 [+0.013, +0.019] | 0.014 [0.010, 0.018] |
+| tabformer | DRT-ADAPT-AUDIT | 0.461 | +0.033 [+0.028, +0.038] | 0.010 [0.006, 0.013] |
 
 ## S6. Threshold-free signal quality on the test period (mean ± SD over runs)
 

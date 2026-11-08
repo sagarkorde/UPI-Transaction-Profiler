@@ -42,6 +42,10 @@
    "DRT-ADAPT-NOISY": {
     "cluster1": 0.09468571428571429,
     "cluster2": 0.07777142857142857
+   },
+   "DRT-ADAPT-AUDIT": {
+    "cluster1": 0.11217142857142856,
+    "cluster2": 0.1851428571428572
    }
   },
   "banksim": {
@@ -68,6 +72,12 @@
     "es_sportsandtoys": 0.05000000000000001,
     "es_travel": 0.05000000000000001,
     "es_wellnessandbeauty": 0.05000000000000001
+   },
+   "DRT-ADAPT-AUDIT": {
+    "es_health": 0.08349999999999999,
+    "es_sportsandtoys": 0.05000000000000001,
+    "es_travel": 0.0735,
+    "es_wellnessandbeauty": 0.059666666666666666
    }
   },
   "tabformer": {
@@ -86,6 +96,10 @@
    "DRT-ADAPT-NOISY": {
     "Chip": 0.3972822966507177,
     "Swipe": 0.050191387559808606
+   },
+   "DRT-ADAPT-AUDIT": {
+    "Chip": 0.23485167464114828,
+    "Swipe": 0.05880382775119618
    }
   }
  },

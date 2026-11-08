@@ -82,7 +82,7 @@ def pooled(ds, c, scen_list):
     return acc
 
 
-FB = ["DRT-ADAPT-D1", "DRT-ADAPT-D3", "DRT-ADAPT-D7", "DRT-ADAPT-NOISY"]
+FB = ["DRT-ADAPT-D1", "DRT-ADAPT-D3", "DRT-ADAPT-D7", "DRT-ADAPT-NOISY", "DRT-ADAPT-AUDIT"]
 EMERG_POL = MAIN + ["DRT-ADAPT", "DRT-UNC", "DRT-RAND"] + [f for f in FB if f in set(pol.policy)]
 erows, grows = [], []
 scen_of = {ds: sorted(set(pol[(pol.dataset == ds) & (pol.scenario != "base")].scenario)) for ds in DATASETS}

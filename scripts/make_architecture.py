@@ -44,7 +44,7 @@ arrow((36, 75.9), (23.5, 70.6)); arrow((64, 75.9), (71.5, 70.6))
 box(3, 59.5, 41, 10.5, "Supervised score $s(x)$\nLightGBM trained on\nlabelled history", edge=BLUE, fill=FILL_B)
 box(51, 59.5, 41, 10.5, "Anomaly score $a(x)$\nIsolation Forest,\nfitted without labels", edge=ORANGE, fill=FILL_O)
 # 3. budget
-box(29, 47.5, 40, 7.5, "Review budget $k_w = c\\,\\hat\\pi\\,n_w$\n$k_w^A=(1-\\rho)k_w$,  $k_w^B=\\rho k_w$")
+box(29, 47.5, 40, 7.5, "Review budget $k_w = c\\,q\\,n_w$\n$k_w^A=(1-\\rho)k_w$,  $k_w^B=\\rho k_w$")
 # 4. channels
 box(3, 30, 41, 12, "Exploit channel $S^A_w$\ntop-$k^A_w$ of $X_w$ by $s$\n(= SUP's own top picks)", edge=BLUE, fill=FILL_B)
 box(51, 30, 41, 12, "Disagreement channel $S^B_w$\ntop-$k^B_w$ of $X_w\\setminus S^A_w$\nby $a$", edge=ORANGE, fill=FILL_O)
