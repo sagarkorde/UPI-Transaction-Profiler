@@ -82,7 +82,8 @@ def pooled(ds, c, scen_list):
     return acc
 
 
-EMERG_POL = MAIN + ["DRT-ADAPT", "DRT-UNC", "DRT-RAND"]
+FB = ["DRT-ADAPT-D1", "DRT-ADAPT-D3", "DRT-ADAPT-D7", "DRT-ADAPT-NOISY"]
+EMERG_POL = MAIN + ["DRT-ADAPT", "DRT-UNC", "DRT-RAND"] + [f for f in FB if f in set(pol.policy)]
 erows, grows = [], []
 scen_of = {ds: sorted(set(pol[(pol.dataset == ds) & (pol.scenario != "base")].scenario)) for ds in DATASETS}
 for di, ds in enumerate(DATASETS):
@@ -172,7 +173,7 @@ ab = []
 for di, ds in enumerate(DATASETS):
     piv, Wm, _ = S.seed_avg(pol, win, ds, "base", C1)
     ref = piv["caught"]["SUP"].to_numpy()
-    for pi_, P in enumerate(["DRT", "DRT-ECOD", "DRT-UNC", "DRT-RAND", "DRT-ADAPT"]):
+    for pi_, P in enumerate(["DRT", "DRT-ECOD", "DRT-UNC", "DRT-RAND", "DRT-ADAPT"] + FB):
         if P not in piv["caught"]:
             continue
         r = S.paired_stats(piv["caught"][P].to_numpy(), ref, Wm.frauds.to_numpy(), rng(40 + di, pi_), B, R)
@@ -224,6 +225,33 @@ for ds in DATASETS:
         pr.append(dict(dataset=ds, rho=r, premium_calib=est, premium_test=real))
 pr = pd.DataFrame(pr); pr.to_csv(os.path.join(OUT, "premium.csv"), index=False)
 
+# --------------------------------------------- 6b. assumption A2: SUP precision by rank band
+# SUP's top-k sets are nested across budgets c, so frauds retrieved between consecutive budgets
+# divided by the extra reviews give the precision of successive rank bands (stationary test period).
+a2 = []
+for di, ds in enumerate(DATASETS):
+    cs = sorted(BUDGETS)
+    prev_c = prev_k = None
+    for c in cs:
+        piv, Wm, _ = S.seed_avg(pol, win, ds, "base", c)
+        caught, k = piv["caught"]["SUP"].to_numpy(), Wm.k.to_numpy()
+        if prev_c is None:
+            band_f, band_k, lab = caught, k, f"(0, {c}]"
+        else:
+            band_f, band_k, lab = caught - prev_c, k - prev_k, f"({cs[cs.index(c)-1]}, {c}]"
+        g_ = rng(60 + di, int(c * 100)); n = len(k); bs = []
+        for _ in range(B):
+            ii = g_.integers(0, n, n)
+            if band_k[ii].sum() > 0:
+                bs.append(band_f[ii].sum() / band_k[ii].sum())
+        a2.append(dict(dataset=ds, band=lab, reviews=float(band_k.sum()), frauds=float(band_f.sum()),
+                       precision=band_f.sum() / max(band_k.sum(), 1e-9),
+                       lo=np.percentile(bs, 2.5), hi=np.percentile(bs, 97.5)))
+        prev_c, prev_k = caught, k
+a2 = pd.DataFrame(a2)
+a2["non_increasing"] = a2.groupby("dataset").precision.transform(lambda x: bool(np.all(np.diff(x.to_numpy()) <= 1e-12)))
+a2.to_csv(os.path.join(OUT, "assumption_a2.csv"), index=False)
+
 # --------------------------------------------------------------- 7. summary
 rho_final = {}
 for ds in DATASETS:
@@ -233,7 +261,16 @@ for ds in DATASETS:
 rel = main[main.policy == "DRT"].merge(main[main.policy == "SUP"][["dataset", "c", "recall"]],
                                        on=["dataset", "c"], suffixes=("", "_sup"))
 rel["rel_cost"] = 1 - rel.recall / rel.recall_sup
+rho_fb = {}
+for ds in DATASETS:
+    ms = [m for m in meta if m["dataset"] == ds and m["scenario"] != "base"]
+    rho_fb[ds] = {v: {sc: float(np.mean([np.mean(m["rho_trace"][v][str(C1)]) for m in ms if m["scenario"] == sc]))
+                      for sc in sorted(set(m["scenario"] for m in ms))}
+                  for v in FB if ms and v in ms[0]["rho_trace"]}
 summary = dict(config_sha256=cfg_hash, n_runs=len(meta), datasets=DATASETS, scenarios=scen_of,
+               amendment_sha256=sorted(set(m.get("amendment_sha256", "none") for m in meta)),
+               mean_rho_feedback_variants=rho_fb,
+               a2_non_increasing=a2.groupby("dataset").non_increasing.first().to_dict(),
                fuse_w_star_is_1=int(sum(m["fuse_w_star"] == 1.0 for m in meta)),
                drt_rel_cost_max_all_budgets=float(rel.rel_cost.max()),
                drt_rel_cost_by=rel[["dataset", "c", "rel_cost"]].round(4).values.tolist(),

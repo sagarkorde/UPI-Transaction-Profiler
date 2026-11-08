@@ -16,7 +16,7 @@ bash reproduce.sh          # ~75 min on 2 CPU cores, ~7 GB RAM, ~12 GB disk
 | Step | Script | Output |
 |---|---|---|
 | Data (download + SHA-256 + row/fraud counts) | `scripts/fetch_data.py` | `data/raw/` |
-| Tests (leakage, budget accounting, determinism) | `pytest tests` | 15 tests |
+| Tests (leakage, budget accounting, feedback variants, determinism) | `pytest tests` | 18 tests |
 | Feature tables + split summary | `scripts/prepare_data.py` | `results/dataset_summary.json` |
 | Experiments (55 runs = 11 dataset/scenario cells × 5 seeds) | `scripts/run_all.py` | `results/runs/` |
 | Statistics (bootstrap CIs, permutation tests, Holm) | `scripts/analyze.py` | `results/analysis/*.csv` |
@@ -33,7 +33,14 @@ To check a re-run against the released numbers:
   result file, and `scripts/analyze.py` refuses to mix results from a different protocol.
 * The git history shows the protocol and code committed (`0a5cc29`, "Freeze protocol v1.0 and code before
   any test-period evaluation") before the first test-period run.
-* Development used `mode="dev"`, which deletes the real test period before any processing
+* **Amendment v1.1** (`configs/amendment_v1_1.yaml`, written after the v1.0 test evaluation in response to
+  peer review): ULB held-out clusters are fitted on pre-test frauds only; DRT-ADAPT is additionally evaluated
+  with feedback delayed by 1/3/7 windows and with noisy analyst outcomes. `protocol.yaml` is unchanged.
+* **Independent re-run.** All 55 runs were re-executed from scratch under v1.1. Every result not affected by
+  the amendment (45 runs, all policies and windows) is bit-identical to v1.0
+  (`results/reproduction_check.txt`, `scripts/check_reproduction.py`). v1.0 outputs are kept in
+  `results/runs_v1_0/`; `results/runs/` holds the v1.1 results used for all statistics.
+* Development used `mode="dev", which deletes the real test period before any processing
   (`tests/test_experiment.py::test_dev_mode_never_reads_test_period`).
 
 ## Data

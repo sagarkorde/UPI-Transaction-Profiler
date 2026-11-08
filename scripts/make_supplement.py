@@ -18,6 +18,20 @@ out = ["# Supplementary results", "",
        "All recall values are seed-averaged (5 seeds). CIs: 95% percentile bootstrap over review windows (2,000 resamples). "
        "p: two-sided paired sign-flip permutation test vs SUP (10,000 draws); p_holm: Holm-adjusted within dataset × budget.", ""]
 
+man = json.load(open(os.path.join(ROOT, "data", "manifest.json")))
+import hashlib
+hsh = lambda f: hashlib.sha256(open(os.path.join(ROOT, "configs", f), "rb").read()).hexdigest()
+out += ["## S0. Full hashes", "", "| item | SHA-256 |", "|---|---|"]
+for k, m in man.items():
+    out.append(f"| data: {m['file']} ({k}) | `{m['sha256']}` |")
+out += [f"| configs/protocol.yaml (v1.0) | `{hsh('protocol.yaml')}` |",
+        f"| configs/amendment_v1_1.yaml | `{hsh('amendment_v1_1.yaml')}` |", ""]
+a2 = r("assumption_a2.csv")
+out += ["## S0b. Assumption A2: SUP precision by rank band (stationary test period)", "",
+        "| dataset | band of c | reviews | frauds | precision [95% CI] |", "|---|---|---|---|---|"]
+for _, x in a2.iterrows():
+    out.append(f"| {x.dataset} | {x.band} | {x.reviews:.0f} | {x.frauds:.1f} | {f3(x.precision)} [{f3(x.lo)}, {f3(x.hi)}] |")
+out.append("")
 out += ["## S1. Stationary test period: recall@budget for every policy and budget", ""]
 for ds in main.dataset.unique():
     out += [f"### {ds}", "", "| c | policy | recall [95% CI] | Δ vs SUP [95% CI] | p_holm | seed SD | amount recall |",

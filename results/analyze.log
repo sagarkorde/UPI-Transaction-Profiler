@@ -8,8 +8,8 @@
  ],
  "scenarios": {
   "ulb": [
-   "cluster0",
-   "cluster1"
+   "cluster1",
+   "cluster2"
   ],
   "banksim": [
    "es_health",
@@ -21,6 +21,78 @@
    "Chip",
    "Swipe"
   ]
+ },
+ "amendment_sha256": [
+  "129911e693d473fc0a3e6d70848bd0925170ea3964dee4d3832a368d31d31f40"
+ ],
+ "mean_rho_feedback_variants": {
+  "ulb": {
+   "DRT-ADAPT-D1": {
+    "cluster1": 0.051828571428571446,
+    "cluster2": 0.056971428571428576
+   },
+   "DRT-ADAPT-D3": {
+    "cluster1": 0.051828571428571446,
+    "cluster2": 0.05822857142857143
+   },
+   "DRT-ADAPT-D7": {
+    "cluster1": 0.05457142857142858,
+    "cluster2": 0.05000000000000001
+   },
+   "DRT-ADAPT-NOISY": {
+    "cluster1": 0.09468571428571429,
+    "cluster2": 0.07777142857142857
+   }
+  },
+  "banksim": {
+   "DRT-ADAPT-D1": {
+    "es_health": 0.05000000000000001,
+    "es_sportsandtoys": 0.05000000000000001,
+    "es_travel": 0.05000000000000001,
+    "es_wellnessandbeauty": 0.05000000000000001
+   },
+   "DRT-ADAPT-D3": {
+    "es_health": 0.05000000000000001,
+    "es_sportsandtoys": 0.05000000000000001,
+    "es_travel": 0.05000000000000001,
+    "es_wellnessandbeauty": 0.05000000000000001
+   },
+   "DRT-ADAPT-D7": {
+    "es_health": 0.05000000000000001,
+    "es_sportsandtoys": 0.05000000000000001,
+    "es_travel": 0.05000000000000001,
+    "es_wellnessandbeauty": 0.05000000000000001
+   },
+   "DRT-ADAPT-NOISY": {
+    "es_health": 0.05000000000000001,
+    "es_sportsandtoys": 0.05000000000000001,
+    "es_travel": 0.05000000000000001,
+    "es_wellnessandbeauty": 0.05000000000000001
+   }
+  },
+  "tabformer": {
+   "DRT-ADAPT-D1": {
+    "Chip": 0.4203732057416268,
+    "Swipe": 0.05007655502392344
+   },
+   "DRT-ADAPT-D3": {
+    "Chip": 0.41052631578947363,
+    "Swipe": 0.049999999999999996
+   },
+   "DRT-ADAPT-D7": {
+    "Chip": 0.39347368421052625,
+    "Swipe": 0.05007655502392344
+   },
+   "DRT-ADAPT-NOISY": {
+    "Chip": 0.3972822966507177,
+    "Swipe": 0.050191387559808606
+   }
+  }
+ },
+ "a2_non_increasing": {
+  "banksim": true,
+  "tabformer": true,
+  "ulb": true
  },
  "fuse_w_star_is_1": 54,
  "drt_rel_cost_max_all_budgets": 0.06598564329099943,
@@ -101,8 +173,8 @@
  "mean_rho_adaptive": {
   "ulb": {
    "base": 0.05000000000000001,
-   "cluster0": 0.05011428571428572,
-   "cluster1": 0.05125714285714287
+   "cluster1": 0.12360000000000002,
+   "cluster2": 0.056971428571428576
   },
   "banksim": {
    "base": 0.05000000000000001,
@@ -118,7 +190,7 @@
   }
  },
  "premium_corr": 0.9424940648457165,
- "group_spearman": 0.6904761904761906,
- "group_spearman_p": 0.057990318164572716,
+ "group_spearman": 0.7065994945288228,
+ "group_spearman_p": 0.05006339467042153,
  "n_groups": 8
 }
