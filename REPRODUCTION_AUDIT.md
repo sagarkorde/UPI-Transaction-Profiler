@@ -29,7 +29,7 @@ RUN_DIR=results/runs_check python scripts/analyze.py               # regenerates
 | Table V | RQ2 held-out mechanisms, pooled novel recall, Holm *p* | `scripts/analyze.py` | `results/analysis/emerging_pooled.csv` |
 | Fig. 3 | protection–cost frontier | `scripts/make_figures.py` | `frontier_points.csv` |
 | RQ3 text | equal-cost comparison (Δ and CI at 5% / 10% cost) | `scripts/analyze.py` | `frontier_summary.csv` |
-| Table VI | ablations, feedback (v1.1) and randomised-audit (v1.2) variants | `scripts/analyze.py` | `ablation.csv`, `emerging_pooled.csv` |
+| Table VI | ablations, feedback (v1.1), randomised-audit (v1.2) and learned-deferral (v1.3) variants | `scripts/analyze.py` | `ablation.csv`, `emerging_pooled.csv` |
 | Mean ρ values | DRT-ADAPT and variants | `scripts/analyze.py` | `summary.json` (`mean_rho_adaptive`, `mean_rho_feedback_variants`) |
 | Assumption (A2) | precision by SUP rank band | `scripts/analyze.py` | `assumption_a2.csv` |
 | Cost prediction | calibration vs test premium | `scripts/analyze.py` | `premium.csv` |
@@ -53,6 +53,7 @@ supplement S11).
 |---|---|
 | v1.1 re-run vs v1.0 (`results/reproduction_check.txt`) | 45 runs identical, 0 different; 10 ULB runs skipped (scenarios redefined by v1.1) |
 | v1.2 re-run vs v1.1 (`results/reproduction_check_v1_2.txt`) | 55 runs identical, 0 different; 448,400 policy rows (new DRT-ADAPT-AUDIT rows excluded) |
+| v1.3 re-run vs v1.2 (`results/reproduction_check_v1_3.txt`) | 55 runs identical, 0 different; 465,440 policy rows (new DRT-LD rows excluded) |
 
-Archived outputs: `results/runs_v1_0/` (protocol v1.0), `results/runs_v1_1/` (amendment v1.1).
-`results/runs/` holds the v1.2 outputs used for every statistic.
+Archived outputs: `results/runs_v1_0/` (protocol v1.0), `results/runs_v1_1/` (v1.1), `results/runs_v1_2/` (v1.2).
+`results/runs/` holds the v1.3 outputs used for every statistic.

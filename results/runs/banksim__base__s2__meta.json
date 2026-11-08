@@ -6,6 +6,8 @@
  "config_sha256": "7d4914e7be97512a2b5867f532e0f8f7da51d63f5aff43c656ccb96a78a9a132",
  "amendment_sha256": "129911e693d473fc0a3e6d70848bd0925170ea3964dee4d3832a368d31d31f40",
  "amendment_v1_2_sha256": "a32144a3f7dbd2f7523f5772987e5606c40c37df62d64f24860ce77cf43869e3",
+ "amendment_v1_3_sha256": "566f76995745529bbfba2705b49d762473c1caca6d5bffa98d32efdbd06f208d",
+ "learned_deferral_positive_labels": 114,
  "fuse_w_star": 1.0,
  "best_iter_sup": 111,
  "best_iter_aug": 96,
@@ -720,5 +722,5 @@
    "0.50": 0.009375
   }
  },
- "seconds": 11.2
+ "seconds": 12.4
 }

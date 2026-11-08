@@ -45,6 +45,10 @@ To check a re-run against the released numbers:
   allocation is an artefact of selectively observed feedback. A second full re-run reproduced all 55 v1.1 runs
   bit-for-bit (`results/reproduction_check_v1_2.txt`, `scripts/compare_runs.py`). v1.1 outputs are kept in
   `results/runs_v1_1/`; `results/runs/` holds the v1.2 results used for all statistics.
+* **Amendment v1.3** (`configs/amendment_v1_3.yaml`, exploratory): adds DRT-LD, a learned-deferral counterpart of DRT whose
+  reserved share is filled by a rejector trained on calibration-period outcomes to predict the frauds SUP's queue missed.
+  A third full re-run reproduced all 55 v1.2 runs bit-for-bit (`results/reproduction_check_v1_3.txt`); v1.2 outputs are kept in
+  `results/runs_v1_2/`, and `results/runs/` holds the v1.3 results used for all statistics.
 * **Scenario provenance.** `scripts/check_scenario_provenance.py` shows that every candidate held-out group is
   the same when chosen from pre-test frauds only (supplement S10b).
 * **Audit map.** `REPRODUCTION_AUDIT.md` maps every table, figure and quoted number to its script and file.
