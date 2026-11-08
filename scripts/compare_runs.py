@@ -24,7 +24,7 @@ for f in sorted(glob.glob(os.path.join(a.old, "*__policy.parquet"))):
     stem = os.path.basename(f)[: -len("__policy.parquet")]
     g = os.path.join(a.new, os.path.basename(f))
     if not os.path.exists(g):
-        bad.append(f"missing {stem}"); diff += 1; continue
+        bad.append(f"missing {stem}"); diff += 1; continue  # noqa: E702
     o = pd.read_parquet(f).reset_index(drop=True)
     n = pd.read_parquet(g)
     n = n[~n.policy.isin(a.ignore_policy)].reset_index(drop=True)
@@ -32,6 +32,8 @@ for f in sorted(glob.glob(os.path.join(a.old, "*__policy.parquet"))):
     wn = pd.read_parquet(g.replace("__policy", "__windows"))
     mo = json.load(open(f.replace("__policy.parquet", "__meta.json")))
     mn = json.load(open(g.replace("__policy.parquet", "__meta.json")))
+    for k in set(mn) - set(mo):  # fields added by a later amendment
+        mn.pop(k)
     for m in (mo, mn):
         m.pop("seconds", None); m.pop("amendment_v1_2_sha256", None)
         for p in a.ignore_policy:

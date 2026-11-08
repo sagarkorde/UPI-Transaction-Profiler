@@ -1,0 +1,13 @@
+# Protocol amendment v1.3 (2026-11-08), written after the v1.2 evaluation in response to peer review.
+# protocol.yaml (v1.0) and amendments v1.1/v1.2 are unchanged; everything they specify is re-run identically.
+# Change: one exploratory comparison, DRT-LD, a learned-deferral counterpart of DRT. The budget split is DRT's
+# (rho = 0.1, same carry-over); the reserved share is filled not by the label-free anomaly score but by a
+# rejector learned from historical review outcomes: a LightGBM model trained on the calibration period
+# (where SUP's ranking is out-of-sample) to predict frauds that SUP's queue missed at the primary budget
+# (label = fraud and not in SUP's top-k_w of its window). Inputs: SUP's features plus the percentiles of s
+# and a. Hyper-parameters: protocol.yaml supervised.params; number of trees = SUP's early-stopped count.
+# Held-out mechanisms are absent from the calibration period, as for every other model. Exploratory.
+amendment_version: "1.3"
+learned_deferral:
+  label_budget_multiplier: 1.0     # SUP misses are defined at the primary budget c = 1
+  min_positive_labels: 2           # fewer: rejector undefined, DRT-LD falls back to SUP's ranking

@@ -17,7 +17,7 @@ from . import policies as P
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 MAIN_POLICIES = ["RAND", "SUP", "ANO", "UNC", "FUSE60", "FUSEW", "AUG", "STACK", "DRT"]
 ABLATIONS = ["DRT-UNC", "DRT-RAND", "DRT-ECOD", "DRT-ADAPT", "DRT-ADAPT-D1", "DRT-ADAPT-D3",
-             "DRT-ADAPT-D7", "DRT-ADAPT-NOISY", "DRT-ADAPT-AUDIT"]
+             "DRT-ADAPT-D7", "DRT-ADAPT-NOISY", "DRT-ADAPT-AUDIT", "DRT-LD"]
 
 
 def sha256_file(path):
@@ -46,6 +46,12 @@ def load_amendment_v12():
     return yaml.safe_load(open(path)), sha256_file(path)
 
 
+def load_amendment_v13():
+    import yaml
+    path = os.path.join(ROOT, "configs", "amendment_v1_3.yaml")
+    return yaml.safe_load(open(path)), sha256_file(path)
+
+
 def _auc(y, s):
     return float(roc_auc_score(y, s)) if 0 < y.sum() < len(y) else float("nan")
 
@@ -54,6 +60,7 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
     cfg, cfg_hash = load_cfg()
     amend, amend_hash = load_amendment()
     amend12, amend12_hash = load_amendment_v12()
+    amend13, amend13_hash = load_amendment_v13()
     t0 = time.time()
     Pd = prepared or D.load(dataset)
     df = Pd.df
@@ -148,6 +155,30 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
     wh, rho = pc["fuse_heuristic_weight"], pc["drt_rho"]
     dp = pc["drt_adaptive"]
 
+    # ---- amendment v1.3: learned-deferral rejector, trained on calibration-period outcomes to predict
+    # frauds that SUP's queue missed at the primary budget (no test information; held-out group absent)
+    ld = amend13["learned_deferral"]
+    k_lab = P.allocate_budget(cal["n_w"], ld["label_budget_multiplier"] * pi_hat)
+    sup_sel_cal = P.topk(g(s_raw, cal), g(s_raw, cal), cal["sl"], k_lab)
+    r_lab = ((cal["y"] == 1) & ~sup_sel_cal).astype(int)
+    Xr = X.copy(); Xr["s_pct"] = s_pct; Xr["a_pct"] = a_pct
+    ld_pos = int(r_lab.sum())
+    r_score = np.full(len(df), np.nan)
+    if ld_pos >= ld["min_positive_labels"]:
+        ci = cal["ii"]
+        if nsr:  # same negative sampling as SUP, own RNG stream
+            keep_r = (r_lab == 1) | (np.random.default_rng([seed, 1301]).random(len(ci)) < nsr)
+        else:
+            keep_r = np.ones(len(ci), bool)
+        import lightgbm as lgb
+        prm = dict(sup_cfg["params"]); prm.update(seed=seed, bagging_seed=seed, feature_fraction_seed=seed,
+                                                 data_random_seed=seed)
+        dtr = lgb.Dataset(Xr.iloc[ci[keep_r]], r_lab[keep_r], categorical_feature=cats or "auto")
+        rej = lgb.train(prm, dtr, num_boost_round=max(int(bst.best_iteration), 1))
+        r_score[idx["test"]] = rej.predict(Xr.iloc[idx["test"]])
+    else:
+        r_score[idx["test"]] = s_raw[idx["test"]]
+
     rows, rho_traces, premium_calib = [], {}, {}
     win_tot = []
     for c in cfg["budget_multipliers"]:
@@ -206,6 +237,7 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
         sels["DRT-ADAPT-AUDIT"], sta = P.drt_audit(S(s_raw), S(a_raw), ys, sl, k_tst, dp,
                                                    amend12["randomised_audit"], sta, arng)
         rho_traces.setdefault("DRT-ADAPT-AUDIT", {})[str(c)] = sta.trace
+        sels["DRT-LD"] = drt_fixed(S(r_score), rho)  # amendment v1.3 (kept last: row order unchanged)
         # stationary premium of each reserved share, estimated on the calibration period
         sup_cal = P.topk(g(s_raw, cal), g(s_raw, cal), cal["sl"], k_cal)
         base_c = (sup_cal & (cal["y"] == 1)).sum()
@@ -242,7 +274,8 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
                              "base_rate_test": float(yt.mean()), "pi_hat_calib": pi_hat}
 
     meta = dict(dataset=dataset, scenario=scenario, seed=seed, mode=mode, config_sha256=cfg_hash,
-                amendment_sha256=amend_hash, amendment_v1_2_sha256=amend12_hash,
+                amendment_sha256=amend_hash, amendment_v1_2_sha256=amend12_hash, amendment_v1_3_sha256=amend13_hash,
+                learned_deferral_positive_labels=ld_pos,
                 fuse_w_star=best_w, best_iter_sup=int(bst.best_iteration),
                 best_iter_aug=int(bst_aug.best_iteration), stack_coef=stk.coef_.ravel().tolist(),
                 n={k: int(len(v)) for k, v in idx.items()},
