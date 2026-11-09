@@ -1,0 +1,121 @@
+{
+ "config_sha256": "7d4914e7be97512a2b5867f532e0f8f7da51d63f5aff43c656ccb96a78a9a132",
+ "git_commit": "c6c9488cc1594970dc0b4b93af2f2860a4b9b776",
+ "python": "3.13.18",
+ "platform": "Linux-6.18.44-fc-v310-x86_64-with-glibc2.39",
+ "started": "2026-11-09T13:15:57",
+ "scenarios": {
+  "tabformer_e14": {
+   "holdout_groups": [
+    "Online",
+    "Swipe"
+   ],
+   "test_fraud_counts": {
+    "Online": 1373,
+    "Swipe": 249
+   }
+  }
+ },
+ "runs": [
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "base",
+   "seed": 0,
+   "seconds": 131.2
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "base",
+   "seed": 1,
+   "seconds": 100.0
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "base",
+   "seed": 2,
+   "seconds": 116.9
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "base",
+   "seed": 3,
+   "seconds": 122.7
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "base",
+   "seed": 4,
+   "seconds": 156.0
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "Online",
+   "seed": 0,
+   "seconds": 70.2
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "Online",
+   "seed": 1,
+   "seconds": 82.8
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "Online",
+   "seed": 2,
+   "seconds": 93.6
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "Online",
+   "seed": 3,
+   "seconds": 88.7
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "Online",
+   "seed": 4,
+   "seconds": 86.1
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "Swipe",
+   "seed": 0,
+   "seconds": 144.9
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "Swipe",
+   "seed": 1,
+   "seconds": 163.8
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "Swipe",
+   "seed": 2,
+   "seconds": 110.5
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "Swipe",
+   "seed": 3,
+   "seconds": 152.1
+  },
+  {
+   "dataset": "tabformer_e14",
+   "scenario": "Swipe",
+   "seed": 4,
+   "seconds": 124.4
+  }
+ ],
+ "packages": {
+  "numpy": "2.5.3",
+  "pandas": "3.0.5",
+  "scikit-learn": "1.9.1",
+  "scipy": "1.18.1",
+  "lightgbm": "4.7.0",
+  "pyod": "3.6.7",
+  "pyarrow": "26.0.1"
+ },
+ "finished": "2026-11-09T13:45:56"
+}

@@ -14,8 +14,8 @@ FILL_B, FILL_O, FILL_N = "#e8f1fb", "#fdeee7", "#f3f2ef"
 plt.rcParams.update({"font.family": "serif", "font.serif": ["TeX Gyre Termes", "Liberation Serif", "DejaVu Serif"],
                      "font.size": 6.6, "mathtext.fontset": "stix"})
 
-fig = plt.figure(figsize=(3.45, 3.25))
-ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, 100); ax.set_ylim(0, 100); ax.axis("off")
+fig = plt.figure(figsize=(3.45, 3.25 * 0.85))  # cropped to the boxes (y 13.2-98.2)
+ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, 100); ax.set_ylim(13.2, 98.2); ax.axis("off")
 
 
 def box(x, y, w, h, text, edge=INK2, fill=FILL_N, bold_first=True, lw=0.8, ls="-"):
@@ -62,10 +62,6 @@ ax.add_patch(FancyArrowPatch((96.5, 51.2), (69.9, 51.2), arrowstyle="-|>", mutat
                              ls=(0, (3, 2)), shrinkA=0, shrinkB=0))
 ax.text(98.6, 34.5, "DRT-ADAPT: outcomes update $\\rho$", rotation=90, ha="center", va="center", fontsize=5.7,
         color=INK2, style="italic")
-# 7. guarantee note
-ax.text(50, 6.5, "Recall floor (Prop. 1): $S^A_w$ is SUP's top-$k^A_w$, so with precision non-increasing in rank\n"
-        "the expected stationary relative recall loss is at most $\\rho$.",
-        ha="center", va="center", fontsize=5.9, color=INK2)
 for ext in ["png", "pdf"]:
     fig.savefig(os.path.join(OUT, f"fig_architecture.{ext}"), dpi=600)
 print("wrote fig_architecture")

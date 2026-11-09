@@ -76,6 +76,12 @@ To check a re-run against the released numbers:
   first (monthly label counts per channel) is listed in the file and committed under `results/feasibility/`.
   Runs: `python scripts/run_all.py --datasets tabformer_e14 --out results/replication_v1_7/runs`, then
   `python scripts/confirm_v1_7.py`.
+* **Confirmation results** (`results/replication_v1_6/`, `results/replication_v1_7/`, supplement S17-S18). New BankSim
+  segments (v1.6): DRT-IDF held-out recall 0.545 vs SUP 0.184 and DRT 0.223 (H3, H4 supported, Holm p = 0.0002).
+  Unused TabFormer window (v1.7): 0.0072 vs SUP 0.0015 and DRT 0.0023 (H6 Holm p = 0.0002, H7 Holm p = 0.001, both
+  supported), relative stationary cost 3.1% (H8 supported). The Isolation Forest reserve's own gain over SUP did not
+  replicate significantly (p = 0.063 and 0.122, unadjusted). Post-hoc Holm over all 264 held-out comparisons ever
+  reported: supplement S16.
 * **Scenario provenance.** `scripts/check_scenario_provenance.py` shows that every candidate held-out group is
   the same when chosen from pre-test frauds only (supplement S10b).
 * **Audit map.** `REPRODUCTION_AUDIT.md` maps every table, figure and quoted number to its script and file.

@@ -1,0 +1,113 @@
+{
+ "amendment_sha256": "6b637e9d46578b9ee903f67bfae0b13bb942f118dc41f21a39b9960b0403f590",
+ "config_sha256": "7d4914e7be97512a2b5867f532e0f8f7da51d63f5aff43c656ccb96a78a9a132",
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ],
+ "n_runs": 15,
+ "heldout_groups": {
+  "tabformer_e14": [
+   "Online",
+   "Swipe"
+  ]
+ },
+ "decision_rule": "a hypothesis is supported iff the difference is positive and its Holm-adjusted p < 0.05",
+ "test_frauds_by_group": {
+  "tabformer_e14": {
+   "Online": 1373,
+   "Swipe": 249
+  }
+ },
+ "git_commits": [
+  "c6c9488cc1594970dc0b4b93af2f2860a4b9b776"
+ ],
+ "H6": {
+  "replication": "tabformer_e14",
+  "policy": "DRT-IDF",
+  "reference": "SUP",
+  "statement": "DRT-IDF > SUP",
+  "heldout_recall": 0.00715166461159063,
+  "ref_recall": 0.0014796547472256476,
+  "ci": [
+   0.004375184793225302,
+   0.010167230081131682
+  ],
+  "diff": 0.005672009864364983,
+  "diff_ci": [
+   0.0030806199345940564,
+   0.008563587554600733
+  ],
+  "p": 9.999000099990002e-05,
+  "heldout_frauds_pooled": 1622.0,
+  "windows": 177,
+  "p_holm": 0.00019998000199980003,
+  "supported": true
+ },
+ "H7": {
+  "replication": "tabformer_e14",
+  "policy": "DRT-IDF",
+  "reference": "DRT",
+  "statement": "DRT-IDF > DRT (IF reserve)",
+  "heldout_recall": 0.00715166461159063,
+  "ref_recall": 0.0023427866831072747,
+  "ci": [
+   0.004350214620164893,
+   0.010201079243986876
+  ],
+  "diff": 0.004808877928483356,
+  "diff_ci": [
+   0.002200912998773029,
+   0.007761002932677794
+  ],
+  "p": 0.000999900009999,
+  "heldout_frauds_pooled": 1622.0,
+  "windows": 177,
+  "p_holm": 0.000999900009999,
+  "supported": true
+ },
+ "H8": {
+  "replication": "tabformer_e14",
+  "statement": "DRT-IDF's relative stationary recall cost, 1 - recall(DRT-IDF) / recall(SUP) in the base scenario at c = 1, is at most rho = 0.10.",
+  "rel_cost": 0.031067961165048508,
+  "upper95": 0.040515024337647074,
+  "bound": 0.1,
+  "supported": true,
+  "recall_sup": 0.31750924784217016,
+  "recall_drt_idf": 0.3076448828606658,
+  "abs_cost": 0.009864364981504316,
+  "test_frauds": 1622.0,
+  "windows": 177
+ },
+ "secondary_DRT_vs_SUP": {
+  "tabformer_e14": {
+   "heldout_recall": 0.0023427866831072747,
+   "ref_recall": 0.0014796547472256476,
+   "diff": 0.000863131935881627,
+   "diff_ci": [
+    0.00011951741464141409,
+    0.0021292452873017047
+   ],
+   "p": 0.1222877712228777
+  }
+ },
+ "split": {
+  "tabformer_e14": {
+   "rows": {
+    "train": 2959919,
+    "tune": 808669,
+    "calib": 804979,
+    "test": 806838
+   },
+   "frauds": {
+    "train": 1388,
+    "tune": 96,
+    "calib": 1352,
+    "test": 1622
+   }
+  }
+ }
+}

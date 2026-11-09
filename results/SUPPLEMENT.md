@@ -1426,3 +1426,79 @@ Time to first detection (c = 1; windows = days)
 | banksim_u | es_tech | DRT-IDF | 5/5 | 0 |
 | banksim_u | es_tech | SUP | 1/5 | 5 |
 | banksim_u | es_tech | SUP-IDF | 5/5 | 0 |
+
+## S18. Pre-registered confirmatory replication of DRT-IDF on fresh TabFormer data, amendment v1.7 (scripts/confirm_v1_7.py)
+
+tabformer_e14 = TabFormer 2011-01 to 2014-04 (warm-up 2010): v1.6's window ended at the last pre-2015 month with fraud labels, the rule protocol v1.0 uses for its own window; disjoint from every row used under v1.0-v1.5. What was inspected before registration is listed in the amendment (monthly label counts per channel: results/feasibility/). Registered in configs/amendment_v1_7.yaml (SHA-256 6b637e9d4657...) and pushed to the public repository before any of its runs existed; runs produced once from a fresh clone of the registration commit (c6c9488).
+
+Held-out groups (>= 10 test frauds): tabformer_e14: Online, Swipe. Test frauds per candidate group: tabformer_e14: {'Online': 1373, 'Swipe': 249}.
+
+Rows and frauds per split (base scenario): tabformer_e14: rows {'train': 2959919, 'tune': 808669, 'calib': 804979, 'test': 806838}, frauds {'train': 1388, 'tune': 96, 'calib': 1352, 'test': 1622}.
+
+| hypothesis | replication | comparison | held-out recall | reference | diff [95% CI] | p | Holm p | supported |
+|---|---|---|---|---|---|---|---|---|
+| H6 | tabformer_e14 | DRT-IDF vs SUP | 0.0072 | 0.0015 | +0.0057 [+0.0031, +0.0086] | 0.0001 | 0.0002 | yes |
+| H7 | tabformer_e14 | DRT-IDF vs DRT | 0.0072 | 0.0023 | +0.0048 [+0.0022, +0.0078] | 0.0010 | 0.0010 | yes |
+
+H8 (tabformer_e14): relative stationary cost 0.0311 (SUP recall 0.3175, DRT-IDF 0.3076; absolute 0.0099), one-sided 95% upper bound 0.0405 against 0.1: supported.
+
+Secondary (v1.0 primary hypothesis on the replication, unadjusted): tabformer_e14: DRT 0.0023 vs SUP 0.0015, diff +0.0009 [+0.0001, +0.0021], p = 0.1223.
+
+Descriptive (c = 1): held-out recall per group
+
+| replication | group | held-out frauds | SUP | DRT | DRT-AMT | SUP-IDF | DRT-IDF |
+|---|---|---|---|---|---|---|---|
+| tabformer_e14 | Online | 1373 | 0.002 | 0.002 | 0.002 | 0.018 | 0.003 |
+| tabformer_e14 | Swipe | 249 | 0.000 | 0.002 | 0.004 | 0.167 | 0.029 |
+
+Descriptive: pooled held-out recall and base-scenario recall at every budget
+
+| replication | c | policy | held-out recall | base recall |
+|---|---|---|---|---|
+| tabformer_e14 | 0.5 | ANO | 0.0110 | 0.0476 |
+| tabformer_e14 | 0.5 | DRT | 0.0009 | 0.1875 |
+| tabformer_e14 | 0.5 | DRT-AMT | 0.0006 | 0.1826 |
+| tabformer_e14 | 0.5 | DRT-IDF | 0.0032 | 0.1894 |
+| tabformer_e14 | 0.5 | FUSE60 | 0.0046 | 0.1388 |
+| tabformer_e14 | 0.5 | STACK | 0.0009 | 0.2022 |
+| tabformer_e14 | 0.5 | SUP | 0.0006 | 0.1994 |
+| tabformer_e14 | 0.5 | SUP-IDF | 0.0224 | 0.0676 |
+| tabformer_e14 | 1 | ANO | 0.0218 | 0.0877 |
+| tabformer_e14 | 1 | DRT | 0.0023 | 0.3049 |
+| tabformer_e14 | 1 | DRT-AMT | 0.0020 | 0.2978 |
+| tabformer_e14 | 1 | DRT-IDF | 0.0072 | 0.3076 |
+| tabformer_e14 | 1 | FUSE60 | 0.0084 | 0.2363 |
+| tabformer_e14 | 1 | STACK | 0.0018 | 0.3265 |
+| tabformer_e14 | 1 | SUP | 0.0015 | 0.3175 |
+| tabformer_e14 | 1 | SUP-IDF | 0.0409 | 0.1141 |
+| tabformer_e14 | 2 | ANO | 0.0392 | 0.1528 |
+| tabformer_e14 | 2 | DRT | 0.0052 | 0.4265 |
+| tabformer_e14 | 2 | DRT-AMT | 0.0026 | 0.4169 |
+| tabformer_e14 | 2 | DRT-IDF | 0.0132 | 0.4309 |
+| tabformer_e14 | 2 | FUSE60 | 0.0136 | 0.3699 |
+| tabformer_e14 | 2 | STACK | 0.0032 | 0.4483 |
+| tabformer_e14 | 2 | SUP | 0.0022 | 0.4319 |
+| tabformer_e14 | 2 | SUP-IDF | 0.0678 | 0.1747 |
+| tabformer_e14 | 4 | ANO | 0.0763 | 0.2473 |
+| tabformer_e14 | 4 | DRT | 0.0162 | 0.5158 |
+| tabformer_e14 | 4 | DRT-AMT | 0.0069 | 0.5021 |
+| tabformer_e14 | 4 | DRT-IDF | 0.0259 | 0.5231 |
+| tabformer_e14 | 4 | FUSE60 | 0.0237 | 0.5101 |
+| tabformer_e14 | 4 | STACK | 0.0072 | 0.5444 |
+| tabformer_e14 | 4 | SUP | 0.0051 | 0.5073 |
+| tabformer_e14 | 4 | SUP-IDF | 0.1047 | 0.2471 |
+
+Time to first detection (c = 1; windows = days)
+
+| replication | group | policy | detected (seeds) | median delay |
+|---|---|---|---|---|
+| tabformer_e14 | Online | DRT | 4/5 | 7 |
+| tabformer_e14 | Online | DRT-AMT | 4/5 | 52 |
+| tabformer_e14 | Online | DRT-IDF | 5/5 | 7 |
+| tabformer_e14 | Online | SUP | 4/5 | 52 |
+| tabformer_e14 | Online | SUP-IDF | 5/5 | 0 |
+| tabformer_e14 | Swipe | DRT | 2/5 | 10 |
+| tabformer_e14 | Swipe | DRT-AMT | 5/5 | 93 |
+| tabformer_e14 | Swipe | DRT-IDF | 5/5 | 8 |
+| tabformer_e14 | Swipe | SUP | 0/5 | — |
+| tabformer_e14 | Swipe | SUP-IDF | 5/5 | 7 |
