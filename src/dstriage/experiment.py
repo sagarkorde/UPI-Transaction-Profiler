@@ -79,6 +79,7 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
     t0 = time.time()
     Pd = prepared or D.load(dataset)
     df = Pd.df
+    base = D.base_dataset(dataset)  # == dataset except for the v1.6 replication, which inherits all settings
     fr = dict(cfg["splits"])
     if mode == "dev":
         # Development mode: the real test period is removed and never read.
@@ -102,7 +103,7 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
     rng = np.random.default_rng(seed)
 
     tr = idx["train"]
-    nsr = cfg["datasets"][dataset].get("negative_sampling_rate")
+    nsr = cfg["datasets"][base].get("negative_sampling_rate")
     if nsr:
         keep = (y[tr] == 1) | (rng.random(len(tr)) < nsr)
         tr_sup = tr[keep]
@@ -125,7 +126,7 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
     s_raw = np.full(len(df), np.nan); s_raw[ev] = M.predict_lgbm(bst, X.iloc[ev])
     s_aug = np.full(len(df), np.nan); s_aug[ev] = M.predict_lgbm(bst_aug, Xa.iloc[ev])
     # amendment v1.4: diagnostic supervised model without the features that identify held-out groups
-    ids = [f for f in amend14["identity_features"].get(dataset, []) if f in sup]
+    ids = [f for f in amend14["identity_features"].get(base, []) if f in sup]
     if ids:
         Xn = X.drop(columns=ids)
         bst_noid = M.fit_lgbm(Xn.iloc[tr_sup], y[tr_sup], Xn.iloc[idx["tune"]], y[idx["tune"]],
@@ -135,7 +136,7 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
         s_noid = s_raw
     amt_all = df["amount"].to_numpy(float)
     # amendment v1.5: identity-free supervised model under one fixed, scenario-independent rule
-    idf = [f for f in amend15["segment_identifier_features"].get(dataset, []) if f in sup]
+    idf = [f for f in amend15["segment_identifier_features"].get(base, []) if f in sup]
     if idf and sorted(idf) == sorted(ids):
         s_idf = s_noid  # same feature set as the v1.4 diagnostic (BankSim): identical model, reuse it
     elif idf:
@@ -328,6 +329,9 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
                 novel_test_frauds=int(tst["novel"].sum()), signal=signal, rho_trace=rho_traces,
                 premium_calib=premium_calib,
                 seconds=round(time.time() - t0, 1))
+    if base != dataset:  # v1.6 replication only (keeps the metadata of v1.0-v1.5 runs unchanged)
+        meta["replication_of"] = base
+        meta["amendment_v1_6_sha256"] = sha256_file(os.path.join(ROOT, "configs", "amendment_v1_6.yaml"))
     out_dir = out_dir or os.path.join(ROOT, "results", "runs" if mode == "final" else "dev_runs")
     os.makedirs(out_dir, exist_ok=True)
     stem = os.path.join(out_dir, f"{dataset}__{scenario}__s{seed}")

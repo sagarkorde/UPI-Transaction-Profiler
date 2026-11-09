@@ -60,6 +60,13 @@ To check a re-run against the released numbers:
   reserve with its ranking. A fifth full re-run reproduced all 55 v1.4 runs bit-for-bit
   (`results/reproduction_check_v1_5.txt`); v1.4 outputs are kept in `results/runs_v1_4/`, and `results/runs/` holds the
   v1.5 results used for all statistics.
+* **Amendment v1.6** (`configs/amendment_v1_6.yaml`, **pre-registered confirmatory**): tests the frozen DRT-IDF rule
+  once, on (A) a TabFormer window no earlier step used (2011-2014, warm-up 2010; disjoint from 2015-2019) and (B) the
+  eight BankSim fraud categories never held out before. Hypotheses H1-H4 (DRT-IDF vs SUP and vs DRT on each
+  replication, Holm over four) and H5 (stationary cost bound on TabFormer 2011-2014), the analysis script
+  `scripts/confirm_v1_6.py` and the decision rules were committed and pushed before any replication run existed.
+  Runs: `python scripts/run_all.py --datasets tabformer_p5 banksim_u --out results/replication_v1_6/runs`, then
+  `python scripts/confirm_v1_6.py`.
 * **Scenario provenance.** `scripts/check_scenario_provenance.py` shows that every candidate held-out group is
   the same when chosen from pre-test frauds only (supplement S10b).
 * **Audit map.** `REPRODUCTION_AUDIT.md` maps every table, figure and quoted number to its script and file.

@@ -1,0 +1,86 @@
+# Protocol amendment v1.6 (2026-11-09): PRE-REGISTERED CONFIRMATORY REPLICATION OF DRT-IDF.
+#
+# This file, the analysis script scripts/confirm_v1_6.py and the loader code they use were committed and
+# pushed to the public repository BEFORE any model was fitted or evaluated on the replication data or
+# scenarios below. protocol.yaml (v1.0) and amendments v1.1-v1.5 are unchanged and are applied without
+# modification: no policy, feature list, hyperparameter, budget, rho or statistical procedure is changed.
+#
+# Why: DRT-IDF (amendment v1.5) was proposed after the v1.0-v1.4 test periods had been evaluated, so its
+# results are exploratory. This amendment tests the frozen rule once, in two ways:
+#   A. fresh data     - a TabFormer calendar window that no earlier step used (2010-2014);
+#   B. fresh segments - the BankSim fraud categories that were never held out (fraud-count ranks 5-12).
+#
+# Inspected before this file was written, and nothing else:
+#   - per-year row and fraud counts of the whole TabFormer file. Rows after 2019-10 carry no fraud labels
+#     (2020: 336,500 rows, 0 frauds), so later months cannot be used; 2010-2014 contain labelled frauds
+#     (2010: 3,835; 2011: 55; 2012: 1,333; 2013: 2,018; 2014: 1,052);
+#   - per-category BankSim fraud counts, overall and in the test period, as already published in
+#     results/dataset_summary.json (protocol v1.0).
+# No feature, card-channel breakdown, score or model output of any pre-2015 TabFormer row, and no result of
+# any BankSim scenario below, was computed before this amendment was pushed. The v1.0-v1.5 TabFormer reader
+# parses the CSV in chunks and discards every row outside 2015-01 .. 2019-10 as it reads.
+
+amendment_version: "1.6"
+
+replications:
+  tabformer_p5:                    # A. fresh data
+    inherits: tabformer            # every dataset-keyed setting of v1.0-v1.5: daily windows, negative
+                                   # sampling 0.2, held-out rule "channel", identity/identifier feature lists
+    # The v1.0 calendar window shifted back exactly five years; it ends before the v1.0 warm-up year (2015):
+    warmup_years: [2010]           # history only, for behavioural features (v1.0: 2015)
+    years: [2011, 2014]            # inclusive (v1.0: 2016-2019)
+    last_month: "2014-10"          # (v1.0: 2019-10)
+    time_origin: "2010-01-01"      # start of the warm-up year (v1.0: 2015-01-01)
+    # Disjoint from every row used under v1.0-v1.5 (2015-01-01 .. 2019-10-31).
+  banksim_u:                       # B. fresh segments
+    inherits: banksim              # identical data, features and settings
+    holdout_rule: category_ranks_5plus
+    # Held out one at a time: every fraud category outside the v1.0 top four, ranked by fraud count
+    # (es_hotelservices, es_leisure, es_home, es_hyper, es_otherservices, es_tech, es_barsandrestaurants,
+    # es_fashion), each kept iff it has >= 10 test frauds. The test rows were evaluated before, but no
+    # policy has been evaluated with any of these categories held out of training.
+
+# Everything else as in v1.0-v1.5: seeds 0-4, 55/15/15/15 chronological splits, >= 10 test frauds per
+# held-out group, budgets c in {0.5, 1, 2, 4}, rho = 0.1, every policy. Each replication also runs the
+# base scenario; banksim_u base runs must be bit-identical to the published banksim base runs (same data,
+# same seeds), which is checked and reported.
+
+confirmatory:
+  budget_multiplier: 1.0
+  endpoint: >-
+    held-out recall at c = 1: frauds of held-out groups caught in the test period divided by all such
+    frauds, pooled over every qualifying held-out group of the replication (seed-averaged per-window
+    counts summed across held-out scenarios, exactly as in scripts/analyze.py, protocol v1.0).
+  hypotheses:
+    H1: {replication: tabformer_p5, policy: DRT-IDF, reference: SUP, statement: "DRT-IDF > SUP"}
+    H2: {replication: tabformer_p5, policy: DRT-IDF, reference: DRT, statement: "DRT-IDF > DRT (IF reserve)"}
+    H3: {replication: banksim_u,    policy: DRT-IDF, reference: SUP, statement: "DRT-IDF > SUP"}
+    H4: {replication: banksim_u,    policy: DRT-IDF, reference: DRT, statement: "DRT-IDF > DRT (IF reserve)"}
+  test: >-
+    paired window statistics of v1.0 (src/dstriage/stats.py: paired_stats): two-sided sign-flip
+    permutation over windows, 10,000 resamples; 95% window-bootstrap CI, 2,000 resamples.
+  multiplicity: holm over H1-H4 (one family)
+  alpha: 0.05
+  success: "a hypothesis is supported iff the difference is positive and its Holm-adjusted p < 0.05"
+  H5_stationary_cost:
+    replication: tabformer_p5
+    statement: >-
+      DRT-IDF's relative stationary recall cost, 1 - recall(DRT-IDF) / recall(SUP) in the base scenario
+      at c = 1, is at most rho = 0.10.
+    criterion: "supported iff the one-sided 95% window-bootstrap upper bound (95th percentile) is <= 0.10"
+    resamples: 2000
+  rng_seed: [20261109, 1601]
+  infeasibility: >-
+    If a replication has no held-out group with >= 10 test frauds, its two hypotheses are reported as
+    untestable, no claim is made for them, and Holm is applied over the remaining hypotheses.
+  execution: >-
+    Runs are produced once, from a fresh clone of the registration commit, into
+    results/replication_v1_6/runs, and analysed only by scripts/confirm_v1_6.py. If a defect forces a code
+    change after registration, the original output is kept, both outputs are reported, and the affected
+    hypotheses are labelled exploratory.
+  reporting: >-
+    The outcome of H1-H5 is reported in the paper's abstract and results whatever it is. All other
+    policies, budgets and groups are reported descriptively.
+  secondary_descriptive:
+    - "DRT vs SUP (the v1.0 primary hypothesis) on each replication"
+    - "all policies at all budgets; per-group held-out recall; time to first detection"

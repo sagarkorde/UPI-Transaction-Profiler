@@ -24,9 +24,12 @@ def holdout_groups(name, P, cfg):
     split = D.chronological_splits(df, cfg["splits"])
     fr = df[df.y == 1]
     test_counts = df[(df.y == 1) & (split == "test")].group.value_counts()
-    rule = cfg["datasets"][name]["holdout_groups"]
+    rep = D.replication_spec(name) if name not in D.LOADERS else None
+    rule = (rep or {}).get("holdout_rule") or cfg["datasets"][D.base_dataset(name)]["holdout_groups"]
     if rule == "top4_category":
         cand = fr.group.value_counts().index[:4].tolist()
+    elif rule == "category_ranks_5plus":  # amendment v1.6: every category the v1.0 top-4 rule never held out
+        cand = fr.group.value_counts().index[4:].tolist()
     else:  # kmeans4 / channel: all groups
         cand = sorted(fr.group.unique().tolist())
     keep = [g for g in cand if test_counts.get(g, 0) >= cfg["min_test_frauds_per_holdout_group"]]

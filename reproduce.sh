@@ -14,5 +14,7 @@ echo "== 6. figures";      python scripts/make_figures.py && python scripts/make
 echo "== 7. provenance";   python scripts/check_scenario_provenance.py  # results/analysis/scenario_provenance.json
 echo "== 8. dependence";   python scripts/check_dependence.py           # results/analysis/dependence.csv
 echo "== 9. operational"; python scripts/operational_metrics.py && python scripts/amount_signal.py  # capacity, time to detection, amount
-echo "== 10. supplement";  python scripts/make_supplement.py            # results/SUPPLEMENT.md
+echo "== 10. replication"; python scripts/run_all.py --datasets tabformer_p5 banksim_u --out results/replication_v1_6/runs \
+                         && python scripts/confirm_v1_6.py      # amendment v1.6, pre-registered
+echo "== 11. supplement";  python scripts/make_supplement.py            # results/SUPPLEMENT.md
 echo "done. Compare with the released results: scripts/compare_runs.py and scripts/compare_results.py (see REPRODUCTION_AUDIT.md)."

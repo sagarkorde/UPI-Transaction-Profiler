@@ -149,8 +149,10 @@ def _read_tabformer(raw_dir, y0, y1, last_month):
 
 
 def load_tabformer(raw_dir=RAW, years=(2016, 2019), warmup=(2015,), last_month="2019-10",
-                   cache=True) -> Prepared:
-    cp = _cache_path("tabformer")
+                   cache=True, origin="2015-01-01", name="tabformer") -> Prepared:
+    """TabFormer slice. Defaults = protocol v1.0; other arguments are used only by the
+    pre-registered replication of amendment v1.6 (a disjoint, earlier calendar window)."""
+    cp = _cache_path(name)
     if cache and os.path.exists(cp):
         out = pd.read_parquet(cp)
     else:
@@ -158,7 +160,7 @@ def load_tabformer(raw_dir=RAW, years=(2016, 2019), warmup=(2015,), last_month="
         hhmm = df["Time"].str.split(":", expand=True).astype(int)
         ts = pd.to_datetime(dict(year=df["Year"], month=df["Month"], day=df["Day"],
                                  hour=hhmm[0], minute=hhmm[1]))
-        df["tmin"] = (ts - pd.Timestamp("2015-01-01")) // pd.Timedelta(minutes=1)
+        df["tmin"] = (ts - pd.Timestamp(origin)) // pd.Timedelta(minutes=1)
         df["hour"] = hhmm[0].astype(np.int8)
         df["weekday"] = ts.dt.weekday.astype(np.int8)
         df = df.reset_index().rename(columns={"index": "row"})
@@ -220,7 +222,7 @@ def load_tabformer(raw_dir=RAW, years=(2016, 2019), warmup=(2015,), last_month="
         mcc_before = (out.groupby("mcc").cumcount().to_numpy()
                       - out.groupby(["mcc", "t"]).cumcount().to_numpy())
         out["mcc_freq_prior"] = (mcc_before / np.maximum(n_before, 1)).astype(np.float32)
-        start = (pd.Timestamp(f"{years[0]}-01-01") - pd.Timestamp("2015-01-01")) // pd.Timedelta(minutes=1)
+        start = (pd.Timestamp(f"{years[0]}-01-01") - pd.Timestamp(origin)) // pd.Timedelta(minutes=1)
         out = out[out["t"] >= start].reset_index(drop=True)
         out["window"] = (out["t"] // 1440).astype(int)
         out["group"] = np.where(out["y"] == 1, out["use_chip"], "")
@@ -235,14 +237,43 @@ def load_tabformer(raw_dir=RAW, years=(2016, 2019), warmup=(2015,), last_month="
     cats = ["mcc", "use_chip"]
     ano = ["log_amount", "hour", "is_online", "is_foreign", "has_error", "mins_since_last",
            "n_24h", "amt_z", "merchant_new", "mcc_new", "state_new", "mcc_freq_prior"]
-    return Prepared("tabformer", out, num + cats, cats, ano, {"window_unit": "1 day"})
+    return Prepared(name, out, num + cats, cats, ano, {"window_unit": "1 day"})
 
 
 LOADERS = {"ulb": load_ulb, "banksim": load_banksim, "tabformer": load_tabformer}
 
 
+def replication_spec(name: str):
+    """Pre-registered replication datasets (configs/amendment_v1_6.yaml), or None."""
+    import yaml
+    path = os.path.join(os.path.dirname(__file__), "..", "..", "configs", "amendment_v1_6.yaml")
+    if not os.path.exists(path):
+        return None
+    return (yaml.safe_load(open(path)).get("replications") or {}).get(name)
+
+
+def base_dataset(name: str) -> str:
+    """Dataset whose v1.0-v1.5 settings apply (itself, or the corpus a replication inherits)."""
+    if name in LOADERS:
+        return name
+    rep = replication_spec(name)
+    return rep["inherits"] if rep else name
+
+
 def load(name: str) -> Prepared:
-    return LOADERS[name]()
+    if name in LOADERS:
+        return LOADERS[name]()
+    rep = replication_spec(name)
+    if rep is None:
+        raise KeyError(name)
+    if rep["inherits"] == "tabformer":  # fresh data: a disjoint calendar window of the same corpus
+        return load_tabformer(years=tuple(rep["years"]), warmup=tuple(rep["warmup_years"]),
+                              last_month=rep["last_month"], origin=rep["time_origin"], name=name)
+    if rep["inherits"] == "banksim":  # fresh segments: identical data, only the held-out groups differ
+        P = load_banksim()
+        P.name = name
+        return P
+    raise KeyError(name)
 
 
 def chronological_splits(df: pd.DataFrame, fr: dict) -> np.ndarray:
