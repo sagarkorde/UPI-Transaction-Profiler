@@ -67,6 +67,15 @@ To check a re-run against the released numbers:
   `scripts/confirm_v1_6.py` and the decision rules were committed and pushed before any replication run existed.
   Runs: `python scripts/run_all.py --datasets tabformer_p5 banksim_u --out results/replication_v1_6/runs`, then
   `python scripts/confirm_v1_6.py`.
+  The TabFormer window proved infeasible: its test period (about 2014-05..2014-10) contains no labelled fraud,
+  so H1, H2 and H5 are untestable and reported as such.
+* **Amendment v1.7** (`configs/amendment_v1_7.yaml`, **pre-registered confirmatory**): corrects v1.6's TabFormer
+  window by ending it at the last pre-2015 month with fraud labels (2014-04), the rule protocol v1.0 uses for its
+  own window (2019-10); everything else is unchanged. Hypotheses H6-H7 (DRT-IDF vs SUP and vs DRT, Holm over two)
+  and H8 (stationary cost bound) and `scripts/confirm_v1_7.py` were pushed before any v1.7 run. What was inspected
+  first (monthly label counts per channel) is listed in the file and committed under `results/feasibility/`.
+  Runs: `python scripts/run_all.py --datasets tabformer_e14 --out results/replication_v1_7/runs`, then
+  `python scripts/confirm_v1_7.py`.
 * **Scenario provenance.** `scripts/check_scenario_provenance.py` shows that every candidate held-out group is
   the same when chosen from pre-test frauds only (supplement S10b).
 * **Audit map.** `REPRODUCTION_AUDIT.md` maps every table, figure and quoted number to its script and file.

@@ -16,5 +16,7 @@ echo "== 8. dependence";   python scripts/check_dependence.py           # result
 echo "== 9. operational"; python scripts/operational_metrics.py && python scripts/amount_signal.py  # capacity, time to detection, amount
 echo "== 10. replication"; python scripts/run_all.py --datasets tabformer_p5 banksim_u --out results/replication_v1_6/runs \
                          && python scripts/confirm_v1_6.py      # amendment v1.6, pre-registered
-echo "== 11. supplement";  python scripts/make_supplement.py            # results/SUPPLEMENT.md
+echo "== 11. replication"; python scripts/run_all.py --datasets tabformer_e14 --out results/replication_v1_7/runs \
+                         && python scripts/confirm_v1_7.py      # amendment v1.7, pre-registered
+echo "== 12. supplement";  python scripts/make_supplement.py            # results/SUPPLEMENT.md
 echo "done. Compare with the released results: scripts/compare_runs.py and scripts/compare_results.py (see REPRODUCTION_AUDIT.md)."

@@ -243,13 +243,23 @@ def load_tabformer(raw_dir=RAW, years=(2016, 2019), warmup=(2015,), last_month="
 LOADERS = {"ulb": load_ulb, "banksim": load_banksim, "tabformer": load_tabformer}
 
 
-def replication_spec(name: str):
-    """Pre-registered replication datasets (configs/amendment_v1_6.yaml), or None."""
+def replication_source(name: str):
+    """Path of the pre-registered amendment (configs/amendment_v1_6.yaml, v1_7, ...) that defines a
+    replication dataset, or None. Each name is defined in exactly one amendment."""
+    import glob
     import yaml
-    path = os.path.join(os.path.dirname(__file__), "..", "..", "configs", "amendment_v1_6.yaml")
-    if not os.path.exists(path):
-        return None
-    return (yaml.safe_load(open(path)).get("replications") or {}).get(name)
+    hits = [p for p in sorted(glob.glob(os.path.join(os.path.dirname(__file__), "..", "..", "configs",
+                                                      "amendment_v1_*.yaml")))
+            if name in (yaml.safe_load(open(p)).get("replications") or {})]
+    assert len(hits) <= 1, (name, hits)
+    return os.path.abspath(hits[0]) if hits else None
+
+
+def replication_spec(name: str):
+    """Pre-registered replication dataset settings, or None."""
+    import yaml
+    path = replication_source(name)
+    return yaml.safe_load(open(path))["replications"][name] if path else None
 
 
 def base_dataset(name: str) -> str:

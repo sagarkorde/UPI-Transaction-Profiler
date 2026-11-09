@@ -332,6 +332,9 @@ def run(dataset: str, scenario: str, seed: int, mode: str = "final", prepared=No
     if base != dataset:  # v1.6 replication only (keeps the metadata of v1.0-v1.5 runs unchanged)
         meta["replication_of"] = base
         meta["amendment_v1_6_sha256"] = sha256_file(os.path.join(ROOT, "configs", "amendment_v1_6.yaml"))
+        src = D.replication_source(dataset)  # the amendment that registered this replication (v1.6, v1.7)
+        meta["replication_amendment"] = os.path.basename(src)
+        meta["replication_amendment_sha256"] = sha256_file(src)
     out_dir = out_dir or os.path.join(ROOT, "results", "runs" if mode == "final" else "dev_runs")
     os.makedirs(out_dir, exist_ok=True)
     stem = os.path.join(out_dir, f"{dataset}__{scenario}__s{seed}")

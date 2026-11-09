@@ -51,3 +51,13 @@ def test_new_segment_rule_excludes_v1_0_groups():
     assert old == ["g0", "g1", "g2", "g3"]
     assert set(new) <= {"g4", "g5", "g6", "g7"} and len(new) >= 1
     assert not set(new) & set(old)
+
+
+def test_v1_7_window_is_disjoint_and_registered_once():
+    assert os.path.basename(D.replication_source("tabformer_e14")) == "amendment_v1_7.yaml"
+    assert os.path.basename(D.replication_source("tabformer_p5")) == "amendment_v1_6.yaml"
+    assert D.base_dataset("tabformer_e14") == "tabformer"
+    rep = D.replication_spec("tabformer_e14")
+    assert rep["years"][1] < 2015 and max(rep["warmup_years"]) < rep["years"][0]
+    assert rep["last_month"] == "2014-04"
+    assert D.replication_source("nonexistent") is None
