@@ -56,7 +56,13 @@ for m in meta:  # every run must come from the frozen protocol and this amendmen
 seeds = sorted(set(pol.seed))
 assert seeds == cfg["seeds"], seeds
 scen = {ds: sorted(set(pol[(pol.dataset == ds) & (pol.scenario != "base")].scenario)) for ds in REPS}
+# Post-registration guard (amendment v1.7): a replication whose base test period holds no fraud is
+# infeasible whatever the seed (splits do not depend on it); its remaining seeds were not run.
+INFEASIBLE = sorted(ds for ds in REPS if all(m["frauds"]["test"] == 0 for m in meta if m["dataset"] == ds))
 for ds in REPS:
+    if ds in INFEASIBLE:
+        assert not scen[ds], ds
+        continue
     for sc in ["base"] + scen[ds]:
         got = sorted(set(pol[(pol.dataset == ds) & (pol.scenario == sc)].seed))
         assert got == seeds, (ds, sc, got)
@@ -74,7 +80,7 @@ def pooled(ds, c):
     return acc
 
 
-res = dict(amendment_sha256=am_hash, config_sha256=cfg_hash, seeds=seeds, n_runs=len(meta),
+res = dict(infeasible_replications=INFEASIBLE, amendment_sha256=am_hash, config_sha256=cfg_hash, seeds=seeds, n_runs=len(meta),
            heldout_groups=scen, decision_rule=cf["success"],
            test_frauds_by_group={ds: man.get("scenarios", {}).get(ds, {}).get("test_fraud_counts") for ds in REPS},
            git_commits=man.get("git_commits", [man.get("git_commit")]))
@@ -102,20 +108,24 @@ for h, p_adj in zip(testable, adj):
 
 # ---------------------------------------------------------------- H5 (stationary cost, one-sided bound)
 h5 = cf["H5_stationary_cost"]; ds = h5["replication"]
-piv, Wm, _ = S.seed_avg(pol, win, ds, "base", C1)
-s_sup, s_idf = piv["caught"]["SUP"].to_numpy(), piv["caught"]["DRT-IDF"].to_numpy()
-F = Wm.frauds.to_numpy()
-rel = 1 - s_idf.sum() / s_sup.sum()
-g = rng(5); n = len(F); bs = []
-for _ in range(h5["resamples"]):
-    ii = g.integers(0, n, n)
-    if s_sup[ii].sum() > 0:
-        bs.append(1 - s_idf[ii].sum() / s_sup[ii].sum())
-ub = float(np.percentile(bs, 95))
-res["H5"] = dict(replication=ds, statement=h5["statement"].strip(), rel_cost=float(rel), upper95=ub, bound=RHO,
-                 supported=bool(ub <= RHO), recall_sup=float(s_sup.sum() / F.sum()),
-                 recall_drt_idf=float(s_idf.sum() / F.sum()), abs_cost=float((s_sup.sum() - s_idf.sum()) / F.sum()),
-                 test_frauds=float(F.sum()), windows=int(n))
+if ds in INFEASIBLE:  # post-registration guard (amendment v1.7)
+    res["H5"] = dict(replication=ds, statement=h5["statement"].strip(), supported=None,
+                     status="untestable: no fraud in the base test period", test_frauds=0.0)
+else:
+    piv, Wm, _ = S.seed_avg(pol, win, ds, "base", C1)
+    s_sup, s_idf = piv["caught"]["SUP"].to_numpy(), piv["caught"]["DRT-IDF"].to_numpy()
+    F = Wm.frauds.to_numpy()
+    rel = 1 - s_idf.sum() / s_sup.sum()
+    g = rng(5); n = len(F); bs = []
+    for _ in range(h5["resamples"]):
+        ii = g.integers(0, n, n)
+        if s_sup[ii].sum() > 0:
+            bs.append(1 - s_idf[ii].sum() / s_sup[ii].sum())
+    ub = float(np.percentile(bs, 95))
+    res["H5"] = dict(replication=ds, statement=h5["statement"].strip(), rel_cost=float(rel), upper95=ub, bound=RHO,
+                     supported=bool(ub <= RHO), recall_sup=float(s_sup.sum() / F.sum()),
+                     recall_drt_idf=float(s_idf.sum() / F.sum()), abs_cost=float((s_sup.sum() - s_idf.sum()) / F.sum()),
+                     test_frauds=float(F.sum()), windows=int(n))
 
 # ---------------------------------------------------------------- secondary: v1.0 primary hypothesis
 res["secondary_DRT_vs_SUP"] = {}
@@ -154,6 +164,8 @@ for ds in sorted(REPS):
                 d_held.append(dict(replication=ds, c=c, policy=p,
                                    heldout_recall=acc["caught_novel"][p].sum() / acc["novel"].sum(),
                                    overall_recall=acc["caught"][p].sum() / acc["frauds"].sum()))
+        if ds in INFEASIBLE:
+            continue
         piv, Wm, sd = S.seed_avg(pol, win, ds, "base", c)
         for p in piv["caught"].columns:
             d_base.append(dict(replication=ds, c=c, policy=p, base_recall=piv["caught"][p].sum() / Wm.frauds.sum(),

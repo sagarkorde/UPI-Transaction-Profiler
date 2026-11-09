@@ -1,0 +1,67 @@
+{
+ "H1": {
+  "replication": "tabformer_p5",
+  "policy": "DRT-IDF",
+  "reference": "SUP",
+  "statement": "DRT-IDF > SUP",
+  "status": "untestable: no held-out group with >= 10 test frauds"
+ },
+ "H2": {
+  "replication": "tabformer_p5",
+  "policy": "DRT-IDF",
+  "reference": "DRT",
+  "statement": "DRT-IDF > DRT (IF reserve)",
+  "status": "untestable: no held-out group with >= 10 test frauds"
+ },
+ "H3": {
+  "replication": "banksim_u",
+  "policy": "DRT-IDF",
+  "reference": "SUP",
+  "statement": "DRT-IDF > SUP",
+  "heldout_recall": 0.5450331125827815,
+  "ref_recall": 0.18410596026490067,
+  "ci": [
+   0.49053980074965475,
+   0.5970828621363216
+  ],
+  "diff": 0.36092715231788086,
+  "diff_ci": [
+   0.3063277256129368,
+   0.4197183098591548
+  ],
+  "p": 9.999000099990002e-05,
+  "heldout_frauds_pooled": 302.0,
+  "windows": 24,
+  "p_holm": 0.00019998000199980003,
+  "supported": true
+ },
+ "H4": {
+  "replication": "banksim_u",
+  "policy": "DRT-IDF",
+  "reference": "DRT",
+  "statement": "DRT-IDF > DRT (IF reserve)",
+  "heldout_recall": 0.5450331125827815,
+  "ref_recall": 0.22251655629139075,
+  "ci": [
+   0.4907741518113858,
+   0.5971283457921389
+  ],
+  "diff": 0.32251655629139075,
+  "diff_ci": [
+   0.257541033839595,
+   0.3834312717770034
+  ],
+  "p": 9.999000099990002e-05,
+  "heldout_frauds_pooled": 302.0,
+  "windows": 24,
+  "p_holm": 0.00019998000199980003,
+  "supported": true
+ },
+ "H5": {
+  "replication": "tabformer_p5",
+  "statement": "DRT-IDF's relative stationary recall cost, 1 - recall(DRT-IDF) / recall(SUP) in the base scenario at c = 1, is at most rho = 0.10.",
+  "supported": null,
+  "status": "untestable: no fraud in the base test period",
+  "test_frauds": 0.0
+ }
+}

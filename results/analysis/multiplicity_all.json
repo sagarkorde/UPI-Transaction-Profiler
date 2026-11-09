@@ -1,0 +1,92 @@
+{
+ "family_size_all": 264,
+ "family_size_amendments": 132,
+ "policies": 22,
+ "datasets": [
+  "banksim",
+  "tabformer",
+  "ulb"
+ ],
+ "budgets": [
+  0.5,
+  1.0,
+  2.0,
+  4.0
+ ],
+ "min_attainable_p": 9.999000099990002e-05,
+ "survivors_all": 97,
+ "key_c1": {
+  "ulb/DRT": {
+   "diff": 0.0,
+   "p": 1.0,
+   "p_holm_all": 1.0,
+   "survives": false
+  },
+  "ulb/DRT-AMT": {
+   "diff": 0.0,
+   "p": 1.0,
+   "p_holm_all": 1.0,
+   "survives": false
+  },
+  "ulb/SUP-IDF": {
+   "diff": 0.0,
+   "p": 1.0,
+   "p_holm_all": 1.0,
+   "survives": false
+  },
+  "ulb/DRT-IDF": {
+   "diff": 0.0,
+   "p": 1.0,
+   "p_holm_all": 1.0,
+   "survives": false
+  },
+  "banksim/DRT": {
+   "diff": 0.0702127659574468,
+   "p": 9.999000099990002e-05,
+   "p_holm_all": 0.026397360263973605,
+   "survives": true
+  },
+  "banksim/DRT-AMT": {
+   "diff": 0.3003039513677811,
+   "p": 9.999000099990002e-05,
+   "p_holm_all": 0.026397360263973605,
+   "survives": true
+  },
+  "banksim/SUP-IDF": {
+   "diff": 0.6048632218844985,
+   "p": 9.999000099990002e-05,
+   "p_holm_all": 0.026397360263973605,
+   "survives": true
+  },
+  "banksim/DRT-IDF": {
+   "diff": 0.3182370820668693,
+   "p": 9.999000099990002e-05,
+   "p_holm_all": 0.026397360263973605,
+   "survives": true
+  },
+  "tabformer/DRT": {
+   "diff": 0.0034083162917518,
+   "p": 0.0455954404559544,
+   "p_holm_all": 1.0,
+   "survives": false
+  },
+  "tabformer/DRT-AMT": {
+   "diff": -0.0006816632583503,
+   "p": 0.5016498350164984,
+   "p_holm_all": 1.0,
+   "survives": false
+  },
+  "tabformer/SUP-IDF": {
+   "diff": 0.0616223585548738,
+   "p": 9.999000099990002e-05,
+   "p_holm_all": 0.026397360263973605,
+   "survives": true
+  },
+  "tabformer/DRT-IDF": {
+   "diff": 0.0076346284935241,
+   "p": 0.0001999800019998,
+   "p_holm_all": 0.0325967403259674,
+   "survives": true
+  }
+ }
+}

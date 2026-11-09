@@ -1,0 +1,325 @@
+{
+ "config_sha256": "7d4914e7be97512a2b5867f532e0f8f7da51d63f5aff43c656ccb96a78a9a132",
+ "git_commit": "996081ed7a7f3c23cc4a07cd0aee79fd8fb803c7",
+ "python": "3.13.18",
+ "platform": "Linux-6.18.44-fc-v310-x86_64-with-glibc2.39",
+ "started": "2026-11-09T12:39:26",
+ "scenarios": {
+  "banksim_u": {
+   "holdout_groups": [
+    "es_hotelservices",
+    "es_leisure",
+    "es_home",
+    "es_hyper",
+    "es_otherservices",
+    "es_tech",
+    "es_barsandrestaurants",
+    "es_fashion"
+   ],
+   "test_fraud_counts": {
+    "es_hotelservices": 84,
+    "es_leisure": 52,
+    "es_home": 26,
+    "es_hyper": 38,
+    "es_otherservices": 34,
+    "es_tech": 26,
+    "es_barsandrestaurants": 24,
+    "es_fashion": 18
+   }
+  },
+  "tabformer_p5": {
+   "holdout_groups": [],
+   "test_fraud_counts": {
+    "Online": 0,
+    "Swipe": 0
+   }
+  }
+ },
+ "runs": [
+  {
+   "dataset": "banksim_u",
+   "scenario": "base",
+   "seed": 0,
+   "seconds": 17.9
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "base",
+   "seed": 1,
+   "seconds": 20.5
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "base",
+   "seed": 2,
+   "seconds": 16.8
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "base",
+   "seed": 3,
+   "seconds": 19.1
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "base",
+   "seed": 4,
+   "seconds": 17.1
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_hotelservices",
+   "seed": 0,
+   "seconds": 20.4
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_hotelservices",
+   "seed": 1,
+   "seconds": 17.3
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_hotelservices",
+   "seed": 2,
+   "seconds": 17.5
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_hotelservices",
+   "seed": 3,
+   "seconds": 18.0
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_hotelservices",
+   "seed": 4,
+   "seconds": 16.9
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_leisure",
+   "seed": 0,
+   "seconds": 16.6
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_leisure",
+   "seed": 1,
+   "seconds": 19.0
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_leisure",
+   "seed": 2,
+   "seconds": 17.8
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_leisure",
+   "seed": 3,
+   "seconds": 16.7
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_leisure",
+   "seed": 4,
+   "seconds": 15.8
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_home",
+   "seed": 0,
+   "seconds": 15.7
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_home",
+   "seed": 1,
+   "seconds": 16.9
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_home",
+   "seed": 2,
+   "seconds": 16.9
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_home",
+   "seed": 3,
+   "seconds": 15.6
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_home",
+   "seed": 4,
+   "seconds": 16.8
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_hyper",
+   "seed": 0,
+   "seconds": 14.8
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_hyper",
+   "seed": 1,
+   "seconds": 17.3
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_hyper",
+   "seed": 2,
+   "seconds": 17.8
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_hyper",
+   "seed": 3,
+   "seconds": 15.5
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_hyper",
+   "seed": 4,
+   "seconds": 16.0
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_otherservices",
+   "seed": 0,
+   "seconds": 15.4
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_otherservices",
+   "seed": 1,
+   "seconds": 17.6
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_otherservices",
+   "seed": 2,
+   "seconds": 17.3
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_otherservices",
+   "seed": 3,
+   "seconds": 19.2
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_otherservices",
+   "seed": 4,
+   "seconds": 16.7
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_tech",
+   "seed": 0,
+   "seconds": 21.5
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_tech",
+   "seed": 1,
+   "seconds": 17.7
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_tech",
+   "seed": 2,
+   "seconds": 19.6
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_tech",
+   "seed": 3,
+   "seconds": 17.2
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_tech",
+   "seed": 4,
+   "seconds": 17.7
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_barsandrestaurants",
+   "seed": 0,
+   "seconds": 14.0
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_barsandrestaurants",
+   "seed": 1,
+   "seconds": 16.0
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_barsandrestaurants",
+   "seed": 2,
+   "seconds": 16.9
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_barsandrestaurants",
+   "seed": 3,
+   "seconds": 16.7
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_barsandrestaurants",
+   "seed": 4,
+   "seconds": 17.3
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_fashion",
+   "seed": 0,
+   "seconds": 14.2
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_fashion",
+   "seed": 1,
+   "seconds": 16.1
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_fashion",
+   "seed": 2,
+   "seconds": 16.9
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_fashion",
+   "seed": 3,
+   "seconds": 16.3
+  },
+  {
+   "dataset": "banksim_u",
+   "scenario": "es_fashion",
+   "seed": 4,
+   "seconds": 17.6
+  },
+  {
+   "dataset": "tabformer_p5",
+   "scenario": "base",
+   "seed": 0,
+   "seconds": 617.4
+  }
+ ],
+ "packages": {
+  "numpy": "2.5.3",
+  "pandas": "3.0.5",
+  "scikit-learn": "1.9.1",
+  "scipy": "1.18.1",
+  "lightgbm": "4.7.0",
+  "pyod": "3.6.7",
+  "pyarrow": "26.0.1"
+ }
+}

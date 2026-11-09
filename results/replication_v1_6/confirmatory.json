@@ -1,0 +1,159 @@
+{
+ "infeasible_replications": [
+  "tabformer_p5"
+ ],
+ "amendment_sha256": "7e2411d3f8db74c01cddb51cb0ab5fb5b5929a8a5700fde19fe35cafdde5c67e",
+ "config_sha256": "7d4914e7be97512a2b5867f532e0f8f7da51d63f5aff43c656ccb96a78a9a132",
+ "seeds": [
+  0,
+  1,
+  2,
+  3,
+  4
+ ],
+ "n_runs": 46,
+ "heldout_groups": {
+  "tabformer_p5": [],
+  "banksim_u": [
+   "es_barsandrestaurants",
+   "es_fashion",
+   "es_home",
+   "es_hotelservices",
+   "es_hyper",
+   "es_leisure",
+   "es_otherservices",
+   "es_tech"
+  ]
+ },
+ "decision_rule": "a hypothesis is supported iff the difference is positive and its Holm-adjusted p < 0.05",
+ "test_frauds_by_group": {
+  "tabformer_p5": {
+   "Online": 0,
+   "Swipe": 0
+  },
+  "banksim_u": {
+   "es_hotelservices": 84,
+   "es_leisure": 52,
+   "es_home": 26,
+   "es_hyper": 38,
+   "es_otherservices": 34,
+   "es_tech": 26,
+   "es_barsandrestaurants": 24,
+   "es_fashion": 18
+  }
+ },
+ "git_commits": [
+  "996081ed7a7f3c23cc4a07cd0aee79fd8fb803c7"
+ ],
+ "H1": {
+  "replication": "tabformer_p5",
+  "policy": "DRT-IDF",
+  "reference": "SUP",
+  "statement": "DRT-IDF > SUP",
+  "status": "untestable: no held-out group with >= 10 test frauds"
+ },
+ "H2": {
+  "replication": "tabformer_p5",
+  "policy": "DRT-IDF",
+  "reference": "DRT",
+  "statement": "DRT-IDF > DRT (IF reserve)",
+  "status": "untestable: no held-out group with >= 10 test frauds"
+ },
+ "H3": {
+  "replication": "banksim_u",
+  "policy": "DRT-IDF",
+  "reference": "SUP",
+  "statement": "DRT-IDF > SUP",
+  "heldout_recall": 0.5450331125827815,
+  "ref_recall": 0.18410596026490067,
+  "ci": [
+   0.49053980074965475,
+   0.5970828621363216
+  ],
+  "diff": 0.36092715231788086,
+  "diff_ci": [
+   0.3063277256129368,
+   0.4197183098591548
+  ],
+  "p": 9.999000099990002e-05,
+  "heldout_frauds_pooled": 302.0,
+  "windows": 24,
+  "p_holm": 0.00019998000199980003,
+  "supported": true
+ },
+ "H4": {
+  "replication": "banksim_u",
+  "policy": "DRT-IDF",
+  "reference": "DRT",
+  "statement": "DRT-IDF > DRT (IF reserve)",
+  "heldout_recall": 0.5450331125827815,
+  "ref_recall": 0.22251655629139075,
+  "ci": [
+   0.4907741518113858,
+   0.5971283457921389
+  ],
+  "diff": 0.32251655629139075,
+  "diff_ci": [
+   0.257541033839595,
+   0.3834312717770034
+  ],
+  "p": 9.999000099990002e-05,
+  "heldout_frauds_pooled": 302.0,
+  "windows": 24,
+  "p_holm": 0.00019998000199980003,
+  "supported": true
+ },
+ "H5": {
+  "replication": "tabformer_p5",
+  "statement": "DRT-IDF's relative stationary recall cost, 1 - recall(DRT-IDF) / recall(SUP) in the base scenario at c = 1, is at most rho = 0.10.",
+  "supported": null,
+  "status": "untestable: no fraud in the base test period",
+  "test_frauds": 0.0
+ },
+ "secondary_DRT_vs_SUP": {
+  "banksim_u": {
+   "heldout_recall": 0.22251655629139075,
+   "ref_recall": 0.18410596026490067,
+   "diff": 0.03841059602649008,
+   "diff_ci": [
+    0.0,
+    0.07467062937062934
+   ],
+   "p": 0.0627937206279372
+  }
+ },
+ "split": {
+  "tabformer_p5": {
+   "rows": {
+    "train": 3426317,
+    "tune": 932983,
+    "calib": 934416,
+    "test": 929161
+   },
+   "frauds": {
+    "train": 1417,
+    "tune": 687,
+    "calib": 2354,
+    "test": 0
+   }
+  },
+  "banksim_u": {
+   "rows": {
+    "train": 329063,
+    "tune": 88785,
+    "calib": 87702,
+    "test": 89093
+   },
+   "frauds": {
+    "train": 4280,
+    "tune": 1000,
+    "calib": 960,
+    "test": 960
+   }
+  }
+ },
+ "banksim_u_base_identical_to_published": {
+  "seeds_checked": 5,
+  "identical": 5
+ }
+}

@@ -192,5 +192,109 @@ out += ["", "## S15. Randomised-audit allocation (DRT-ADAPT-AUDIT, amendment v1.
         "windows, of the fraud yield of band j, i.e. of the next unit of budget in channel j; it says nothing about the "
         "unreviewed population outside the bands. rho moves by eta = 0.02 towards the channel with the larger p~_j within "
         "[0.05, 0.5]. At c = 1 a window has few audit draws, so p~_j leans on the prior; the audit share was not varied."]
+mp = os.path.join(ROOT, "results", "analysis", "multiplicity_all.csv")
+if os.path.exists(mp):
+    mu = pd.read_csv(mp); mj = json.load(open(mp.replace(".csv", ".json")))
+    out += ["", "## S16. Family-wise correction over every held-out comparison reported (scripts/multiplicity_all.py; post-hoc)", "",
+            f"All {mj['family_size_all']} comparisons with SUP on held-out recall that the paper or this supplement reports "
+            f"({mj['policies']} policies from v1.0 and amendments v1.1-v1.5, three corpora, four budgets) form one family, "
+            f"Holm-adjusted. The smallest attainable permutation p is {mj['min_attainable_p']:.4f}, so the largest Holm-adjusted "
+            f"value a comparison at that p can receive is {mj['family_size_all'] * mj['min_attainable_p']:.4f}. "
+            f"{mj['survivors_all']} comparisons survive (difference > 0, adjusted p < 0.05). p_holm_amendments restricts the family "
+            f"to the {mj['family_size_amendments']} comparisons of policies added by amendments.", "",
+            "| dataset | c | policy | held-out recall | diff vs SUP [95% CI] | p | Holm (all) | Holm (amendments) |",
+            "|---|---|---|---|---|---|---|---|"]
+    for _, x in mu.iterrows():
+        ha = "—" if pd.isna(x.p_holm_amendments) else f"{x.p_holm_amendments:.4f}"
+        out.append(f"| {x.dataset} | {x.c:g} | {x.policy} | {x.novel:.3f} | {x.novel_diff:+.3f} [{x.novel_diff_lo:+.3f}, "
+                   f"{x.novel_diff_hi:+.3f}] | {x.novel_p:.4f} | {x.p_holm_all:.4f} | {ha} |")
+def _confirm_section(title, cj, hyps, cost_key, intro):
+    R6 = json.load(open(cj)); RD = os.path.dirname(cj)
+    o = ["", title, "", intro + " Registered in configs/" + os.path.basename(RD).replace("replication_v1_", "amendment_v1_")
+         + ".yaml (SHA-256 " + R6["amendment_sha256"][:12] + "...) and pushed to the public repository before any of its "
+         "runs existed; runs produced once from a fresh clone of the registration commit ("
+         + ", ".join(c[:7] for c in R6["git_commits"] if c) + ").", "",
+         "Held-out groups (>= 10 test frauds): " + "; ".join(f"{k}: {', '.join(v) if v else 'none'}" for k, v in R6["heldout_groups"].items())
+         + ". Test frauds per candidate group: " + "; ".join(f"{k}: {v}" for k, v in R6["test_frauds_by_group"].items()) + ".",
+         "", "Rows and frauds per split (base scenario): " + "; ".join(f"{k}: rows {v['rows']}, frauds {v['frauds']}" for k, v in R6["split"].items()) + ".",
+         "", "| hypothesis | replication | comparison | held-out recall | reference | diff [95% CI] | p | Holm p | supported |",
+         "|---|---|---|---|---|---|---|---|---|"]
+    for h in hyps:
+        x = R6[h]
+        if "p" not in x:
+            o.append(f"| {h} | {x['replication']} | {x['policy']} vs {x['reference']} | — | — | — | — | — | {x['status']} |")
+            continue
+        o.append(f"| {h} | {x['replication']} | {x['policy']} vs {x['reference']} | {x['heldout_recall']:.4f} | "
+                 f"{x['ref_recall']:.4f} | {x['diff']:+.4f} [{x['diff_ci'][0]:+.4f}, {x['diff_ci'][1]:+.4f}] | "
+                 f"{x['p']:.4f} | {x['p_holm']:.4f} | {'yes' if x['supported'] else 'no'} |")
+    hc = R6[cost_key]
+    if "rel_cost" in hc:
+        o += ["", f"{cost_key} ({hc['replication']}): relative stationary cost {hc['rel_cost']:.4f} (SUP recall {hc['recall_sup']:.4f}, "
+              f"DRT-IDF {hc['recall_drt_idf']:.4f}; absolute {hc['abs_cost']:.4f}), one-sided 95% upper bound {hc['upper95']:.4f} "
+              f"against {hc['bound']}: {'supported' if hc['supported'] else 'not supported'}."]
+    else:
+        o += ["", f"{cost_key} ({hc['replication']}): {hc['status']}."]
+    if R6.get("secondary_DRT_vs_SUP"):
+        o += ["", "Secondary (v1.0 primary hypothesis on the replication, unadjusted): " + "; ".join(
+            f"{k}: DRT {v['heldout_recall']:.4f} vs SUP {v['ref_recall']:.4f}, diff {v['diff']:+.4f} "
+            f"[{v['diff_ci'][0]:+.4f}, {v['diff_ci'][1]:+.4f}], p = {v['p']:.4f}" for k, v in R6["secondary_DRT_vs_SUP"].items()) + "."]
+    if "banksim_u_base_identical_to_published" in R6:
+        b = R6["banksim_u_base_identical_to_published"]
+        o += ["", f"banksim_u base scenario vs the published banksim base runs: {b['identical']} of {b['seeds_checked']} seeds bit-identical."]
+    gp = os.path.join(RD, "descriptive_groups.csv")
+    gr = pd.read_csv(gp) if os.path.getsize(gp) > 1 else pd.DataFrame()
+    if len(gr):
+        gr = gr.set_index(["replication", "group", "policy"])
+        o += ["", "Descriptive (c = 1): held-out recall per group", "",
+              "| replication | group | held-out frauds | SUP | DRT | DRT-AMT | SUP-IDF | DRT-IDF |", "|---|---|---|---|---|---|---|---|"]
+        for (rp, g) in sorted({(a, b) for a, b, _ in gr.index}):
+            v = lambda pol: f"{gr.loc[(rp, g, pol), 'heldout_recall']:.3f}"
+            o.append(f"| {rp} | {g} | {gr.loc[(rp, g, 'SUP'), 'heldout_frauds']:.0f} | {v('SUP')} | {v('DRT')} | {v('DRT-AMT')} | "
+                     f"{v('SUP-IDF')} | {v('DRT-IDF')} |")
+    dh = pd.read_csv(os.path.join(RD, "descriptive_heldout.csv")) if os.path.getsize(os.path.join(RD, "descriptive_heldout.csv")) > 1 else pd.DataFrame(columns=["replication", "c", "policy", "heldout_recall"])
+    db = pd.read_csv(os.path.join(RD, "descriptive_base.csv")) if os.path.getsize(os.path.join(RD, "descriptive_base.csv")) > 1 else pd.DataFrame(columns=["replication", "c", "policy", "base_recall"])
+    m = dh.merge(db, on=["replication", "c", "policy"], how="outer")
+    m = m[m.policy.isin(["SUP", "ANO", "FUSE60", "STACK", "DRT", "DRT-AMT", "SUP-IDF", "DRT-IDF"])]
+    if len(m):
+        o += ["", "Descriptive: pooled held-out recall and base-scenario recall at every budget", "",
+              "| replication | c | policy | held-out recall | base recall |", "|---|---|---|---|---|"]
+        for _, x in m.iterrows():
+            hv = "—" if pd.isna(x.heldout_recall) else f"{x.heldout_recall:.4f}"
+            bv = "—" if pd.isna(x.base_recall) else f"{x.base_recall:.4f}"
+            o.append(f"| {x.replication} | {x.c:g} | {x.policy} | {hv} | {bv} |")
+    tp = os.path.join(RD, "time_to_detection.csv")
+    td = pd.read_csv(tp) if os.path.getsize(tp) > 1 else pd.DataFrame()
+    if len(td):
+        sm = td.groupby(["replication", "group", "policy"]).agg(det=("detected", "sum"), n=("seed", "nunique"),
+                                                                dly=("delay", "median")).reset_index()
+        o += ["", "Time to first detection (c = 1; windows = days)", "",
+              "| replication | group | policy | detected (seeds) | median delay |", "|---|---|---|---|---|"]
+        for _, x in sm.iterrows():
+            o.append(f"| {x.replication} | {x.group} | {x.policy} | {int(x.det)}/{int(x.n)} | "
+                     f"{'—' if pd.isna(x.dly) else f'{x.dly:.0f}'} |")
+    return o
+
+
+cj6 = os.path.join(ROOT, "results", "replication_v1_6", "confirmatory.json")
+if os.path.exists(cj6):
+    out += _confirm_section(
+        "## S17. Pre-registered confirmatory replication of DRT-IDF, amendment v1.6 (scripts/confirm_v1_6.py)", cj6,
+        ["H1", "H2", "H3", "H4"], "H5",
+        "tabformer_p5 = TabFormer 2011-01 to 2014-10 (warm-up 2010), disjoint from every row used before; banksim_u = "
+        "BankSim with each of the eight fraud categories outside the v1.0 top four held out in turn. The tabformer_p5 "
+        "test period contained no labelled fraud, so H1, H2 and H5 are untestable; after its first run showed this, its "
+        "remaining four seeds were not run (splits do not depend on the seed; results/replication_v1_6/run.log). The "
+        "registered script stopped at its seed-completeness check (registered_script_output.txt); two guards for a "
+        "replication without test fraud were then added (git history of scripts/confirm_v1_6.py), leaving the H3/H4 "
+        "computation unchanged. Holm is over the testable H3 and H4, as the amendment's infeasibility rule specifies.")
+cj7 = os.path.join(ROOT, "results", "replication_v1_7", "confirmatory.json")
+if os.path.exists(cj7):
+    out += _confirm_section(
+        "## S18. Pre-registered confirmatory replication of DRT-IDF on fresh TabFormer data, amendment v1.7 (scripts/confirm_v1_7.py)",
+        cj7, ["H6", "H7"], "H8",
+        "tabformer_e14 = TabFormer 2011-01 to 2014-04 (warm-up 2010): v1.6's window ended at the last pre-2015 month with "
+        "fraud labels, the rule protocol v1.0 uses for its own window; disjoint from every row used under v1.0-v1.5. "
+        "What was inspected before registration is listed in the amendment (monthly label counts per channel: "
+        "results/feasibility/).")
 open(os.path.join(ROOT, "results", "SUPPLEMENT.md"), "w").write("\n".join(out) + "\n")
 print("wrote results/SUPPLEMENT.md")

@@ -1039,3 +1039,390 @@ Average precision of raw amount for each held-out group's test-period frauds aga
 Per window w with budget k_w, an audit share m_w = 5% of k_w (carry-over accumulator) is taken from the variant's own budget, so every policy still reviews exactly k_w transactions. Among transactions selected by neither channel, band B_A holds the next ceil(k_w) by the supervised score s and band B_B the next ceil(k_w) by the anomaly score a, excluding B_A (no overlap). m_w/2 transactions are drawn uniformly without replacement from each band (an odd remainder goes to a band chosen by a fair coin; if a band is too small, the remainder is drawn uniformly from the other non-selected transactions). Each band member is therefore reviewed with known probability (m_w/2)/|B_j|, and each window's audit hit rate f_j/n_j is design-unbiased for that band's fraud rate in that window.
 
 Allocation uses only audit outcomes: S_j <- lambda*S_j + f_j and N_j <- lambda*N_j + n_j with lambda = 0.95, and p~_j = (S_j + 1)/(N_j + 2) (Beta(1, 1) prior). p~_j is a shrinkage estimate, biased towards 1/2 and towards recent windows, of the fraud yield of band j, i.e. of the next unit of budget in channel j; it says nothing about the unreviewed population outside the bands. rho moves by eta = 0.02 towards the channel with the larger p~_j within [0.05, 0.5]. At c = 1 a window has few audit draws, so p~_j leans on the prior; the audit share was not varied.
+
+## S16. Family-wise correction over every held-out comparison reported (scripts/multiplicity_all.py; post-hoc)
+
+All 264 comparisons with SUP on held-out recall that the paper or this supplement reports (22 policies from v1.0 and amendments v1.1-v1.5, three corpora, four budgets) form one family, Holm-adjusted. The smallest attainable permutation p is 0.0001, so the largest Holm-adjusted value a comparison at that p can receive is 0.0264. 97 comparisons survive (difference > 0, adjusted p < 0.05). p_holm_amendments restricts the family to the 132 comparisons of policies added by amendments.
+
+| dataset | c | policy | held-out recall | diff vs SUP [95% CI] | p | Holm (all) | Holm (amendments) |
+|---|---|---|---|---|---|---|---|
+| banksim | 0.5 | ANO | 0.213 | +0.213 [+0.190, +0.236] | 0.0001 | 0.0264 | — |
+| banksim | 0.5 | UNC | 0.095 | +0.095 [+0.073, +0.120] | 0.0001 | 0.0264 | — |
+| banksim | 0.5 | FUSE60 | 0.056 | +0.056 [+0.040, +0.072] | 0.0001 | 0.0264 | — |
+| banksim | 0.5 | DRT | 0.042 | +0.042 [+0.031, +0.053] | 0.0001 | 0.0264 | — |
+| banksim | 0.5 | DRT-ADAPT | 0.025 | +0.025 [+0.016, +0.033] | 0.0001 | 0.0264 | — |
+| banksim | 0.5 | DRT-ADAPT-D1 | 0.026 | +0.026 [+0.018, +0.035] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 0.5 | DRT-ADAPT-D3 | 0.022 | +0.022 [+0.014, +0.030] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 0.5 | DRT-ADAPT-D7 | 0.025 | +0.025 [+0.017, +0.033] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 0.5 | DRT-ADAPT-NOISY | 0.025 | +0.025 [+0.017, +0.033] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 0.5 | DRT-ADAPT-AUDIT | 0.033 | +0.033 [+0.023, +0.043] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 0.5 | DRT-AMT | 0.081 | +0.081 [+0.067, +0.098] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 0.5 | SUP-NOID | 0.409 | +0.409 [+0.383, +0.431] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 0.5 | DRT-NOID | 0.391 | +0.391 [+0.365, +0.415] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 0.5 | SUP-IDF | 0.409 | +0.409 [+0.384, +0.432] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 0.5 | DRT-IDF | 0.137 | +0.137 [+0.125, +0.150] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 0.5 | RAND | 0.005 | +0.005 [+0.002, +0.007] | 0.0015 | 0.2205 | — |
+| banksim | 0.5 | DRT-UNC | 0.003 | +0.003 [+0.000, +0.006] | 0.1222 | 1.0000 | — |
+| banksim | 0.5 | DRT-RAND | 0.001 | +0.001 [+0.000, +0.002] | 0.4975 | 1.0000 | — |
+| banksim | 0.5 | FUSEW | 0.000 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| banksim | 0.5 | AUG | 0.000 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| banksim | 0.5 | STACK | 0.000 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| banksim | 0.5 | DRT-LD | 0.000 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| banksim | 1 | ANO | 0.352 | +0.319 [+0.286, +0.349] | 0.0001 | 0.0264 | — |
+| banksim | 1 | UNC | 0.145 | +0.111 [+0.087, +0.135] | 0.0001 | 0.0264 | — |
+| banksim | 1 | FUSE60 | 0.260 | +0.226 [+0.199, +0.253] | 0.0001 | 0.0264 | — |
+| banksim | 1 | DRT | 0.104 | +0.070 [+0.050, +0.090] | 0.0001 | 0.0264 | — |
+| banksim | 1 | DRT-ADAPT | 0.077 | +0.043 [+0.028, +0.060] | 0.0001 | 0.0264 | — |
+| banksim | 1 | DRT-ADAPT-D3 | 0.078 | +0.044 [+0.030, +0.061] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 1 | DRT-ADAPT-NOISY | 0.077 | +0.043 [+0.028, +0.060] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 1 | DRT-ADAPT-AUDIT | 0.090 | +0.056 [+0.039, +0.073] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 1 | DRT-AMT | 0.334 | +0.300 [+0.272, +0.329] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 1 | SUP-NOID | 0.638 | +0.605 [+0.571, +0.638] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 1 | DRT-NOID | 0.620 | +0.587 [+0.553, +0.618] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 1 | SUP-IDF | 0.638 | +0.605 [+0.570, +0.638] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 1 | DRT-IDF | 0.352 | +0.318 [+0.289, +0.350] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 1 | DRT-RAND | 0.014 | -0.019 [-0.029, -0.010] | 0.0002 | 0.0326 | — |
+| banksim | 1 | DRT-ADAPT-D1 | 0.074 | +0.041 [+0.024, +0.057] | 0.0002 | 0.0326 | 0.0132 |
+| banksim | 1 | DRT-ADAPT-D7 | 0.078 | +0.045 [+0.029, +0.061] | 0.0002 | 0.0326 | 0.0132 |
+| banksim | 1 | DRT-LD | 0.015 | -0.019 [-0.028, -0.011] | 0.0003 | 0.0462 | 0.0180 |
+| banksim | 1 | RAND | 0.010 | -0.023 [-0.041, -0.009] | 0.0067 | 0.9446 | — |
+| banksim | 1 | AUG | 0.039 | +0.005 [-0.001, +0.012] | 0.1905 | 1.0000 | — |
+| banksim | 1 | FUSEW | 0.033 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| banksim | 1 | STACK | 0.033 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| banksim | 1 | DRT-UNC | 0.033 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| banksim | 2 | RAND | 0.020 | -0.274 [-0.313, -0.235] | 0.0001 | 0.0264 | — |
+| banksim | 2 | ANO | 0.485 | +0.191 [+0.141, +0.239] | 0.0001 | 0.0264 | — |
+| banksim | 2 | UNC | 0.415 | +0.122 [+0.098, +0.146] | 0.0001 | 0.0264 | — |
+| banksim | 2 | FUSE60 | 0.488 | +0.195 [+0.160, +0.228] | 0.0001 | 0.0264 | — |
+| banksim | 2 | DRT | 0.372 | +0.078 [+0.050, +0.104] | 0.0001 | 0.0264 | — |
+| banksim | 2 | DRT-ADAPT | 0.378 | +0.084 [+0.056, +0.111] | 0.0001 | 0.0264 | — |
+| banksim | 2 | DRT-RAND | 0.221 | -0.073 [-0.088, -0.057] | 0.0001 | 0.0264 | — |
+| banksim | 2 | DRT-ADAPT-D1 | 0.379 | +0.086 [+0.055, +0.115] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 2 | DRT-ADAPT-D3 | 0.368 | +0.074 [+0.047, +0.101] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 2 | DRT-LD | 0.227 | -0.066 [-0.081, -0.050] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 2 | DRT-AMT | 0.550 | +0.257 [+0.213, +0.299] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 2 | SUP-NOID | 0.778 | +0.484 [+0.434, +0.527] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 2 | DRT-NOID | 0.773 | +0.479 [+0.434, +0.524] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 2 | SUP-IDF | 0.778 | +0.484 [+0.434, +0.525] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 2 | DRT-IDF | 0.616 | +0.322 [+0.276, +0.371] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 2 | DRT-ADAPT-D7 | 0.366 | +0.072 [+0.046, +0.097] | 0.0002 | 0.0326 | 0.0132 |
+| banksim | 2 | DRT-ADAPT-NOISY | 0.377 | +0.083 [+0.053, +0.111] | 0.0002 | 0.0326 | 0.0132 |
+| banksim | 2 | AUG | 0.315 | +0.021 [+0.011, +0.031] | 0.0008 | 0.1192 | — |
+| banksim | 2 | DRT-ADAPT-AUDIT | 0.363 | +0.069 [+0.035, +0.102] | 0.0015 | 0.2205 | 0.0885 |
+| banksim | 2 | FUSEW | 0.294 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| banksim | 2 | STACK | 0.294 | +0.000 [-0.001, +0.002] | 1.0000 | 1.0000 | — |
+| banksim | 2 | DRT-UNC | 0.294 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| banksim | 4 | RAND | 0.034 | -0.602 [-0.637, -0.567] | 0.0001 | 0.0264 | — |
+| banksim | 4 | DRT-RAND | 0.596 | -0.041 [-0.050, -0.031] | 0.0001 | 0.0264 | — |
+| banksim | 4 | DRT-AMT | 0.689 | +0.053 [+0.035, +0.072] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 4 | SUP-NOID | 0.865 | +0.228 [+0.200, +0.259] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 4 | DRT-NOID | 0.866 | +0.229 [+0.197, +0.260] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 4 | SUP-IDF | 0.865 | +0.228 [+0.198, +0.258] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 4 | DRT-IDF | 0.757 | +0.121 [+0.094, +0.148] | 0.0001 | 0.0264 | 0.0132 |
+| banksim | 4 | FUSE60 | 0.705 | +0.068 [+0.040, +0.096] | 0.0002 | 0.0326 | — |
+| banksim | 4 | AUG | 0.622 | -0.014 [-0.021, -0.007] | 0.0010 | 0.1480 | — |
+| banksim | 4 | DRT | 0.662 | +0.026 [+0.007, +0.043] | 0.0184 | 1.0000 | — |
+| banksim | 4 | UNC | 0.640 | +0.004 [+0.001, +0.008] | 0.0306 | 1.0000 | — |
+| banksim | 4 | DRT-ADAPT-D3 | 0.660 | +0.024 [+0.001, +0.048] | 0.0631 | 1.0000 | 1.0000 |
+| banksim | 4 | DRT-ADAPT-D1 | 0.659 | +0.023 [+0.000, +0.044] | 0.0693 | 1.0000 | 1.0000 |
+| banksim | 4 | DRT-ADAPT-NOISY | 0.652 | +0.015 [-0.008, +0.037] | 0.2176 | 1.0000 | 1.0000 |
+| banksim | 4 | DRT-ADAPT-AUDIT | 0.650 | +0.014 [-0.007, +0.035] | 0.2368 | 1.0000 | 1.0000 |
+| banksim | 4 | ANO | 0.610 | -0.026 [-0.070, +0.016] | 0.2485 | 1.0000 | — |
+| banksim | 4 | DRT-ADAPT-D7 | 0.655 | +0.018 [-0.012, +0.047] | 0.2657 | 1.0000 | 1.0000 |
+| banksim | 4 | DRT-ADAPT | 0.650 | +0.013 [-0.009, +0.035] | 0.3029 | 1.0000 | — |
+| banksim | 4 | STACK | 0.636 | -0.001 [-0.002, +0.001] | 0.4503 | 1.0000 | — |
+| banksim | 4 | DRT-LD | 0.632 | -0.005 [-0.019, +0.010] | 0.5570 | 1.0000 | 1.0000 |
+| banksim | 4 | FUSEW | 0.636 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| banksim | 4 | DRT-UNC | 0.636 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 0.5 | ANO | 0.019 | +0.019 [+0.013, +0.024] | 0.0001 | 0.0264 | — |
+| tabformer | 0.5 | DRT-ADAPT | 0.007 | +0.007 [+0.004, +0.011] | 0.0001 | 0.0264 | — |
+| tabformer | 0.5 | DRT-ADAPT-D1 | 0.005 | +0.005 [+0.003, +0.008] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 0.5 | DRT-ADAPT-D3 | 0.006 | +0.006 [+0.004, +0.009] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 0.5 | DRT-ADAPT-D7 | 0.007 | +0.007 [+0.004, +0.010] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 0.5 | DRT-ADAPT-NOISY | 0.007 | +0.007 [+0.005, +0.011] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 0.5 | DRT-ADAPT-AUDIT | 0.004 | +0.004 [+0.002, +0.005] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 0.5 | SUP-NOID | 0.043 | +0.042 [+0.032, +0.053] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 0.5 | DRT-NOID | 0.041 | +0.041 [+0.032, +0.050] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 0.5 | SUP-IDF | 0.029 | +0.029 [+0.021, +0.038] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 0.5 | FUSE60 | 0.004 | +0.004 [+0.001, +0.008] | 0.0043 | 0.6191 | — |
+| tabformer | 0.5 | DRT-IDF | 0.003 | +0.002 [+0.001, +0.005] | 0.0147 | 1.0000 | 0.8378 |
+| tabformer | 0.5 | UNC | 0.001 | +0.001 [+0.000, +0.003] | 0.0312 | 1.0000 | — |
+| tabformer | 0.5 | DRT | 0.002 | +0.002 [+0.000, +0.004] | 0.1269 | 1.0000 | — |
+| tabformer | 0.5 | RAND | 0.000 | +0.000 [-0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 0.5 | FUSEW | 0.000 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 0.5 | AUG | 0.000 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 0.5 | STACK | 0.000 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 0.5 | DRT-UNC | 0.000 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 0.5 | DRT-RAND | 0.000 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 0.5 | DRT-LD | 0.000 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| tabformer | 0.5 | DRT-AMT | 0.000 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| tabformer | 1 | ANO | 0.035 | +0.034 [+0.026, +0.041] | 0.0001 | 0.0264 | — |
+| tabformer | 1 | FUSE60 | 0.017 | +0.015 [+0.010, +0.022] | 0.0001 | 0.0264 | — |
+| tabformer | 1 | DRT-ADAPT | 0.016 | +0.015 [+0.011, +0.019] | 0.0001 | 0.0264 | — |
+| tabformer | 1 | DRT-ADAPT-D1 | 0.016 | +0.015 [+0.011, +0.019] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 1 | DRT-ADAPT-D3 | 0.014 | +0.013 [+0.009, +0.017] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 1 | DRT-ADAPT-D7 | 0.015 | +0.013 [+0.010, +0.017] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 1 | DRT-ADAPT-NOISY | 0.014 | +0.013 [+0.009, +0.016] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 1 | DRT-ADAPT-AUDIT | 0.010 | +0.008 [+0.005, +0.011] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 1 | SUP-NOID | 0.087 | +0.085 [+0.071, +0.099] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 1 | DRT-NOID | 0.084 | +0.082 [+0.068, +0.096] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 1 | SUP-IDF | 0.063 | +0.062 [+0.048, +0.076] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 1 | DRT-IDF | 0.009 | +0.008 [+0.004, +0.011] | 0.0002 | 0.0326 | 0.0132 |
+| tabformer | 1 | UNC | 0.004 | +0.002 [+0.001, +0.004] | 0.0005 | 0.0760 | — |
+| tabformer | 1 | DRT | 0.005 | +0.003 [+0.000, +0.007] | 0.0456 | 1.0000 | — |
+| tabformer | 1 | DRT-UNC | 0.002 | +0.000 [+0.000, +0.001] | 0.4942 | 1.0000 | — |
+| tabformer | 1 | DRT-LD | 0.001 | -0.001 [-0.002, +0.000] | 0.4984 | 1.0000 | 1.0000 |
+| tabformer | 1 | DRT-AMT | 0.001 | -0.001 [-0.002, +0.000] | 0.5016 | 1.0000 | 1.0000 |
+| tabformer | 1 | AUG | 0.002 | +0.000 [-0.000, +0.001] | 0.7389 | 1.0000 | — |
+| tabformer | 1 | DRT-RAND | 0.001 | -0.001 [-0.002, +0.000] | 0.7488 | 1.0000 | — |
+| tabformer | 1 | RAND | 0.000 | -0.001 [-0.004, +0.001] | 0.7504 | 1.0000 | — |
+| tabformer | 1 | FUSEW | 0.001 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 1 | STACK | 0.001 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 2 | RAND | 0.001 | -0.011 [-0.020, -0.005] | 0.0001 | 0.0264 | — |
+| tabformer | 2 | ANO | 0.063 | +0.051 [+0.040, +0.061] | 0.0001 | 0.0264 | — |
+| tabformer | 2 | UNC | 0.018 | +0.006 [+0.003, +0.008] | 0.0001 | 0.0264 | — |
+| tabformer | 2 | FUSE60 | 0.034 | +0.023 [+0.014, +0.031] | 0.0001 | 0.0264 | — |
+| tabformer | 2 | DRT-ADAPT | 0.034 | +0.022 [+0.016, +0.028] | 0.0001 | 0.0264 | — |
+| tabformer | 2 | DRT-ADAPT-D1 | 0.035 | +0.023 [+0.018, +0.029] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 2 | DRT-ADAPT-D3 | 0.035 | +0.023 [+0.017, +0.028] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 2 | DRT-ADAPT-D7 | 0.034 | +0.022 [+0.017, +0.028] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 2 | DRT-ADAPT-NOISY | 0.030 | +0.019 [+0.014, +0.024] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 2 | DRT-ADAPT-AUDIT | 0.022 | +0.011 [+0.006, +0.015] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 2 | SUP-NOID | 0.148 | +0.136 [+0.118, +0.157] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 2 | DRT-NOID | 0.142 | +0.130 [+0.112, +0.148] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 2 | SUP-IDF | 0.108 | +0.097 [+0.079, +0.116] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 2 | DRT-IDF | 0.032 | +0.020 [+0.014, +0.027] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 2 | DRT-RAND | 0.009 | -0.003 [-0.005, -0.002] | 0.0002 | 0.0326 | — |
+| tabformer | 2 | DRT-AMT | 0.008 | -0.003 [-0.005, -0.002] | 0.0002 | 0.0326 | 0.0132 |
+| tabformer | 2 | AUG | 0.008 | -0.004 [-0.007, -0.001] | 0.0076 | 1.0000 | — |
+| tabformer | 2 | DRT-LD | 0.010 | -0.002 [-0.004, -0.001] | 0.0174 | 1.0000 | 0.9569 |
+| tabformer | 2 | DRT | 0.017 | +0.006 [+0.001, +0.010] | 0.0260 | 1.0000 | — |
+| tabformer | 2 | STACK | 0.012 | +0.000 [+0.000, +0.001] | 0.4925 | 1.0000 | — |
+| tabformer | 2 | FUSEW | 0.012 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 2 | DRT-UNC | 0.012 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 4 | RAND | 0.001 | -0.039 [-0.054, -0.027] | 0.0001 | 0.0264 | — |
+| tabformer | 4 | ANO | 0.111 | +0.071 [+0.058, +0.084] | 0.0001 | 0.0264 | — |
+| tabformer | 4 | DRT | 0.052 | +0.012 [+0.007, +0.017] | 0.0001 | 0.0264 | — |
+| tabformer | 4 | DRT-ADAPT | 0.083 | +0.043 [+0.035, +0.051] | 0.0001 | 0.0264 | — |
+| tabformer | 4 | DRT-RAND | 0.035 | -0.005 [-0.007, -0.003] | 0.0001 | 0.0264 | — |
+| tabformer | 4 | DRT-ADAPT-D1 | 0.083 | +0.043 [+0.034, +0.051] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 4 | DRT-ADAPT-D3 | 0.079 | +0.039 [+0.031, +0.047] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 4 | DRT-ADAPT-D7 | 0.082 | +0.042 [+0.033, +0.051] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 4 | DRT-ADAPT-NOISY | 0.081 | +0.041 [+0.033, +0.049] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 4 | DRT-ADAPT-AUDIT | 0.067 | +0.027 [+0.021, +0.034] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 4 | DRT-AMT | 0.035 | -0.005 [-0.007, -0.003] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 4 | SUP-NOID | 0.218 | +0.178 [+0.160, +0.197] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 4 | DRT-NOID | 0.215 | +0.175 [+0.158, +0.193] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 4 | SUP-IDF | 0.174 | +0.133 [+0.115, +0.152] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 4 | DRT-IDF | 0.073 | +0.033 [+0.025, +0.041] | 0.0001 | 0.0264 | 0.0132 |
+| tabformer | 4 | FUSE60 | 0.055 | +0.015 [+0.007, +0.023] | 0.0007 | 0.1050 | — |
+| tabformer | 4 | UNC | 0.042 | +0.002 [+0.001, +0.004] | 0.0038 | 0.5509 | — |
+| tabformer | 4 | AUG | 0.036 | -0.004 [-0.008, +0.000] | 0.0729 | 1.0000 | — |
+| tabformer | 4 | DRT-LD | 0.040 | +0.000 [-0.002, +0.003] | 0.8425 | 1.0000 | 1.0000 |
+| tabformer | 4 | FUSEW | 0.040 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 4 | STACK | 0.040 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| tabformer | 4 | DRT-UNC | 0.040 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 0.5 | RAND | 0.000 | -0.042 [-0.093, +0.000] | 0.2471 | 1.0000 | — |
+| ulb | 0.5 | ANO | 0.004 | -0.038 [-0.086, +0.000] | 0.2567 | 1.0000 | — |
+| ulb | 0.5 | UNC | 0.023 | -0.019 [-0.061, +0.018] | 0.4986 | 1.0000 | — |
+| ulb | 0.5 | FUSE60 | 0.046 | +0.004 [-0.035, +0.041] | 1.0000 | 1.0000 | — |
+| ulb | 0.5 | FUSEW | 0.046 | +0.004 [+0.000, +0.012] | 1.0000 | 1.0000 | — |
+| ulb | 0.5 | AUG | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 0.5 | STACK | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 0.5 | DRT | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 0.5 | DRT-ADAPT | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 0.5 | DRT-UNC | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 0.5 | DRT-RAND | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 0.5 | DRT-ADAPT-D1 | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 0.5 | DRT-ADAPT-D3 | 0.035 | -0.008 [-0.023, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 0.5 | DRT-ADAPT-D7 | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 0.5 | DRT-ADAPT-NOISY | 0.035 | -0.008 [-0.023, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 0.5 | DRT-ADAPT-AUDIT | 0.027 | -0.015 [-0.052, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 0.5 | DRT-LD | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 0.5 | DRT-AMT | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 0.5 | SUP-NOID | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 0.5 | DRT-NOID | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 0.5 | SUP-IDF | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 0.5 | DRT-IDF | 0.042 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 1 | RAND | 0.000 | -0.119 [-0.222, -0.048] | 0.0079 | 1.0000 | — |
+| ulb | 1 | ANO | 0.035 | -0.085 [-0.180, -0.017] | 0.0364 | 1.0000 | — |
+| ulb | 1 | UNC | 0.058 | -0.062 [-0.153, +0.004] | 0.1903 | 1.0000 | — |
+| ulb | 1 | FUSE60 | 0.127 | +0.008 [-0.045, +0.058] | 0.8865 | 1.0000 | — |
+| ulb | 1 | FUSEW | 0.123 | +0.004 [+0.000, +0.012] | 1.0000 | 1.0000 | — |
+| ulb | 1 | AUG | 0.115 | -0.004 [-0.013, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 1 | STACK | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 1 | DRT | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 1 | DRT-ADAPT | 0.112 | -0.008 [-0.026, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 1 | DRT-UNC | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 1 | DRT-RAND | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 1 | DRT-ADAPT-D1 | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 1 | DRT-ADAPT-D3 | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 1 | DRT-ADAPT-D7 | 0.115 | -0.004 [-0.013, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 1 | DRT-ADAPT-NOISY | 0.115 | -0.004 [-0.018, +0.010] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 1 | DRT-ADAPT-AUDIT | 0.115 | -0.004 [-0.023, +0.020] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 1 | DRT-LD | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 1 | DRT-AMT | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 1 | SUP-NOID | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 1 | DRT-NOID | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 1 | SUP-IDF | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 1 | DRT-IDF | 0.119 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 2 | RAND | 0.004 | -0.277 [-0.427, -0.168] | 0.0005 | 0.0760 | — |
+| ulb | 2 | ANO | 0.085 | -0.196 [-0.358, -0.076] | 0.0044 | 0.6291 | — |
+| ulb | 2 | DRT-ADAPT-AUDIT | 0.231 | -0.050 [-0.100, -0.014] | 0.0260 | 1.0000 | 1.0000 |
+| ulb | 2 | UNC | 0.162 | -0.119 [-0.281, +0.018] | 0.1200 | 1.0000 | — |
+| ulb | 2 | DRT-ADAPT | 0.265 | -0.015 [-0.031, -0.004] | 0.1214 | 1.0000 | — |
+| ulb | 2 | DRT-ADAPT-NOISY | 0.265 | -0.015 [-0.032, +0.000] | 0.2460 | 1.0000 | 1.0000 |
+| ulb | 2 | FUSEW | 0.269 | -0.012 [-0.027, +0.000] | 0.2501 | 1.0000 | — |
+| ulb | 2 | DRT-ADAPT-D7 | 0.250 | -0.031 [-0.069, +0.000] | 0.2549 | 1.0000 | 1.0000 |
+| ulb | 2 | DRT-NOID | 0.258 | -0.023 [-0.068, +0.000] | 0.5035 | 1.0000 | 1.0000 |
+| ulb | 2 | DRT-ADAPT-D3 | 0.262 | -0.019 [-0.067, +0.021] | 0.5048 | 1.0000 | 1.0000 |
+| ulb | 2 | DRT | 0.258 | -0.023 [-0.073, +0.000] | 0.5059 | 1.0000 | — |
+| ulb | 2 | AUG | 0.288 | +0.008 [-0.006, +0.024] | 0.6292 | 1.0000 | — |
+| ulb | 2 | FUSE60 | 0.265 | -0.015 [-0.121, +0.078] | 0.8120 | 1.0000 | — |
+| ulb | 2 | STACK | 0.277 | -0.004 [-0.012, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 2 | DRT-UNC | 0.262 | -0.019 [-0.070, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 2 | DRT-RAND | 0.262 | -0.019 [-0.073, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 2 | DRT-ADAPT-D1 | 0.288 | +0.008 [-0.010, +0.039] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 2 | DRT-LD | 0.277 | -0.004 [-0.012, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 2 | DRT-AMT | 0.262 | -0.019 [-0.069, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 2 | SUP-NOID | 0.281 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 2 | SUP-IDF | 0.281 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 2 | DRT-IDF | 0.281 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 4 | RAND | 0.000 | -0.577 [-0.714, -0.446] | 0.0001 | 0.0264 | — |
+| ulb | 4 | ANO | 0.169 | -0.408 [-0.587, -0.262] | 0.0003 | 0.0462 | — |
+| ulb | 4 | DRT-ADAPT-AUDIT | 0.462 | -0.115 [-0.171, -0.060] | 0.0047 | 0.6673 | 0.2726 |
+| ulb | 4 | UNC | 0.308 | -0.269 [-0.422, -0.119] | 0.0070 | 0.9799 | — |
+| ulb | 4 | DRT-ADAPT-D7 | 0.515 | -0.062 [-0.091, -0.028] | 0.0152 | 1.0000 | 0.8511 |
+| ulb | 4 | DRT-ADAPT | 0.538 | -0.038 [-0.070, -0.012] | 0.0302 | 1.0000 | — |
+| ulb | 4 | FUSE60 | 0.462 | -0.115 [-0.253, -0.012] | 0.0711 | 1.0000 | — |
+| ulb | 4 | DRT-ADAPT-NOISY | 0.550 | -0.027 [-0.050, -0.005] | 0.1213 | 1.0000 | 1.0000 |
+| ulb | 4 | DRT-ADAPT-D3 | 0.565 | -0.012 [-0.022, +0.000] | 0.2520 | 1.0000 | 1.0000 |
+| ulb | 4 | FUSEW | 0.562 | -0.015 [-0.040, +0.004] | 0.3102 | 1.0000 | — |
+| ulb | 4 | DRT-ADAPT-D1 | 0.565 | -0.012 [-0.037, +0.029] | 0.6568 | 1.0000 | 1.0000 |
+| ulb | 4 | AUG | 0.569 | -0.008 [-0.060, +0.028] | 0.9345 | 1.0000 | — |
+| ulb | 4 | STACK | 0.573 | -0.004 [-0.014, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 4 | DRT | 0.588 | +0.012 [+0.000, +0.044] | 1.0000 | 1.0000 | — |
+| ulb | 4 | DRT-UNC | 0.577 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 4 | DRT-RAND | 0.577 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | — |
+| ulb | 4 | DRT-LD | 0.577 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 4 | DRT-AMT | 0.577 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 4 | SUP-NOID | 0.577 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 4 | DRT-NOID | 0.588 | +0.012 [+0.000, +0.043] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 4 | SUP-IDF | 0.577 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+| ulb | 4 | DRT-IDF | 0.577 | +0.000 [+0.000, +0.000] | 1.0000 | 1.0000 | 1.0000 |
+
+## S17. Pre-registered confirmatory replication of DRT-IDF, amendment v1.6 (scripts/confirm_v1_6.py)
+
+tabformer_p5 = TabFormer 2011-01 to 2014-10 (warm-up 2010), disjoint from every row used before; banksim_u = BankSim with each of the eight fraud categories outside the v1.0 top four held out in turn. The tabformer_p5 test period contained no labelled fraud, so H1, H2 and H5 are untestable; after its first run showed this, its remaining four seeds were not run (splits do not depend on the seed; results/replication_v1_6/run.log). The registered script stopped at its seed-completeness check (registered_script_output.txt); two guards for a replication without test fraud were then added (git history of scripts/confirm_v1_6.py), leaving the H3/H4 computation unchanged. Holm is over the testable H3 and H4, as the amendment's infeasibility rule specifies. Registered in configs/amendment_v1_6.yaml (SHA-256 7e2411d3f8db...) and pushed to the public repository before any of its runs existed; runs produced once from a fresh clone of the registration commit (996081e).
+
+Held-out groups (>= 10 test frauds): tabformer_p5: none; banksim_u: es_barsandrestaurants, es_fashion, es_home, es_hotelservices, es_hyper, es_leisure, es_otherservices, es_tech. Test frauds per candidate group: tabformer_p5: {'Online': 0, 'Swipe': 0}; banksim_u: {'es_hotelservices': 84, 'es_leisure': 52, 'es_home': 26, 'es_hyper': 38, 'es_otherservices': 34, 'es_tech': 26, 'es_barsandrestaurants': 24, 'es_fashion': 18}.
+
+Rows and frauds per split (base scenario): tabformer_p5: rows {'train': 3426317, 'tune': 932983, 'calib': 934416, 'test': 929161}, frauds {'train': 1417, 'tune': 687, 'calib': 2354, 'test': 0}; banksim_u: rows {'train': 329063, 'tune': 88785, 'calib': 87702, 'test': 89093}, frauds {'train': 4280, 'tune': 1000, 'calib': 960, 'test': 960}.
+
+| hypothesis | replication | comparison | held-out recall | reference | diff [95% CI] | p | Holm p | supported |
+|---|---|---|---|---|---|---|---|---|
+| H1 | tabformer_p5 | DRT-IDF vs SUP | — | — | — | — | — | untestable: no held-out group with >= 10 test frauds |
+| H2 | tabformer_p5 | DRT-IDF vs DRT | — | — | — | — | — | untestable: no held-out group with >= 10 test frauds |
+| H3 | banksim_u | DRT-IDF vs SUP | 0.5450 | 0.1841 | +0.3609 [+0.3063, +0.4197] | 0.0001 | 0.0002 | yes |
+| H4 | banksim_u | DRT-IDF vs DRT | 0.5450 | 0.2225 | +0.3225 [+0.2575, +0.3834] | 0.0001 | 0.0002 | yes |
+
+H5 (tabformer_p5): untestable: no fraud in the base test period.
+
+Secondary (v1.0 primary hypothesis on the replication, unadjusted): banksim_u: DRT 0.2225 vs SUP 0.1841, diff +0.0384 [+0.0000, +0.0747], p = 0.0628.
+
+banksim_u base scenario vs the published banksim base runs: 5 of 5 seeds bit-identical.
+
+Descriptive (c = 1): held-out recall per group
+
+| replication | group | held-out frauds | SUP | DRT | DRT-AMT | SUP-IDF | DRT-IDF |
+|---|---|---|---|---|---|---|---|
+| banksim_u | es_barsandrestaurants | 24 | 0.000 | 0.033 | 0.250 | 0.617 | 0.367 |
+| banksim_u | es_fashion | 18 | 0.022 | 0.033 | 0.389 | 0.689 | 0.500 |
+| banksim_u | es_home | 26 | 0.100 | 0.323 | 0.508 | 0.723 | 0.577 |
+| banksim_u | es_hotelservices | 84 | 0.319 | 0.336 | 0.533 | 0.740 | 0.598 |
+| banksim_u | es_hyper | 38 | 0.000 | 0.053 | 0.105 | 0.400 | 0.237 |
+| banksim_u | es_leisure | 52 | 0.435 | 0.408 | 0.515 | 0.800 | 0.619 |
+| banksim_u | es_otherservices | 34 | 0.071 | 0.100 | 0.471 | 0.765 | 0.600 |
+| banksim_u | es_tech | 26 | 0.031 | 0.100 | 0.700 | 0.800 | 0.769 |
+
+Descriptive: pooled held-out recall and base-scenario recall at every budget
+
+| replication | c | policy | held-out recall | base recall |
+|---|---|---|---|---|
+| banksim_u | 0.5 | ANO | 0.2331 | 0.2585 |
+| banksim_u | 0.5 | DRT | 0.0457 | 0.4783 |
+| banksim_u | 0.5 | DRT-AMT | 0.0689 | 0.4992 |
+| banksim_u | 0.5 | DRT-IDF | 0.2146 | 0.4948 |
+| banksim_u | 0.5 | FUSE60 | 0.1570 | 0.4163 |
+| banksim_u | 0.5 | STACK | 0.0033 | 0.5029 |
+| banksim_u | 0.5 | SUP | 0.0033 | 0.5023 |
+| banksim_u | 0.5 | SUP-IDF | 0.4291 | 0.4763 |
+| banksim_u | 1 | ANO | 0.3656 | 0.3831 |
+| banksim_u | 1 | DRT | 0.2225 | 0.8371 |
+| banksim_u | 1 | DRT-AMT | 0.4503 | 0.8302 |
+| banksim_u | 1 | DRT-IDF | 0.5450 | 0.8344 |
+| banksim_u | 1 | FUSE60 | 0.3616 | 0.5988 |
+| banksim_u | 1 | STACK | 0.1854 | 0.8704 |
+| banksim_u | 1 | SUP | 0.1841 | 0.8704 |
+| banksim_u | 1 | SUP-IDF | 0.7013 | 0.7096 |
+| banksim_u | 2 | ANO | 0.5358 | 0.5217 |
+| banksim_u | 2 | DRT | 0.5358 | 0.9817 |
+| banksim_u | 2 | DRT-AMT | 0.5881 | 0.9760 |
+| banksim_u | 2 | DRT-IDF | 0.7272 | 0.9760 |
+| banksim_u | 2 | FUSE60 | 0.6192 | 0.8354 |
+| banksim_u | 2 | STACK | 0.5040 | 0.9812 |
+| banksim_u | 2 | SUP | 0.5040 | 0.9817 |
+| banksim_u | 2 | SUP-IDF | 0.8563 | 0.8225 |
+| banksim_u | 4 | ANO | 0.7305 | 0.6829 |
+| banksim_u | 4 | DRT | 0.7536 | 0.9998 |
+| banksim_u | 4 | DRT-AMT | 0.7384 | 0.9992 |
+| banksim_u | 4 | DRT-IDF | 0.8470 | 0.9992 |
+| banksim_u | 4 | FUSE60 | 0.8272 | 0.9533 |
+| banksim_u | 4 | STACK | 0.7490 | 1.0000 |
+| banksim_u | 4 | SUP | 0.7497 | 1.0000 |
+| banksim_u | 4 | SUP-IDF | 0.9311 | 0.9019 |
+
+Time to first detection (c = 1; windows = days)
+
+| replication | group | policy | detected (seeds) | median delay |
+|---|---|---|---|---|
+| banksim_u | es_barsandrestaurants | DRT | 3/5 | 23 |
+| banksim_u | es_barsandrestaurants | DRT-AMT | 5/5 | 1 |
+| banksim_u | es_barsandrestaurants | DRT-IDF | 5/5 | 1 |
+| banksim_u | es_barsandrestaurants | SUP | 0/5 | — |
+| banksim_u | es_barsandrestaurants | SUP-IDF | 5/5 | 1 |
+| banksim_u | es_fashion | DRT | 3/5 | 9 |
+| banksim_u | es_fashion | DRT-AMT | 5/5 | 0 |
+| banksim_u | es_fashion | DRT-IDF | 5/5 | 0 |
+| banksim_u | es_fashion | SUP | 2/5 | 0 |
+| banksim_u | es_fashion | SUP-IDF | 5/5 | 0 |
+| banksim_u | es_home | DRT | 5/5 | 0 |
+| banksim_u | es_home | DRT-AMT | 5/5 | 5 |
+| banksim_u | es_home | DRT-IDF | 5/5 | 5 |
+| banksim_u | es_home | SUP | 3/5 | 8 |
+| banksim_u | es_home | SUP-IDF | 5/5 | 0 |
+| banksim_u | es_hotelservices | DRT | 5/5 | 0 |
+| banksim_u | es_hotelservices | DRT-AMT | 5/5 | 0 |
+| banksim_u | es_hotelservices | DRT-IDF | 5/5 | 0 |
+| banksim_u | es_hotelservices | SUP | 5/5 | 0 |
+| banksim_u | es_hotelservices | SUP-IDF | 5/5 | 0 |
+| banksim_u | es_hyper | DRT | 5/5 | 6 |
+| banksim_u | es_hyper | DRT-AMT | 5/5 | 6 |
+| banksim_u | es_hyper | DRT-IDF | 5/5 | 0 |
+| banksim_u | es_hyper | SUP | 0/5 | — |
+| banksim_u | es_hyper | SUP-IDF | 5/5 | 0 |
+| banksim_u | es_leisure | DRT | 5/5 | 0 |
+| banksim_u | es_leisure | DRT-AMT | 5/5 | 0 |
+| banksim_u | es_leisure | DRT-IDF | 5/5 | 0 |
+| banksim_u | es_leisure | SUP | 5/5 | 0 |
+| banksim_u | es_leisure | SUP-IDF | 5/5 | 0 |
+| banksim_u | es_otherservices | DRT | 5/5 | 4 |
+| banksim_u | es_otherservices | DRT-AMT | 5/5 | 1 |
+| banksim_u | es_otherservices | DRT-IDF | 5/5 | 1 |
+| banksim_u | es_otherservices | SUP | 5/5 | 8 |
+| banksim_u | es_otherservices | SUP-IDF | 5/5 | 1 |
+| banksim_u | es_tech | DRT | 5/5 | 10 |
+| banksim_u | es_tech | DRT-AMT | 5/5 | 4 |
+| banksim_u | es_tech | DRT-IDF | 5/5 | 0 |
+| banksim_u | es_tech | SUP | 1/5 | 5 |
+| banksim_u | es_tech | SUP-IDF | 5/5 | 0 |

@@ -8,7 +8,7 @@ paper are read programmatically from the files below; none is typed by hand.
 
 ```bash
 pip install -r requirements.txt
-bash reproduce.sh            # fetch + hash-check data, 55 runs, analysis, figures, supplement (~1 h, 2 cores)
+bash reproduce.sh            # fetch + hash-check data, 55 runs, replication, analysis, figures, supplement (~2.5 h, 2 cores)
 ```
 
 To check a fresh run against the released results:
@@ -38,7 +38,9 @@ RUN_DIR=results/runs_check python scripts/analyze.py               # regenerates
 | Inference under temporal dependence | autocorrelation, block sign-flip *p* and block-bootstrap CIs (blocks of 1/2/5/10 windows) | `scripts/check_dependence.py` | `dependence.csv`, `SUPPLEMENT.md` S11 |
 | Capacity and time to first detection | held-out budgets vs stationary; first retrieved case per group | `scripts/operational_metrics.py` | `capacity_heldout.csv`, `time_to_detection.csv`, S12–S13 |
 | Amount as a signal | AP of raw amount per held-out group | `scripts/amount_signal.py` | `amount_signal.csv`, S14 |
-| Supplement S0–S15 | full hashes, per-group and per-budget tables | `scripts/make_supplement.py` | `results/SUPPLEMENT.md` |
+| Family-wise correction | every held-out comparison with SUP ever reported (22 policies × 3 corpora × 4 budgets), one Holm family | `scripts/multiplicity_all.py` | `multiplicity_all.csv`, `multiplicity_all.json`, S16 |
+| Table VI, abstract (confirmation) | pre-registered replication of DRT-IDF: H1–H5 | `scripts/run_all.py --datasets tabformer_p5 banksim_u`, `scripts/confirm_v1_6.py` | `results/replication_v1_6/confirmatory.json`, `descriptive_*.csv`, S17 |
+| Supplement S0–S17 | full hashes, per-group and per-budget tables | `scripts/make_supplement.py` | `results/SUPPLEMENT.md` |
 
 ## What an independent check should cover beyond matching outputs
 
@@ -47,6 +49,31 @@ splits and leakage-safe features (`src/dstriage/data.py`, `tests/test_core.py`, 
 the held-out scenario rule and its provenance (`scripts/run_all.py::holdout_groups`, supplement S10/S10b),
 the policies (`src/dstriage/policies.py`), and the statistics (`src/dstriage/stats.py`, `scripts/analyze.py`,
 supplement S11).
+
+## Pre-registered confirmation (amendments v1.6 and v1.7)
+
+| Registration | Commit, pushed to `main` | Runs (fresh clone of that commit) | Analysis |
+|---|---|---|---|
+| v1.6: TabFormer 2011-01..2014-10 (`tabformer_p5`) and eight new BankSim held-out categories (`banksim_u`) | `996081e`, 2026-11-09 12:39 UTC | `results/replication_v1_6/runs`, `run.log` | `scripts/confirm_v1_6.py` → `confirmatory.json` |
+| v1.7: TabFormer 2011-01..2014-04 (`tabformer_e14`), correcting v1.6's infeasible window | `c6c9488`, 2026-11-09 13:15 UTC | `results/replication_v1_7/runs`, `run.log` | `scripts/confirm_v1_7.py` → `confirmatory.json` |
+
+Each amendment file lists everything inspected before it was written. The `tabformer_p5` test period held no
+labelled fraud, so v1.6's H1, H2 and H5 are untestable; its remaining four seeds were stopped after the first
+run (the split does not depend on the seed), and the registered `confirm_v1_6.py` stopped at its
+seed-completeness check (`results/replication_v1_6/registered_script_output.txt`). Two guards for a replication
+without test fraud were then added to `confirm_v1_6.py`; they do not touch the H3/H4 computation (see its git
+history). To reproduce:
+
+```bash
+git clone https://github.com/sagarkorde/UPI-Transaction-Profiler && cd UPI-Transaction-Profiler
+git checkout 996081e && python scripts/run_all.py --datasets banksim_u tabformer_p5 --out results/replication_v1_6/runs
+git checkout c6c9488 && python scripts/run_all.py --datasets tabformer_e14 --out results/replication_v1_7/runs
+git checkout main && python scripts/confirm_v1_6.py && python scripts/confirm_v1_7.py
+```
+
+A check of the registrations should confirm that, at the results commit, `git diff c6c9488 --
+configs/amendment_v1_6.yaml configs/amendment_v1_7.yaml scripts/confirm_v1_7.py scripts/run_all.py src/` is
+empty and `git diff 996081e -- configs/amendment_v1_6.yaml` is empty.
 
 ## Re-run records
 
