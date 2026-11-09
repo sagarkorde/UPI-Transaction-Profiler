@@ -23,12 +23,13 @@ RUN_DIR=results/runs_check python scripts/analyze.py               # regenerates
 
 | Paper element | Content | Produced by | File |
 |---|---|---|---|
+| Fig. 1 | method architecture (no data) | `scripts/make_architecture.py` | `figures/fig_architecture.*` |
 | Table II | corpora, rows, frauds, periods | `scripts/prepare_data.py` | `results/dataset_summary.json`, `data/manifest.json` |
 | Table III | RQ1 recall@budget, stationary test, CIs, Holm *p* | `scripts/analyze.py` | `results/analysis/main_base.csv` |
 | Table IV | RQ2 held-out groups, pooled recall, Holm *p*; DRT-AMT and DRT-IDF rows | `scripts/analyze.py` | `results/analysis/emerging_pooled.csv` |
 | Fig. 2 | protection–cost frontier | `scripts/make_figures.py` | `frontier_points.csv` |
 | RQ3 text | equal-cost comparison (Δ and CI at 5% / 10% cost) | `scripts/analyze.py` | `frontier_summary.csv` |
-| Table V | ablations and exploratory variants: channel variants, adaptive ρ, DRT-AMT, DRT-IDF, DRT-LD, SUP-NOID | `scripts/analyze.py` | `ablation.csv`, `emerging_pooled.csv` |
+| Table VI | ablations and exploratory variants: channel variants, adaptive ρ, DRT-AMT, DRT-IDF (DRT-LD, SUP-NOID in S5) | `scripts/analyze.py` | `ablation.csv`, `emerging_pooled.csv` |
 | Mean ρ values | DRT-ADAPT and variants | `scripts/analyze.py` | `summary.json` (`mean_rho_adaptive`, `mean_rho_feedback_variants`) |
 | Assumption (A2) | precision by SUP rank band | `scripts/analyze.py` | `assumption_a2.csv` |
 | Cost prediction | calibration vs test premium | `scripts/analyze.py` | `premium.csv` |
@@ -39,8 +40,10 @@ RUN_DIR=results/runs_check python scripts/analyze.py               # regenerates
 | Capacity and time to first detection | held-out budgets vs stationary; first retrieved case per group | `scripts/operational_metrics.py` | `capacity_heldout.csv`, `time_to_detection.csv`, S12–S13 |
 | Amount as a signal | AP of raw amount per held-out group | `scripts/amount_signal.py` | `amount_signal.csv`, S14 |
 | Family-wise correction | every held-out comparison with SUP ever reported (22 policies × 3 corpora × 4 budgets), one Holm family | `scripts/multiplicity_all.py` | `multiplicity_all.csv`, `multiplicity_all.json`, S16 |
-| Table VI, abstract (confirmation) | pre-registered replication of DRT-IDF: H1–H5 | `scripts/run_all.py --datasets tabformer_p5 banksim_u`, `scripts/confirm_v1_6.py` | `results/replication_v1_6/confirmatory.json`, `descriptive_*.csv`, S17 |
-| Supplement S0–S17 | full hashes, per-group and per-budget tables | `scripts/make_supplement.py` | `results/SUPPLEMENT.md` |
+| Table V, Section VI-E, abstract (confirmation) | pre-registered replications of DRT-IDF: v1.6 H1–H5 (new BankSim segments; first TabFormer window, untestable) | `scripts/run_all.py --datasets banksim_u tabformer_p5`, `scripts/confirm_v1_6.py` | `results/replication_v1_6/confirmatory.json`, `descriptive_*.csv`, `time_to_detection.csv`, S17 |
+| Table V, Section VI-E, abstract (confirmation) | v1.7 H6–H8 (unused TabFormer window 2011-01..2014-04) | `scripts/run_all.py --datasets tabformer_e14`, `scripts/confirm_v1_7.py` | `results/replication_v1_7/confirmatory.json`, `descriptive_*.csv`, `time_to_detection.csv`, S18 |
+| Registration evidence | what was inspected before v1.7 | — | `results/feasibility/tabformer_monthly_counts_2004_2014.csv` |
+| Supplement S0–S18 | full hashes, per-group and per-budget tables | `scripts/make_supplement.py` | `results/SUPPLEMENT.md` |
 
 ## What an independent check should cover beyond matching outputs
 

@@ -7,19 +7,35 @@ the supervised model ranks below its cut-off but an anomaly detector ranks highe
 Every result is produced by the scripts in this repository from three publicly accessible corpora
 that are downloaded by script and verified by SHA-256.
 
+## Main results
+
+| Claim | Status | Evidence |
+|---|---|---|
+| DRT with an Isolation Forest reserve (ρ = 0.1) loses at most 6.6% of stationary recall and raises BankSim held-out recall from 0.033 to 0.104 (Holm p < 0.001); not significant on TabFormer, no gain on ULB | confirmatory (protocol v1.0) | `results/analysis/`, supplement S1–S3 |
+| That forest-reserve gain on new BankSim segments and unused TabFormer data | **not** significant (p = 0.063, 0.122, unadjusted) | supplement S17–S18 |
+| The supervised model's misses on held-out groups come largely from segment-identity features | exploratory (amendment v1.4) | supplement S2, S14 |
+| DRT-IDF (reserve filled by the supervised model trained without segment identifiers) beats SUP and the forest reserve on held-out recall | found exploratorily (v1.5); **confirmed** in pre-registered replications: new BankSim segments 0.545 vs 0.184 / 0.223 (Holm p = 0.0002), unused TabFormer 2011–2014-04 0.0072 vs 0.0015 / 0.0023 (Holm p ≤ 0.001), relative stationary cost 3.1% | amendments v1.6–v1.7, `results/replication_v1_6/`, `results/replication_v1_7/`, S17–S18 |
+| DRT-IDF's gains survive Holm correction over all 264 held-out comparisons ever reported | post hoc | `results/analysis/multiplicity_all.*`, S16 |
+
+On TabFormer, absolute held-out recall stays below 1% for every reserve: held-out online fraud is 85% of test
+fraud, far beyond a budget planned from past fraud volume. No UPI data are used. Independent reproduction by a
+third party is pending.
+
 ## One command
 
 ```bash
-bash reproduce.sh          # ~75 min on 2 CPU cores, ~7 GB RAM, ~12 GB disk
+bash reproduce.sh          # ~3 h on 2 CPU cores (main runs ~75 min, replications ~1.5 h), ~7 GB RAM, ~12 GB disk
 ```
 
 | Step | Script | Output |
 |---|---|---|
 | Data (download + SHA-256 + row/fraud counts) | `scripts/fetch_data.py` | `data/raw/` |
-| Tests (leakage, budget accounting, feedback variants, determinism) | `pytest tests` | 18 tests |
+| Tests (leakage, budget accounting, feedback variants, audit, replication aliases, determinism) | `pytest tests` | 24 tests |
 | Feature tables + split summary | `scripts/prepare_data.py` | `results/dataset_summary.json` |
 | Experiments (55 runs = 11 dataset/scenario cells × 5 seeds) | `scripts/run_all.py` | `results/runs/` |
 | Statistics (bootstrap CIs, permutation tests, Holm) | `scripts/analyze.py` | `results/analysis/*.csv` |
+| Dependence, operational and amount checks; family-wise correction | `scripts/check_dependence.py`, `scripts/operational_metrics.py`, `scripts/amount_signal.py`, `scripts/multiplicity_all.py` | `results/analysis/` |
+| Pre-registered replications (amendments v1.6, v1.7) | `scripts/run_all.py --datasets ...`, `scripts/confirm_v1_6.py`, `scripts/confirm_v1_7.py` | `results/replication_v1_6/`, `results/replication_v1_7/` |
 | Figures | `scripts/make_figures.py`, `scripts/make_architecture.py` | `figures/` |
 | Supplementary tables | `scripts/make_supplement.py` | `results/SUPPLEMENT.md` |
 
